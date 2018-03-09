@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+RIOOS_HOME=<%= @basic[:home] %>
+RIOOS_LIBHOME=<%= @basic[:libhome] %>
+
+if [ "$1" = "purge" ]; then
+    dpkg-statoverride --remove $RIOOS_HOME || true
+    dpkg-statoverride --remove $RIOOS_LIBHOME || true
+
+    rm -rf $RIOOS_LIBHOME 2>/dev/null || true
+    rm -rf $RIOOS_HOME 2>/dev/null || true
+    rm -rf  <%= @basic[:runhome] %>
+    rm -rf  <%= @basic[:loghome] %>
+fi

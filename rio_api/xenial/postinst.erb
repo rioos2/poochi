@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome] %>/<%= @package[:package] %>
+
+systemctl enable <%= @package[:package] %>.service
+
+systemctl start <%= @package[:package] %>.service

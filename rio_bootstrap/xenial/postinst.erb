@@ -1,0 +1,30 @@
+#!/bin/sh
+# postinst script for Rio/OS Bootstrap
+
+set -e
+
+cp -r <%= @basic[:home]+"/"+@package[:package] %>/* /etc/
+mv /etc/rioosbootstrap.erb /etc/init.d/rioosbootstrap
+
+echo $1
+
+case "$1" in
+    configure)
+
+    if [ -d /etc/network ]; then
+      # Register Service
+      update-rc.d rioosbootstrap defaults 9 99 >> /dev/null
+    fi
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

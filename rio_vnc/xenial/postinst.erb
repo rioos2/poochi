@@ -1,0 +1,14 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome]+"/"+@package[:package] %>
+
+cd <%= @basic[:libhome]+"/"+@package[:package] %>
+
+wget <%= @package[:tar] %>
+tar xf node-v* && cd node-v*
+
+rm -rf /usr/bin/node
+cp bin/node /usr/bin/node
+
+systemctl enable <%= @package[:package] %>.service
+systemctl start <%= @package[:package] %>.service

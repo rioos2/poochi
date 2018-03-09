@@ -1,0 +1,9 @@
+#!/bin/bash
+
+wget https://github.com/VoltDB/voltdb/archive/voltdb-<%= @package[:version] %>.tar.gz
+
+sudo docker build -t rio-voltdb -f Dockerfile .
+
+sudo docker tag rio-voltdb <%= @basic[:registry_url]+"/rioosvoltdb:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosvoltdb:"+@package[:version] %>

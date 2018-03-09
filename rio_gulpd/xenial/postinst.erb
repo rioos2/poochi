@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome] %>/<%= @package[:package] %>
+
+mkdir -p <%= @basic[:libhome] %>/context
+cd <%= @basic[:libhome] %>/context
+
+cp <%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-gulpd gulpd
+
+systemctl enable <%= @package[:systemd_service] %>
+systemctl start <%= @package[:systemd_service] %>

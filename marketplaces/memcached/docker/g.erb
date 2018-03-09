@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo docker build -t rioos-memcached -f Dockerfile .
+
+sudo docker tag rio-memcached <%= @basic[:registry_url]+"/rioosmemcached:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosmemcached:"+@package[:version] %>

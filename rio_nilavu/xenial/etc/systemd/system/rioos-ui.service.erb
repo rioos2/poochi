@@ -1,0 +1,11 @@
+[Unit]
+Description=Rio/OS Console
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/<%= @package[:package] %>/apps/nilavu
+ExecStart=/usr/local/bin/ember serve
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

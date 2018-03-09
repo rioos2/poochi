@@ -1,0 +1,12 @@
+FROM <%= @package[:from] %>
+
+MAINTAINER <%= @basic[:maintainer] %>
+LABEL Description="<%= @package[:description] %>"
+
+EXPOSE 8080
+
+RUN mkdir -p /usr/local/bin
+
+COPY  cockroach-v<%= @package[:version] %>.linux-amd64/cockroach /usr/local/bin
+
+CMD /usr/local/bin/cockroach start --insecure --host=0.0.0.0

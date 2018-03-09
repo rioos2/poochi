@@ -1,0 +1,19 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome]+"/"+@package[:package] %>
+
+cd <%= @basic[:libhome]+"/"+@package[:package] %>
+
+wget https://nodejs.org/dist/v6.9.4/node-v6.9.4-linux-x64.tar.xz
+tar xf node-v* && cd node-v*
+
+rm -rf /usr/bin/node
+cp bin/node /usr/bin/node
+
+cp /etc/rc.d/init.d/<%= @package[:package] %>.service /etc/systemd/system/<%= @package[:package] %>.service
+
+firewall-cmd --zone=public --add-port=8000/tcp --permanent
+firewall-cmd --reload
+
+systemctl enable <%= @package[:package] %>.service
+systemctl start <%= @package[:package] %>.service

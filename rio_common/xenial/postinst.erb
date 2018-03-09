@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+RIOOS_HOME=<%= @basic[:home] %>
+
+mkdir -p <%= @basic[:home] %>
+mkdir -p <%= @basic[:libhome] %>
+mkdir -p <%= @basic[:loghome] %>
+mkdir -p <%= @basic[:runhome] %>
+
+
+if [ "$1" = "configure" ]; then
+    if ! [ -d "$RIOOS_HOME" ]; then
+        mkdir "$RIOOS_HOME"
+    fi
+fi

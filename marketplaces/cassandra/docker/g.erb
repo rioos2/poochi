@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo docker build -t rio-cassandra -f Dockerfile .
+
+sudo docker tag rio-cassandra <%= @basic[:registry_url]+"/riooscassandra:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/riooscassandra:"+@package[:version] %>

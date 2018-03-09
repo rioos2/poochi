@@ -1,0 +1,2 @@
+#!/bin/sh
+systemctl stop <%= @package[:package] %>.service || echo "<%= @package[:package] %> wasn't even running!"

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -d "<%= @basic[:home] %>/<%= @package[:package] %>" ]; then
+  rm -rf <%= @basic[:home] %>/rioos-storlet
+fi
+
+if [ -d "<%= @basic[:libhome] %>/<%= @package[:package] %>" ]; then
+  rm -rf <%= @basic[:libhome] %>/rioos-storlet
+fi

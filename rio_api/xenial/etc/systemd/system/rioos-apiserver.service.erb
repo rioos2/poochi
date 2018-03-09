@@ -1,0 +1,10 @@
+[Unit]
+Description=Rio/OS API Server
+After=network.target
+
+[Service]
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-apiserver start
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

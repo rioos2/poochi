@@ -1,0 +1,9 @@
+#!/bin/bash
+
+wget -qO- https://binaries.cockroachdb.com/cockroach-v<%= @package[:version] %>.linux-amd64.tgz | tar  xvz
+
+sudo docker build -t rio-cockroachdb:<%= @package[:version] %> -f Dockerfile .
+
+sudo docker tag rio-cockroachdb <%= @basic[:registry_url]+"/riooscockroachdb:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/riooscockroachdb:"+@package[:version] %>

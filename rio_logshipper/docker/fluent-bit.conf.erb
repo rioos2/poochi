@@ -1,0 +1,25 @@
+[SERVICE]
+    Flush        5
+    Daemon       Off
+    Log_Level    info
+    Parsers_File parsers.conf
+
+[INPUT]
+    Name        tail
+    tag rioos_logs
+    Path        /var/lib/docker/containers/*/*.log
+    Path_Key rioos_log
+
+[INPUT]
+    Name        tail
+    tag rioos_logs
+    Path        /var/log/libvirt/qemu/*.log
+    Path_Key rioos_log
+
+[OUTPUT]
+    Name          influxdb
+    Match         *
+    Host          127.0.0.1
+    Port          8086
+    Database      riooslogdb
+    Sequence_Tag  _seq

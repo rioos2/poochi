@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo docker build -t rioos-mariadb:<%= @package[:version] %> -f Dockerfile .
+
+sudo docker tag rio-mariadb <%= @basic[:registry_url]+"/rioosmariadb:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosmariadb:"+@package[:version] %>

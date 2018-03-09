@@ -1,0 +1,19 @@
+#!/bin/bash
+
+mkdir -p .<%= @basic[:home]+"/"+@package[:package] %>
+
+cp -r  <%= @package[:package]+"/src/"+@package[:git_org]+"/vncserver" %>/* .<%= @basic[:home]+"/"+@package[:package] %>
+
+cd .<%= @basic[:home]+"/"+@package[:package] %>
+
+npm install
+
+cd ../../../..
+
+fpm -s dir -t deb  -f  --iteration <%= @basic[:iteration] %> -v <%= @basic[:version] %> \
+-n <%= @package[:package] %> \
+--before-install ./preinst --after-install ./postinst  \
+--after-remove ./prerm  --after-remove ./postrm  \
+--deb-systemd ./etc/systemd/system/<%= @package[:systemd_service] %> \
+--license "<%= @basic[:license] %>" --vendor "<%= @basic[:vendor] %>" --category "<%= @package[:category] %>" \
+--maintainer "<%= @basic[:maintainer] %>" --url "<%= @basic[:url] %>" --description "<%= @package[:description] %>"  .<%= @basic[:home]+"/"+@package[:package] %>

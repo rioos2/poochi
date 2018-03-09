@@ -1,0 +1,10 @@
+[Unit]
+Description=Rio/OS Nodelet Server
+After=network.target
+
+[Service]
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-nodelet --v=4  --api-servers=http://localhost:9636
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

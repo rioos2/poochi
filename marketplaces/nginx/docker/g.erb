@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo docker build -t rio-nginx  -f Dockerfile .
+
+sudo docker tag rio-nginx <%= @basic[:registry_url]+"/rioosnginx:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosnginx:"+@package[:version] %>

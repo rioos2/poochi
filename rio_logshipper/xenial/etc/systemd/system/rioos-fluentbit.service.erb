@@ -1,0 +1,10 @@
+[Unit]
+Description=Fluent-bit Log server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/fluent-bit -c <%= @basic[:home]+"/"+@package[:package]+"/conf/fluent-bit.conf" %>
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

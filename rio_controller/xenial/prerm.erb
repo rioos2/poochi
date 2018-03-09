@@ -1,0 +1,3 @@
+#!/bin/sh
+systemctl stop <%= @package[:systemd_service] %> || echo "<%= @package[:systemd_service] %> not running!"
+systemctl stop rioos-scheduler.service || echo "rioos-scheduler not running!"

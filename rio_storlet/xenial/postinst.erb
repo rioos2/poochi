@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome] %>/storlet
+
+systemctl enable <%= @package[:systemd_service] %>
+systemctl start <%= @package[:systemd_service] %>
