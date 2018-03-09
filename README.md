@@ -3,7 +3,7 @@ Poochi
 
 Poochi helps to build/ship packages (Ubuntu, Docker) of Rio/OS.
 
-![Poochi Radiant](https://gitlab.com/megamsys/poochi/blob/master/images/beetle.jpg)
+![Poochi Radiant](https://gitlab.com/rioos/poochi/blob/master/images/beetle.jpg)
 
 ## Best practices
 
