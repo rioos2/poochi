@@ -1,0 +1,158 @@
+#!/bin/bash
+
+##--default variables
+
+acme_dir="/var/www/html"
+acme_challenge="$acme_dir/.well-known/acme-challenge/"
+acme_remove="$acme_dir/.well-known"
+
+initialize() {
+if [ -f /etc/lsb-release ]; then
+    . /etc/lsb-release
+    DISTRO=$DISTRIB_ID
+elif [ -f /etc/debian_version ]; then
+    DISTRO=Debian
+    # XXX or Ubuntu
+else [ -f /etc/redhat-release ];
+    DISTRO="Red Hat"
+    # XXX or CentOS or Fedora
+fi
+}
+
+install() {
+initialize
+
+if [ "$DISTRO" = "Ubuntu" ] || [ "$DISTRO" = "Debian" ]
+then
+ sudo apt-get install git bc wget curl
+elif [ "$DISTRO" = "RED HAT" ]; then
+  yum install git bc wget curl
+else
+  exit 0
+fi
+}
+
+clone() {
+ user=`echo "$USER"`
+  if [ "$user" = "root" ];  then
+   cd /tmp/
+   git clone https://github.com/Neilpang/acme.sh.git
+   cd acme.sh/
+   sudo ./acme.sh --install
+   source ~/.bashrc
+  else
+   echo "error! you are not root user"
+   exit 0
+  fi
+
+}
+
+usage() {
+
+echo "Usage:  letsencrypt[OPTION]"
+  echo
+  echo "Options:"
+  echo " --install  <domainame> "
+  echo "--remove <domainname>"
+  echo "--autorenew  <domainname>"
+  echo "--help"
+  echo
+}
+
+parse_params() {
+
+while [ "$1" != "" ];
+  do
+    token="$1"
+    shift
+    case "$token" in
+      (--install)
+        domainname="$1"
+        main_install
+        shift
+        ;;
+
+      (--remove)
+       domainname="$1"
+       main_remove
+       shift
+       ;;
+
+      (--autorenew)
+        domainname="$1"
+        auto_renew
+       shift
+       ;;
+
+     (help|usage)
+        usage
+        exit 0
+        ;;
+
+      (*)
+        usage
+        exit 1
+        ;;
+
+    esac
+  done
+}
+
+genssl_cert() {
+mkdir -p $acme_dir
+
+mkdir -vp $acme_challenge
+
+chown -R www-data:www-data $acme_challenge
+
+chmod -R 0555 $acme_challenge
+
+mkdir -p /etc/nginx/ssl/$domainname/
+
+}
+
+install_cert() {
+
+cd /etc/nginx/ssl/$domainname/
+
+openssl dhparam -out dhparams.pem 4096
+
+ln -s $HOME/.acme.sh/acme.sh /usr/bin/acme.sh
+
+acme.sh --issue -w /var/www/html -d ${domainname}  -k 4096
+
+mkdir -p /var/log/nginx/$domainname
+
+if [ "$DISTRO" = "Ubuntu" ] || [ "$DISTRO" = "Debian" ]
+then
+  acme.sh --installcert -d $domainname --keypath /etc/nginx/ssl/$domainname/$domainname.key --fullchainpath /etc/nginx/ssl/$domainname/$domainname.cer --reloadCmd 'service nginx restart'
+elif [ "$DISTRO" = "RED HAT" ]; then
+ acme.sh --installcert -d $domainname --keypath /etc/nginx/ssl/$domainname/$domainname.key --fullchainpath /etc/nginx/ssl/$domainname/$domainname.cer --reloadCmd 'systemctl reload nginx'
+else
+ exit 0
+fi
+}
+
+
+main_install() {
+install
+clone
+genssl_cert
+install_cert
+}
+
+main_remove() {
+remove_cert
+}
+
+remove_cert() {
+rm -rf $acme_remove
+rm -rf /etc/nginx/ssl/$domainname
+rm -rf /var/log/nginx/$domainname
+}
+
+auto_renew() {
+acme.sh --renew -d $domainname
+}
+
+parse_params "$@"

@@ -1,0 +1,40 @@
+FROM <%= @package[:from] %>
+MAINTAINER <%= @basic[:maintainer] %>
+LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
+
+# ember server on port 4200
+EXPOSE 4200 49153 5779
+
+RUN apk update && \
+    apk upgrade && \
+    apk add git
+
+# default environment variables
+ENV SOURCE_DIR <%= @basic[:home]+"/"+@package[:package] %>
+ENV RIOCONF <%= @basic[:libhome] %>
+ENV CONF_FILE rioos.conf
+
+# volume creation
+RUN mkdir -p "$SOURCE_DIR"
+RUN mkdir -p "$RIOCONF"
+VOLUME "$RIOCONF"
+
+WORKDIR $SOURCE_DIR
+
+# Install ember-cli bower
+RUN \
+    npm install -g ember-cli@2.16.2 && npm install -g bower
+
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/nilavu" %> "$SOURCE_DIR"
+
+# Install npm, bower
+RUN \
+    npm install && bower install --allow-root
+
+COPY entrypoint.sh $SOURCE_DIR
+RUN chmod 755 $SOURCE_DIR/entrypoint.sh
+ENTRYPOINT ["<%= @basic[:home]+"/"+@package[:package]+"/entrypoint.sh" %>"]
+
+# run ember server on container start
+CMD ["ui"]
+CMD ["ember", "server", "--port", "4200", "--live-reload-port","49153"]

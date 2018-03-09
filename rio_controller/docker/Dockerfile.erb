@@ -1,0 +1,24 @@
+FROM <%= @package[:from] %>
+MAINTAINER <%= @basic[:maintainer] %>
+LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
+
+# scheduler run on port 10251
+EXPOSE 10251
+
+ENV API_SERVER="http://localhost:9636"
+ENV SOURCE_DIR <%= @basic[:home]+"/scheduler/bin/" %>
+ENV RIOCONF <%= @basic[:libhome] %>/scheduler
+ENV CONF_FILE rioos.conf
+
+RUN mkdir -p "$SOURCE_DIR"
+RUN mkdir -p "$RIOCONF"
+VOLUME "$RIOCONF"
+
+WORKDIR "$SOURCE_DIR"
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi/_outputs" %> $SOURCE_DIR
+
+COPY entrypoint.sh $SOURCE_DIR
+RUN chmod 755 $SOURCE_DIR/entrypoint.sh
+ENTRYPOINT ["<%= @basic[:home]+"/scheduler/bin/entrypoint.sh" %>"]
+
+CMD ["scheduler"]

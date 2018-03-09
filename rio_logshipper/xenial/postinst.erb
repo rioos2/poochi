@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd <%= @basic[:home]+"/"+@package[:package]+"/build/" %>
+
+cmake ../
+
+make
+
+make install
+
+systemctl enable <%= @package[:systemd_service] %>
+systemctl start <%= @package[:systemd_service] %>

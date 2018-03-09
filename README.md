@@ -1,7 +1,9 @@
-Muddy
+Poochi
 =====
 
-Muddy helps to build/ship packages (Ubuntu, Docker) of Rio/OS.
+Poochi helps to build/ship packages (Ubuntu, Docker) of Rio/OS.
+
+![Poochi Radiant](https://gitlab.com/megamsys/poochi/blob/master/images/beetle.jpg)
 
 ## Best practices
 
@@ -12,13 +14,13 @@ Muddy helps to build/ship packages (Ubuntu, Docker) of Rio/OS.
 
 # Packaging
 
-This is a repository for packaging automation of Rio/OS software. We are glad to see our approach followed in `gitlab` or `puppet` hence we decided to extend the `gitpackager` to the next level.
+This is a repository for packaging automation of Rio/OS software. We are glad to see our approach followed in `gitlab` or `puppet` hence we decided to extend the `poochi` to the next level.
 
-Here we are `muddy` is born.
+Here we are `poochi` is born.
 
 ## Tree
 
-![Packages tree](https://gitlab.com/megamsys/gitpackager/blob/master/images/autopackages.png)
+![Packages tree](https://gitlab.com/megamsys/poochi/blob/master/images/autopackages.png)
 
 1. Ubuntu 18.04
 2. Docker
@@ -173,12 +175,12 @@ sudo gitlab-runner register
 https://gitlab.com
 ```
 2.Please enter the gitlab-ci token for this runner
-###Enter the gitpackager token id
+###Enter the poochi token id
 ```
 M88_FuzKqdQ4cSKTjAtG
 ```
 3.Please enter the gitlab-ci description for this runner
-##runner name to view in gitpackager
+##runner name to view in poochi
 ```
 build01-rioos
 ```
@@ -248,8 +250,8 @@ Both types are built on the same infrastructure.
 
 Each package is built on the platform in Ubuntu Xenial using fpm.
 
-The gitpackager projectt fully utilizes GitLab CI. This means that each push
-to gitpackager repository will trigger a build in GitLab CI which will
+The poochi projectt fully utilizes GitLab CI. This means that each push
+to poochi repository will trigger a build in GitLab CI which will
 then create a package.
 
 This remote is located on build.rioos.xyz.
@@ -261,17 +263,17 @@ The build servers also have access to a special [registry Rio/OS](https://regist
 
 ## Build process
 
-Rio Advancement is using the [gitpackager](https://gitlab.com/rioos/gitpackager) to automate the release tasks for every release. When the release manager starts the release process, a couple of important things for gitpackager will be done:
+Rio Advancement is using the [poochi](https://gitlab.com/rioos/poochi) to automate the release tasks for every release. When the release manager starts the release process, a couple of important things for poochi will be done:
 
 1. All remotes of the project will be synced
-2. A specific Git tag will be created and synced to gitpackager repositories
+2. A specific Git tag will be created and synced to poochi repositories
 
-When the gitpackager repository on [build.rioos.xyz](build.rioos.xyz) gets updated, GitLab CI build gets triggered.
+When the poochi repository on [build.rioos.xyz](build.rioos.xyz) gets updated, GitLab CI build gets triggered.
 
-The specific steps can be seen in `.gitlab-ci.yml` file in gitpackager
+The specific steps can be seen in `.gitlab-ci.yml` file in poochi
 repository. The builds are executed on all platforms at the same time.
 
-During the build, gitpackager will pull external libraries from their source
+During the build, poochi will pull external libraries from their source
 locations and Rio/OS components like nilavu, beedi, aran.
 
 Once the build completes and the .deb or .rpm packages, containers are built, depending on the build type package will be pushed to [get.rioos.xyz](get.rioos.xyz) and [regstry.rioos.xyz](registry.rioos.xyz).
@@ -280,12 +282,12 @@ Once the build completes and the .deb or .rpm packages, containers are built, de
 ### On your development machine
 
 1. Pick a tag of Rio/OS to package (e.g. `v2.0.0.rc0`).
-2. Create a release branch in gitpackager (e.g. `2.0.0.rc0`).
+2. Create a release branch in poochi (e.g. `2.0.0.rc0`).
 4. If the release branch already exists, for instance because you are doing a
   patch release, make sure to pull the latest changes to your local machine:
 
     ```
-    git pull https://gitlab.com/rioos/gitpackager 2.0.0 # existing release branch
+    git pull https://gitlab.com/rioos/poochi 2.0.0 # existing release branch
     ```
 
 1. Use `support/set-revisions` to set the revisions of files in
@@ -308,38 +310,38 @@ Once the build completes and the .deb or .rpm packages, containers are built, de
     ```
 
 3. Create an annotated tag on gitlab corresponding to the Rio/OS tag.
-  The gitpackager tag looks like: `MAJOR.MINOR.PATCH+OTHER.GITPACKAGER_RELEASE`, where
+  The poochi tag looks like: `MAJOR.MINOR.PATCH+OTHER.GITPACKAGER_RELEASE`, where
   `MAJOR.MINOR.PATCH` is the Rio/OS version, `OTHER` can be something like `rc1` (or `rc2`), and `GITPACKAGER_RELEASE` is a number (starting at 0):
 
     ```shell
     git tag -a 2.0.0+rc0.0 -m 'Pin Rio/OS to v2.0.0.rc0'
     ```
 
-    **WARNING:** Do NOT use a hyphen `-` anywhere in the gitpackager tag.
+    **WARNING:** Do NOT use a hyphen `-` anywhere in the poochi tag.
 
-    Examples of converting an upstream version tag to an gitpackager tag sequence:
+    Examples of converting an upstream version tag to an poochi tag sequence:
 
-| upstream tag     | gitpackager tag sequence                    |
+| upstream tag     | poochi tag sequence                    |
 |------------------|---------------------------------------------|
-| `v2.0.rc1`       | `2.0+rc1.0`, `2.0+rc1.1`,       `...`       |
-| `v2.0.0`         | `2.0+stable.0`, `2.0+stable.1`, `...`       |
-| `v2.0.1`         | `2.0.1+stable.0`, `2.0.1+stable.1`, `...`   |
+| `v2.0.rc1`       | `2.0.rc1.0`, `2.0.rc1.1`,       `...`       |
+| `v2.0.0`         | `2.0.stable.0`, `2.0.stable.1`, `...`       |
+| `v2.0.1`         | `2.0.1.stable.0`, `2.0.1.stable.1`, `...`   |
 
 
 5. Push the branch and the tag to github.com:
 
     ```shell
-    git push git@github.com/rioos/gitpackager.git 2-0-0-rc1 2.0.0+rc0.0
+    git push git@github.com/rioos/poochi.git 2-0-0-rc1 2.0.0+rc0.0
     ```
 
     Pushing an annotated tag to github.com triggers a package release.
 
 ### Publishing the packages
 
-You can track the progress of package building on [gitpackager](https://gitlab.com/rioos/gitpackager).
+You can track the progress of package building on [poochi](https://gitlab.com/rioos/poochi).
 They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatically after successful builds.
 
-[release-tools project](https://github.com/rioos/gitpackager)
+[release-tools project](https://github.com/rioos/poochi)
 
 [gitlab runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner)
 

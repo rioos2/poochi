@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mkdir -p <%= @basic[:libhome] %>/<%= @package[:package] %>
+
+cp <%= @basic[:home]+"/"+@package[:package] %>/prometheus_rioos.yml <%= @basic[:libhome] %>/<%= @package[:package] %>/
+
+systemctl enable <%= @package[:package] %>.service
+systemctl start <%= @package[:package] %>.service

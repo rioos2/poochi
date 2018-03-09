@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# -------------------------------------------------------------------------- #
+# Copyright 2017 RioCorp inc.                                                #
+#                                                                            #
+#--------------------------------------------------------------------------- #
+
+### BEGIN INIT INFO
+# Provides:          rioosbootstrap
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:
+# Should-Start:      $network
+# Should-Stop:       $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Rio/OS contextualization script
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+function export_rc_vars
+{
+    if [ -f $1 ] ; then
+        RIOOS_VARS=`cat $1 | egrep -e '^[a-zA-Z\-\_0-9]*=' | sed 's/=.*$//'`
+
+        . $1
+
+        for v in $RIOOS_VARS; do
+            export $v
+        done
+    fi
+}
+
+function execute_scripts {
+    SCRIPTS_DIR="/etc/rioos-bootstrap.d"
+    for script in $SCRIPTS_DIR/*; do
+        $script
+    done
+}
+
+case "$1" in
+"start")
+    CONTEXT_DEV=`blkid -l -t LABEL="CONTEXT" -o device`
+    if [ -e "$CONTEXT_DEV" ]; then
+        mount -t iso9660 -L CONTEXT -o ro /mnt
+        if [ -f /mnt/context.sh ]; then
+            export_rc_vars /mnt/context.sh
+        fi
+
+        execute_scripts
+
+        umount /mnt
+    else
+        if type vmtoolsd ; then
+            vmtoolsd --cmd 'info-get guestinfo.rioos.bootstrap' | openssl base64 -d > /tmp/context.sh
+            export_rc_vars /tmp/context.sh
+        fi
+
+        execute_scripts
+    fi
+    ;;
+
+esac

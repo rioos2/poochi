@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cd <%= @package[:package]+"/src/"+@package[:git_org]+"/aran" %>
+
+# sometimes  the dependencies aren't getting pulled. Adding a master solved the problem.
+git remote add master https://gitlab.com/rajesh_rajagopal/aran.git
+sh support/linux/install_dev_0_ubuntu_latest.sh
+sh support/linux/install_dev_9_linux.sh
+. ~/.profile
+
+make FLAGS=--release buildmkt
+
+cd ../../../../..
+
+cp ../../../entrypoint.sh .
+
+sudo docker build -t rio-marketplace -f Dockerfile .
+
+sudo docker tag rio-marketplace <%= @basic[:registry_url]+"/rioosmarketplace:"+@basic[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosmarketplace:"+@basic[:version] %>

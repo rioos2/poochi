@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cp ../../../entrypoint.sh .
+
+sudo docker build -t rio-ui -f Dockerfile .
+
+sudo docker tag rio-ui <%= @basic[:registry_url]+"/rioosui:"+@basic[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosui:"+@basic[:version] %>

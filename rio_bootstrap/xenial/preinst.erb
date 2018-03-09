@@ -1,0 +1,6 @@
+#!/bin/sh
+# preinst script for Rio/OS Bootstrap
+
+echo "127.0.0.1  `hostname`" >> /etc/hosts
+
+mkdir -p /etc/rioos-bootstrap.d/

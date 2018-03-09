@@ -1,0 +1,23 @@
+FROM <%= @package[:from] %>
+MAINTAINER <%= @basic[:maintainer] %>
+LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
+
+EXPOSE 9090
+
+# default environment variables
+ENV SOURCE_DIR <%= @basic[:home]+"/prometheus/bin" %>
+ENV RIOCONF <%= @basic[:libhome] %>/prometheus/config
+ENV DATA <%= @basic[:libhome] %>/prometheus
+
+RUN mkdir -p "$SOURCE_DIR"
+RUN mkdir -p "$RIOCONF"
+VOLUME "$DATA"
+
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi/_outputs" %> $SOURCE_DIR
+
+COPY prometheus.yml $RIOCONF
+
+RUN chmod 755 $SOURCE_DIR/prometheus && \
+    chmod 755 $SOURCE_DIR/promtool
+
+CMD $SOURCE_DIR/prometheus --config.file="/var/lib/rioos/prometheus/config/prometheus.yml"

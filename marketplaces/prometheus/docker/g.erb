@@ -1,0 +1,19 @@
+#!/bin/bash
+pwd
+
+cd <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi" %>
+
+pwd
+
+# sometimes  the dependencies aren't getting pulled. Adding a master solved the problem.
+git remote add master https://gitlab.com/rajesh_rajagopal/beedi.git
+# make test
+make prometheus
+
+cd ../../../../..
+
+sudo docker build -t rio-prometheus -f Dockerfile .
+
+sudo docker tag rio-prometheus <%= @basic[:registry_url]+"/rioosprometheus:"+@basic[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosprometheus:"+@basic[:version] %>

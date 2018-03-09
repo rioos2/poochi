@@ -1,0 +1,28 @@
+FROM <%= @package[:from] %>
+MAINTAINER <%= @basic[:maintainer] %>
+LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
+
+# apiserver run on port 7443
+EXPOSE  7443 8443
+
+RUN apt-get update -y && \
+    apt-get install -y openssl libsodium-dev
+
+# default environment variables
+ENV SOURCE_DIR <%= @basic[:home]+"/apiserver/bin/" %>
+ENV CONF_FILE api.toml
+ENV RIOCONF <%= @basic[:libhome] %>/apiserver
+
+# volume creation
+RUN mkdir -p "$SOURCE_DIR"
+
+VOLUME "$RIOCONF"
+
+WORKDIR "$SOURCE_DIR"
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-apiserver" %> $SOURCE_DIR
+
+COPY entrypoint.sh $SOURCE_DIR
+RUN chmod 755 $SOURCE_DIR/entrypoint.sh
+ENTRYPOINT ["<%= @basic[:home]+"/apiserver/bin/entrypoint.sh" %>"]
+
+CMD  ["apiserver"]

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo mkdir ./local-package
+sudo touch ./local-package/sentinel
+sudo docker build -t rio-neo4j -f Dockerfile .
+
+sudo docker tag rio-neo4j <%= @basic[:registry_url]+"/rioosneo4j:"+@package[:version] %>
+
+sudo docker push <%= @basic[:registry_url]+"/rioosneo4j:"+@package[:version] %>

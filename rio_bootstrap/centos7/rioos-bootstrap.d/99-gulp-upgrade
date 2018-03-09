@@ -1,0 +1,72 @@
+#!/bin/bash
+
+MOUNT_DIR=/mnt
+gup_dir="/usr/share/rioos/gulp"
+gup_tmp_dir="$gup_dir/tmp"
+gup_bin="${gup_dir}/bin/gulpd"
+GULP_DAEMON=$MOUNT_DIR/gulpd
+source_file=$MOUNT_DIR/VERSION
+current_file=$gup_dir/VERSION
+
+log()  { printf "%b\n" "$*"; }
+
+update_script(){
+  if
+  [[ -f "$GULP_DAEMON" && -f $gup_bin ]]
+  then
+    log "Backup Gulpd source files."
+    systemctl stop rioos-gulp.service
+    mv $gup_bin $gup_tmp_dir
+    mv $current_file $gup_tmp_dir
+
+    cp $1 $gup_bin
+    cp $2 $gup_dir
+    systemctl start rioos-gulp.service
+  else
+    log "Gulpd source not exist."
+    log "●▪● Upgrade. failed."
+    return 0
+  fi
+
+  log "●▪● Upgraded. All is well."
+}
+
+compare_version() {
+  mkdir -p "$gup_tmp_dir"
+  typeset _source_version _current_version
+  _source_version=$1
+  _current_version=$2
+
+  if
+  [[ -n ${_source_version} && -n ${_current_version} ]]
+  then
+    if
+    [[ ${_source_version} != ${_current_version} ]]
+    then
+      log "●▪● Upgrading latest files"
+      update_script $GULP_DAEMON $source_file && return
+      log "●▪● Upgrade. failed."
+      return $?
+    fi
+  fi
+  log "●▪● Up-to-date. All is well."
+}
+
+fetch_version() {
+  typeset _version
+  _version="$(
+    cat $@ | awk -v RS='\n' -v FS='=' '$1=="git_version"{print $2}'
+  )"
+
+  compare_version $_version
+
+  if
+  [[ -n ${_version} ]]
+  then
+    echo "${_version}"
+    return 0
+  fi
+  return 0
+}
+
+fetch_version $source_file $current_file

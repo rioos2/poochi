@@ -1,0 +1,10 @@
+[Unit]
+Description=Rio/OS Scheduler Server
+After=network.target
+
+[Service]
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-scheduler --v=4  --api-server=http://localhost:9636
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

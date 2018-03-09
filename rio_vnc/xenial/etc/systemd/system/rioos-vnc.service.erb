@@ -1,0 +1,11 @@
+[Unit]
+Description=Rio/OS VNC Server
+After=network.target
+
+
+[Service]
+WorkingDirectory=<%= @basic[:home]+"/"+@package[:package] %>
+ExecStart=/usr/bin/node vnc_monitor.js
+
+[Install]
+WantedBy=multi-user.target

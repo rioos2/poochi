@@ -1,0 +1,21 @@
+#!/bin/bash
+
+ovs-vsctl add-br riopriv4
+ovs-vsctl add-br riopub4
+
+interface=$(route | grep '^default' | grep -o '[^ ]*$')
+array=(${interface//:/ })
+for i in "${!array[@]}"
+do
+  private_ip=$(ifconfig ${array[i]} | grep 'inet addr' | cut -d ':' -f 2 | awk '{ print $1 }' | \
+    grep -E '^(192\.168|10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.)')
+  echo ${array[i]}
+  if [ "$private_ip" == "" ]; then
+	 ovs-vsctl add-port riopub4 ${array[i]}
+  else
+	 ovs-vsctl add-port riopriv4 ${array[i]}
+  fi
+done
+
+systemctl enable <%= @package[:package] %>.service
+systemctl start <%= @package[:package] %>.service

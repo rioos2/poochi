@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#change working directory
+cd /var/www/<%= @package[:package] %>/apps/nilavu/
+
+wget <%= @package[:tar] %>
+tar xf node-v* && cd node-v*
+
+rm -rf /usr/bin/node
+cp bin/node /usr/bin/node
+
+npm install -g ember-cli
+npm install -g bower
+
+npm install
+bower install --allow-root
+
+# Replace default Port
+sed -i 's/8000/80/g' /var/www/<%= @package[:package] %>/apps/nilavu/.ember-cli
+
+systemctl start <%= @package[:package] %>.service
+systemctl enable <%= @package[:package] %>.service

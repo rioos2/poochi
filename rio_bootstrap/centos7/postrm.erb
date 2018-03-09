@@ -1,0 +1,14 @@
+#!/bin/sh
+# postrm script for Rio/OS Bootstrap
+
+if [ -d "<%= @basic[:home] %>/<%= @package[:package] %>" ]; then
+  rm -rf <%= @basic[:home] %>/rioosbootstrap 
+fi
+
+if [ -d "/etc/rioos-bootstrap.d" ]; then
+  rm -rf /etc/rioos-bootstrap.d
+fi
+
+if [ -d "/etc/init.d/rioosbootstrap" ]; then
+  rm -rf /etc/init.d/rioosbootstrap
+fi

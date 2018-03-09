@@ -1,0 +1,5 @@
+#!/bin/sh
+
+printf "\n"
+printf " * Rio/OS UI:      http://ui.rioos.local.sh\n"
+printf " * Documentation:  https://docs.rio.digital\n"

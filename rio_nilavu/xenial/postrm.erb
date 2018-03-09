@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -d "/var/www/<%= @package[:package] %>" ]; then
+  rm -r /var/www/<%= @package[:package] %>
+fi
+
+rm -f /usr/bin/node
