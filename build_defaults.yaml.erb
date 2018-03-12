@@ -1,7 +1,9 @@
 ---
-packaging_repo: 'testing'
-packaging_release: '1.5.rc0'
-git_release: '1.5'
-packaging_iteration: '4'
+packaging_repo: <%= @otta[:which_repo] %>
+packaging_release: <%= @otta[:version] %>
+git_release: <%= @otta[:version] %>
+packaging_iteration: <%= @otta[:iteration] %>
 gpg_key: 'B09FFFF34'
-ship_root: '/home/ram/code/megam/home/ship'
+ship_root: /home/ram/ship/<%= @otta[:version] %>
+
+ 

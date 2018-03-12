@@ -52,7 +52,6 @@ module Pkg
           File.open(target, 'w') do |f|
             f.puts config_to_hash.to_yaml
           end
-          puts target
           target
         end
 

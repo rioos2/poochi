@@ -4,19 +4,12 @@ require 'pkg/config'
 
 module Pkg
   class Shipper
-    attr_accessor :distro
 
-    def initialize(distro)
-      @distro = distro
-    end
-
+    
     def ship
-      puts "=> 4. Ship: distro - #{@distro}".colorize(:green).bold
-      unless Pkg::Common.supported_os?
-        puts '   ✘ skip ship'.colorize(:red)
-        return
-      end
-      Pkg::Util::File.install_files_into_dir(['./**/*.deb', './**/*.rpm', './**/*.html'], Pkg::Config.ship_root)
+      puts "=> 4. Ship: *.deb, *.tar.gz".colorize(:green).bold      
+      Pkg::Util::File.install_files_into_dir(['./**/*.deb', './**/*.tar.gz'], Pkg::Config.ship_root)
+      puts "=> ✔  Ship: *.deb, *.tar.gz".colorize(:green).bold      
     end
   end
 end

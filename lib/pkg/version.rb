@@ -8,11 +8,11 @@ module Pkg
     # golang: go version  | grep 1.10 > /dev/null
     # node: node version | grep 9.7 > /dev/null  
     COMPILE = {
-      golang:  {cmd: 'go version  | grep 1.10 > /dev/null', link: "Installing https://golang.org/dl"},
-      node:    {cmd: 'node -v | grep 9.7 > /dev/null', link: "Installing https://nodejs.org/en/"},
+     # golang:  {cmd: 'go version  | grep 1.10 > /dev/null', link: "Installing https://golang.org/dl"},
+     # node:    {cmd: 'node -v | grep 9.7 > /dev/null', link: "Installing https://nodejs.org/en/"},
       yarn:    {cmd: 'yarn -v | grep 1.5 > /dev/null', link: "Installing http://bit.ly/gitpyarni"},
       rustc:   {cmd: 'rustc -V | grep 1.24.1 > /dev/null', link: "Installing http://bit.ly/gitprustci"},
-      docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
+     # docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
      }.freeze
 
     ## check if  required tools are installed
