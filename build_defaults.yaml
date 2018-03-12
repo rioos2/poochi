@@ -1,7 +1,9 @@
 ---
-packaging_repo: 'testing'
-packaging_release: '1.5.rc0'
-git_release: '1.5'
-packaging_iteration: '4'
+packaging_repo: testing
+packaging_release: 2.0.0.rc1.0
+git_release: 2.0.0.rc1.0
+packaging_iteration: 0
 gpg_key: 'B09FFFF34'
-ship_root: '/home/ram/code/megam/home/ship'
+ship_root: /home/ram/ship/2.0.0.rc1.0
+
+ 
