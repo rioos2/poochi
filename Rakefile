@@ -14,8 +14,20 @@ namespace :ship do
     task :initship do
         Pkg::Util::File.mkdir_p(Pkg::Config.ship_root)
     end
-
-    task :now => [:initship] do
-        Pkg::Shipper.new.ship
+    
+    task :aventura => [:initship] do
+        shipper = Pkg::DebsShipper.new(Pkg::Common.distro("aventura")).ship
+    end 
+   
+    task :docker => [:initship] do
+        shipper = Pkg::DockerShipper.new(Pkg::Common.distro("docker")).ship
     end    
+
+    task :notify_published do
+        #inform slack on build complete and refreshed. with url.
+    end 
+
+    task :all => [:aventura, :docker, :notify_published]
+
+    end 
 end

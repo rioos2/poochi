@@ -2,7 +2,7 @@ module Pkg
   ## check if  colorize gem is installed.
   unless Gem::Specification.find_all_by_name('colorize').any?
      puts '   ✘ gem colorize not installed'
-     puts 'Run "`bundle install` from `gitpackager`"'
+     puts 'Run "`bundle install` from `poochi`"'
     exit
   end
 
@@ -22,10 +22,16 @@ module Pkg
   require 'pkg/builder'
   require 'pkg/config'
   require 'pkg/static/data'
-  require 'pkg/utils'
+
   require 'pkg/scripter'
   require 'pkg/yaml_builder'
-  require 'pkg/shipper'
+  require 'pkg/ship_location'
+  require 'pkg/shipper/debs'
+  require 'pkg/shipper/docker'
+  require 'pkg/shipper/shipper'
+  require 'pkg/publisher/debs'
+  require 'pkg/publisher/docker'
+  require 'pkg/publisher/base_publisher'  
   require 'pkg/tools'
 
   # Load configuration defaults

@@ -2,25 +2,46 @@ require 'pkg/tools'
 
 module Pkg
   module Version
-    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds  
+    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds
 
     # BASIC: Configure the tool versions to use
     # golang: go version  | grep 1.10 > /dev/null
-    # node: node version | grep 9.7 > /dev/null  
+    # node: node version | grep 9.7 > /dev/null
     COMPILE = {
-     # golang:  {cmd: 'go version  | grep 1.10 > /dev/null', link: "Installing https://golang.org/dl"},
-     # node:    {cmd: 'node -v | grep 9.7 > /dev/null', link: "Installing https://nodejs.org/en/"},
+      golang:  {cmd: 'go version  | grep 1.10 > /dev/null', link: "Installing https://golang.org/dl"},
+      node:    {cmd: 'node -v | grep 9.7 > /dev/null', link: "Installing https://nodejs.org/en/"},
       yarn:    {cmd: 'yarn -v | grep 1.5 > /dev/null', link: "Installing http://bit.ly/gitpyarni"},
       rustc:   {cmd: 'rustc -V | grep 1.24.1 > /dev/null', link: "Installing http://bit.ly/gitprustci"},
-     # docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
-     }.freeze
+      docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
+    }.freeze
 
-    ## check if  required tools are installed
+    # Publish: Configure the tool versions to use for publishing debs
+    # reprepro: reprepro version  | grep 1.10 > /dev/null
+    # node: node version | grep 9.7 > /dev/null
+    DEBSPUBLISH = {
+      reprepro:    {cmd: 'reprepro -v | grep 1.5 > /dev/null', link: "Installing http://bit.ly/gitppublish"},
+      nginx:   {cmd: 'nginx -V | grep 1.24.1 > /dev/null', link: "Installing http://bit.ly/gitppublish"},
+    }.freeze
+
+    # Publish: Configure the tool versions to use for publishing docker images
+    # docker:   docker -v  | grep 18 > /dev/null
+    # registry: docker -v  | grep 18 > /dev/null
+    DOCKERPUBLISH = {
+      docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
+      registry:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
+    }.freeze
+
+    ## check if  required compile tools are installed
     Pkg::Tools.new.check?(COMPILE)
+
+    ## check if  required publish  tools are installed, if configured for debs, and docker publishing.
+    ## 
+    # Pkg::Tools.new.check?(DEBSPUBLISH) unless
+    # Pkg::Tools.new.check?(DEBSPUBLISH) unless
 
     ## All of these can be loaded using a YAMLLoader (build_data.yml)
     ## Default operation system supported
-    SUPPORTED_OS = { os: %w[xenial centos7] }.freeze
+    SUPPORTED_OS = { os: %w[aventura xenial] }.freeze
 
     ## STEP 1: Configure directories
     # change the name to your own downstream fork.
@@ -59,22 +80,20 @@ module Pkg
 
     # *OPTIONAL*
     # STEP 3: Configure packages names to your choice
-    COMMON      = BASIC[:product_prefix] + '-common'.freeze
-    NILAVU      = BASIC[:product_prefix] + '-ui'.freeze
-    MONITOR     = 'rio-metricsserver'.freeze
-    ARAN        = BASIC[:product_prefix] + '-apiserver'.freeze
-    MARKETPLACE = BASIC[:product_prefix] + '-marketplace'.freeze
-    BLOCKCHAIN  = BASIC[:product_prefix] + '-blockchain'.freeze
-    ARANCLI     = BASIC[:product_prefix] + '-cli'.freeze
-    RIOOS       = BASIC[:product_prefix] + '-controller'.freeze
-    PROMETHEUS  = BASIC[:product_prefix] + '-prometheus'.freeze
-    NODELET     = BASIC[:product_prefix] + '-nodelet'.freeze
-    STORLET     = BASIC[:product_prefix] + '-storlet'.freeze
-    GULPD       = BASIC[:product_prefix] + '-gulp'.freeze
-    VNC         = BASIC[:product_prefix] + '-vnc'.freeze
-    NETWORK     = BASIC[:product_prefix] + '-network'.freeze
-    FLUENTBIT   = BASIC[:product_prefix] + '-fluentbit'.freeze
-    BOOTSTRAP   = BASIC[:product_prefix] + 'bootstrap'.freeze
-    NODEJS      = BASIC[:product_prefix] + 'node'.freeze
+    COMMON      = BASIC[:product_prefix] + '_common'.freeze
+    NILAVU      = BASIC[:product_prefix] + '_ui'.freeze
+    MONITOR     = BASIC[:product_prefix] + '_metrics'.freeze
+    ARAN        = BASIC[:product_prefix] + '_api'.freeze
+    MARKETPLACE = BASIC[:product_prefix] + '_marketplace'.freeze
+    BLOCKCHAIN  = BASIC[:product_prefix] + '_blockchain'.freeze
+    ARANCLI     = BASIC[:product_prefix] + '_cli'.freeze
+    CONTROLLER  = BASIC[:product_prefix] + '_controller'.freeze
+    NODELET     = BASIC[:product_prefix] + '_nodelet'.freeze
+    STORLET     = BASIC[:product_prefix] + '_storlet'.freeze
+    GULPD       = BASIC[:product_prefix] + '_gulp'.freeze
+    VNC         = BASIC[:product_prefix] + '_vnc'.freeze
+    NETWORK     = BASIC[:product_prefix] + '_network'.freeze
+    FLUENTBIT   = BASIC[:product_prefix] + '_fluentbit'.freeze
+    BOOTSTRAP   = BASIC[:product_prefix] + '_bootstrap'.freeze
   end
 end
