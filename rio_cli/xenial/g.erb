@@ -15,5 +15,5 @@ make FLAGS=--release buildbin
 
 tar -czvf cli<%=Time.new.strftime("%Y%m%d%H%M%S")%>.tar.gz target/debug/rioos
 
-#upload rioos file to the github
-github-release upload --owner rioosdolphins --repo rioos --tag <%= @package[:cli_release_tag] %> --name <%= @package[:cli_release_name] %> --token "7d6766df6c0a76a7e9a6b228a157fa8c0f7a66b6" --body "This release contains fixes and improvements, Refer https://gitlab.com/rioos/aran/issues?scope=all&state=closed&label_name[]=1.0.rc0\n and ChangeLog: <%= @package[:change_log_url] %>"  linux_cli_<%=Time.new.strftime("%Y%m%d%H%M%S")%>.tar.gz
+# upload rioos file to the github
+# github-release upload --owner rioosdolphins --repo rioos --tag <%= @package[:cli_release_tag] %> --name <%= @package[:cli_release_name] %> --token "7d6766df6c0a76a7e9a6b228a157fa8c0f7a66b6" --body "This release contains fixes and    # improvements, Refer https://gitlab.com/rioos/aran/issues?scope=all&state=closed&label_name[]=1.0.rc0\n and ChangeLog: <%= @package[:change_log_url] %>"  linux_cli_<%=Time.new.strftime("%Y%m%d%H%M%S")%>.tar.gz

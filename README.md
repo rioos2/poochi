@@ -1,41 +1,114 @@
 Poochi
 =====
 
-Poochi helps to build/ship packages (Ubuntu, Docker) of Rio/OS.
+Poochi helps to build/ship packages (Aventura, Docker) of Rio/OS.
 
-![Poochi Radiant](https://gitlab.com/rioos/poochi/raw/master/images/beetle.jpg)
+![Poochi Radiant](https://gitlab.com/rioos/poochi/blob/master/images/bug_happysailing.gif)
 
 ## Best practices
+
+We are glad to see our approach followed in `gitlab` or `puppet`.
 
 [Gitlab release mgmt](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/release/README.md)
 
 [Puppet release mgmt](https://github.com/puppetlabs/packaging/blob/master/README.md)
 
+# Release Management 
 
-# Packaging
+Our main goal is to make it clear which version of Rio/OS is in the package.
 
-This is a repository for packaging automation of Rio/OS software. We are glad to see our approach followed in `gitlab` or `puppet` hence we decided to extend the `poochi` to the next level.
-
-Here we are `poochi` is born.
-
-## Tree
 
 ![Packages tree](https://gitlab.com/megamsys/poochi/blob/master/images/autopackages.png)
 
-1. Ubuntu 18.04
-2. Docker
 
-## Prereqs
+## How is the official Rio/OS package built
 
-- 18.04
+The official package build is fully automated by Rio Advancement Inc.
+
+We can differentiate between two types of build:
+
+* Packages for release/stable to get.rioos.xyz
+* Packages for testing        to get.rioos.io/testing
+
+and
+
+* Container for release to registry.rioos.xyz
+
+Both types are built on the same infrastructure.
+
+## Infrastructure
+
+Each package is built on the platform in Ubuntu Xenial using fpm.
+
+The poochi projectt fully utilizes GitLab CI. This means that each push
+to poochi repository will trigger a build in GitLab CI which will
+then create a package.
+
+This remote is located on build.rioos.xyz.
+
+All build servers run [gitlab runner] and all runners use a deploy key to connect to the projects on [gitlab.org/rioos](https://gitlab.com/rioos).
+
+The build servers also have access to a special [registry Rio/OS](https://registry.rioos.xyz) which stores the container tar balls.
+
+# Process
+
+Rio Advancement is using the [poochi](https://gitlab.com/rioos/poochi) to automate the release tasks for every release. When the release manager starts the release process, a couple of important things for poochi will be done:
+
+1. A specific Git tag will be created and synced to poochi repositories using [ottavada](https://gitlab.com/rioos/ottavada)
+
+## Ottavada
+
+Release manager uses [ottavada](https://gitlab.com/rioos/ottavada.git) to create a tag. Read the documentation of [ottadava](https://gitlab.com/rioos/ottavada.git) to start the tag process.
+
+All the main repositories [beedi](https://gitlab.com/rioos/beedi), [nilavu](https://gitlab.com/rioos/nilavu), [aran](https://gitlab.com/rioos/aran) are tagged with the versions.
+
+A slack notification is received when the tagging is complete.
+
+## Poochi
+
+When the poochi repository on  gets updated, GitLab CI build gets triggered. The builds are performed on [build.rioos.xyz](build.rioos.xyz).
+
+The specific steps can be seen in `.gitlab-ci.yml` file in [poochi](https://gitlab.com/rioos/poochi).
+
+During the build, poochi will pull external libraries from their source locations and Rio/OS components like nilavu, beedi, aran.
+
+Once the build completes and the .deb, containers, aventura ISO are built. 
+
+### Deb
+
+The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.xyz) served by nginx. 
+
+### Containers  of Rio/OS
+
+The containers are pushed to [regstry.rioos.xyz](registry.rioos.xyz).
+
+### Containers for Rio/OS Marketplace
+
+The containers tar balls are rsynced to [marketplace.rioos.xyz](marketplace.rioos.xyz). They are then copied over to the correct location in the [marketplace.rioos.xyz](marketplace.rioos.xyz).
+
+
+### Publishing
+
+You can track the progress of package building on [poochi](https://gitlab.com/rioos/poochi).
+
+They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatically after successful builds.
+
+[gitlab runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner)
+
+[get.rioos.xyz repositories](https://get.rioos.xyz)
+
+
+### Build infrastructure prereqs
+
+- Ubuntu 18.04
 - Ruby 2.5.x via [rvm]
-- Node.js  [8.10.x](https://nodejs.org/en/)
+- Node.js  [9.8.x](https://nodejs.org/en/)
 - Golang [1.10.x](https://golang.org/dl/)
 - Rustlang [1.24.x](https://rust-lang.org)
 
-## Prereqs: Installation
+### Prereqs: Installation
 
-Note: This will be automated by `muddy`
+Note: This will be automated by `poochi`
 
 ```
 mkdir ~/downloads
@@ -44,14 +117,17 @@ mkdir ~/software
 ```
 
 ### Nodejs
+
 ```
 cd ~/downloads
-wget https://nodejs.org/dist/v8.10.0/node-v8.10.0-linux-arm64.tar.gz
 
-tar -xvf node-v8.10*
+wget https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-arm64.tar.gz
 
-mv node-v8.10* ~/software
-mv ~/software/node-v8.10* ~/software/node
+tar -xvf node-v9.8*
+
+mv node-v9.8* ~/software
+
+mv ~/software/node-v9.8* ~/software/node
 
 ```
 
@@ -70,14 +146,18 @@ sudo apt-get update && sudo apt-get install yarn
 
 ```
 cd ~/downloads
+
 wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
 
 tar -xvf go1.10*
+
 mv go1.10* ~/software
+
 mv ~/software/go-1.10*/go ~/software/go
 
 ```
-### Rustlang
+
+### Rust
 
 ```
 curl https://sh.rustup.rs -sSf | sh
@@ -138,7 +218,7 @@ $ sudo apt-get install docker-ce
 
 ```
 
-## Configure .bashrc
+### Configure .bashrc
 
 You will have configure .bashrc with the `PATH` updated for `golang`, `cargo`, `nodejs`.
 
@@ -159,206 +239,114 @@ Save the file, and run this from the same terminal, (or) open a new terminal for
 source ~/.bashrc
 
 ```
-##install gitlab runners
+
+### Install Gitlab Runner
+
 ```
 curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 
 sudo apt-get install gitlab-runner
+
 ```
-## Register the runner
+
+### Register the runner
+
 ```
+
 sudo gitlab-runner register
+
 ```
 ##Following specify the information to register the runner:
+
 1.Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com ):
 ```
 https://gitlab.com
 ```
+
 2.Please enter the gitlab-ci token for this runner
 ###Enter the poochi token id
 ```
 M88_FuzKqdQ4cSKTjAtG
 ```
+
 3.Please enter the gitlab-ci description for this runner
 ##runner name to view in poochi
 ```
 build01-rioos
 ```
+
 4.Please enter the gitlab-ci tags for this runner (comma separated):
 ```
 rioos
 ```
+
 5.Whether to run untagged jobs [true/false]:
 ```
 false
 ```
+
 6.Whether to lock Runner to current project [true/false]:
 ```
 true
 ```
+
 7.Please enter the executor: ssh, docker+machine, docker-ssh+machine, kubernetes, docker, parallels, virtualbox, docker-ssh, shell:
 ```
 docker
 ```
+
 8.Please enter the Docker image (eg. ruby:2.1):
 ```
 alpine:latest
 ```
-###After that 'Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!'
 
-##check the new runner created in the git packager
-#settings -> CI/CD  -> Runners Settings
-#show Specific runner list
+After that 'Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!'
+
+check the new runner created in the poochi `settings -> CI/CD  -> Runners Settings`
 
 ## Using the Packaging Repo
 
 The tasks are generally grouped into category
+
 - `package:`
 
 ## `package` tasks
 
 `package` tasks are general purpose tasks that are set up to use the most minimal tool
-chain possible for creating packages. These tasks will create rpms and debs, but any
+chain possible for creating packages. These tasks will create debs but any
 build dependencies will need to be satisifed by the building host, and any dynamically
 generated dependencies may result in packages that are only suitable for the
 OS/version of the build host.
 
-- To build a deb, do `rake ubuntu`.
+- To build a deb, go to the component you wish to build 
 
-- To build a rpm, do `rake centos`.
+```
 
-# Rio/OS release process
+cd rio_nilavu
 
-Our main goal is to make it clear which version of Rio/OS is in the package.
+rake aventura
 
-# How is the official Rio/OS package built
+```
 
-The official package build is fully automated by Rio Advancement Inc.
+- To build a docker container, go to the component you wish to build.
 
-We can differentiate between two types of build:
+```
+cd rio_nilavu 
 
-* Packages for release to get.rioos.xyz
-* Packages for test to get.rioos.io/testing
+rake clean
 
-and
+rake docker
 
-* Container for release to registry.rioos.xyz
+```
 
-Both types are built on the same infrastructure.
-
-## Infrastructure
-
-Each package is built on the platform in Ubuntu Xenial using fpm.
-
-The poochi projectt fully utilizes GitLab CI. This means that each push
-to poochi repository will trigger a build in GitLab CI which will
-then create a package.
-
-This remote is located on build.rioos.xyz.
-
-All build servers run [gitlab runner] and all runners use a deploy key
-to connect to the projects on [gitlab.org/rioos](https://gitlab.com/rioos).
-
-The build servers also have access to a special [registry Rio/OS](https://registry.rioos.xyz) which stores the container tar balls.
-
-## Build process
-
-Rio Advancement is using the [poochi](https://gitlab.com/rioos/poochi) to automate the release tasks for every release. When the release manager starts the release process, a couple of important things for poochi will be done:
-
-1. All remotes of the project will be synced
-2. A specific Git tag will be created and synced to poochi repositories
-
-When the poochi repository on [build.rioos.xyz](build.rioos.xyz) gets updated, GitLab CI build gets triggered.
-
-The specific steps can be seen in `.gitlab-ci.yml` file in poochi
-repository. The builds are executed on all platforms at the same time.
-
-During the build, poochi will pull external libraries from their source
-locations and Rio/OS components like nilavu, beedi, aran.
-
-Once the build completes and the .deb or .rpm packages, containers are built, depending on the build type package will be pushed to [get.rioos.xyz](get.rioos.xyz) and [regstry.rioos.xyz](registry.rioos.xyz).
-
-## Specifying component versions manually
-### On your development machine
-
-1. Pick a tag of Rio/OS to package (e.g. `v2.0.0.rc0`).
-2. Create a release branch in poochi (e.g. `2.0.0.rc0`).
-4. If the release branch already exists, for instance because you are doing a
-  patch release, make sure to pull the latest changes to your local machine:
-
-    ```
-    git pull https://gitlab.com/rioos/poochi 2.0.0 # existing release branch
-    ```
-
-1. Use `support/set-revisions` to set the revisions of files in
-  `config/software/`. It will take tag names and look up the Git SHA1's, and set
-  the download sources to get.rioos.xyz.
-
-    ```
-    # usage: set-revisions <Rio/OS release version>
-
-    # For Rio/OS 2.0.0.rc0:
-    support/set-revisions v2.0.0.rc0
-
-    ```
-
-2. Commit the new version to the release branch:
-
-    ```shell
-    git add VERSION
-    git commit
-    ```
-
-3. Create an annotated tag on gitlab corresponding to the Rio/OS tag.
-  The poochi tag looks like: `MAJOR.MINOR.PATCH+OTHER.GITPACKAGER_RELEASE`, where
-  `MAJOR.MINOR.PATCH` is the Rio/OS version, `OTHER` can be something like `rc1` (or `rc2`), and `GITPACKAGER_RELEASE` is a number (starting at 0):
-
-    ```shell
-    git tag -a 2.0.0+rc0.0 -m 'Pin Rio/OS to v2.0.0.rc0'
-    ```
-
-    **WARNING:** Do NOT use a hyphen `-` anywhere in the poochi tag.
-
-    Examples of converting an upstream version tag to an poochi tag sequence:
-
-| upstream tag     | poochi tag sequence                    |
-|------------------|---------------------------------------------|
-| `v2.0.rc1`       | `2.0.rc1.0`, `2.0.rc1.1`,       `...`       |
-| `v2.0.0`         | `2.0.stable.0`, `2.0.stable.1`, `...`       |
-| `v2.0.1`         | `2.0.1.stable.0`, `2.0.1.stable.1`, `...`   |
-
-
-5. Push the branch and the tag to github.com:
-
-    ```shell
-    git push git@github.com/rioos/poochi.git 2-0-0-rc1 2.0.0+rc0.0
-    ```
-
-    Pushing an annotated tag to github.com triggers a package release.
-
-### Publishing the packages
-
-You can track the progress of package building on [poochi](https://gitlab.com/rioos/poochi).
-They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatically after successful builds.
-
-[release-tools project](https://github.com/rioos/poochi)
-
-[gitlab runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner)
-
-[get.rioos.xyz repositories](https://get.rioos.xyz)
-
-We have notifiers to slack channel [#releng]
-
-### Type the url `https://get.rioos.xyz`  You'll see the refreshed packages
-
-[Coming  - soon : Notifiers via Android app]
+Everything gets built by the CI.
 
 
 # License
 
-MIT
+Rio Advancement Inc
 
 
 # Authors
 
-Humans Rio Advancement (<dev@rio.company>)
+Humans @ Rio Advancement (<dev@rio.company>)

@@ -1,11 +1,18 @@
 require 'fileutils'
 require 'colorize'
 require 'pathname'
+require 'pkg/ship_location'
 
 module Pkg::Util::File
   class << self
     def exist?(file)
       ::File.exist?(file)
+    end
+
+    ## just a wrapper, with colored printing, equivalent to shell cp -R
+    def cp_r(source,dest)
+      FileUtils.cp_r source dest
+      puts "   ✔ cp -R #{source} #{dest}".colorize(:blue).bold
     end
 
     ## just a wrapper, with colored printing, equivalent to shell mkdir -p
@@ -78,15 +85,16 @@ module Pkg::Util::File
       outfile
     end
 
-    def install_files_into_dir(file_patterns, workdir)
+    def install_files_into_dir(pkgcommon, file_patterns, workdir)
       install = []
+      ship_locations = {}
       Dir.chdir(Pkg::Config.project_root) do
         file_patterns.each do |pattern|
           install << if File.directory?(pattern) && !Pkg::Util::File.empty_dir?(pattern)
-                       Dir[pattern + '/**/*']
-                     else
-                       Dir[pattern]
-                     end
+          Dir[pattern + '/**/*']
+          else
+            Dir[pattern]
+          end
         end
         install.flatten!
 
@@ -96,16 +104,22 @@ module Pkg::Util::File
           if Pkg::Util::File.empty_dir?(file)
             FileUtils.mkpath(File.join(workdir, file), verbose: false)
           else
-            ship_path = File.join(Pkg::Config.packaging_repo,
-                                  Pkg::Config.git_release,
+            dist = pkgcommon.distro_family_version_dir #aventura/2.0.0.rc1
+
+            ship_path = File.join(dist,
+                                  Pkg::Config.packaging_repo,
                                   Pathname.new(file).relative_path_from(Pathname.new(file).dirname.parent))
 
             FileUtils.mkpath(File.dirname(File.join(workdir, ship_path)), verbose: false)
             FileUtils.cp(file, File.join(workdir, ship_path), verbose: false, preserve: true)
+
+            ## Keep accumulating the ShipLocation
+            ship_locations[dist] =  ShipLocation::new(pkgcommon) unless ship_locations.key?(dist)
           end
           puts "   ✔ shipping #{File.join(workdir, ship_path)}".colorize(:blue)
         end
       end
+      ship_locations
     end
   end
 end

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-mkdir -p <%= @basic[:libhome] %>/<%= @package[:package] %>
-
-systemctl enable cadvisor.service
-
-systemctl start cadvisor.service

@@ -6,8 +6,15 @@ module Pkg::Params
                     packaging_release
                     packaging_iteration
                     git_release
+                    gpg_key
                     ship_root
-                    gpg_key].freeze
+                    deb_html_root
+                    docker_registry
+                    enable_ship
+                    slack_ship_url
+                    slack_ship_bot].freeze
+
+
 
   def self.ARGVS
     return {} if ARGV.length <= 2
