@@ -11,10 +11,12 @@ RUN apt-get update -y && \
 # default environment variables
 ENV SOURCE_DIR <%= @basic[:home]+"/marketplace/bin/" %>
 ENV CONF_FILE marketplace.toml
-ENV RIOCONF <%= @basic[:libhome] %>/marketplace
+ENV RIOCONF <%= @basic[:libhome] %>/config
 
 # volume creation
 RUN mkdir -p "$SOURCE_DIR"
+
+RUN mkdir -p "$RIOCONF/pullcache"
 
 VOLUME "$RIOCONF"
 

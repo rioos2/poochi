@@ -6,7 +6,7 @@ RIO_FILE=/var/lib/rioos.txt
 RIOOS_ROOT=$(dirname "${BASH_SOURCE}")/..
 LOG=/var/log/rioos_install.log
 VOLUME=${RIOOS_HOME:-"/var/lib/rioos"}
-REGISTRY_URL=registry.megam.io:5000
+REGISTRY_URL=registry.rioos.xyz:5000
 RIOOS_IMAGES=('rioospostgres:10.1' 'rioospowerdns:4.0.3' 'rioosprometheus:2.0' 'rioosui:2.0' 'rioosvnc:2.0' 'riooscontroller:2.0' 'rioosscheduler:2.0' 'rioosinfluxdb:1.3.7')
 
 # Stop right away if the build fails
