@@ -4,8 +4,8 @@
 
 # Variable creation
 CERT_FILE=/var/lib/ca.crt
-DOCKER_DIR=/etc/docker/certs.d/registry.megam.io:5000
-REGISTRY_URL=registry.megam.io:5000
+DOCKER_DIR=/etc/docker/certs.d/registry.rioos.xyz:5000
+REGISTRY_URL=registry.rioos.xyz:5000
 REGISTRY_USER=rioosadmin
 REGISTRY_PASS=team4rio
 REGISTRY_DIR=/var/lib/rioos/containers

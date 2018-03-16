@@ -2,11 +2,11 @@ require 'pkg/tools'
 
 module Pkg
   module Version
-    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds  
+    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds
 
     # BASIC: Configure the tool versions to use
     # golang: go version  | grep 1.10 > /dev/null
-    # node: node version | grep 9.7 > /dev/null  
+    # node: node version | grep 9.7 > /dev/null
     COMPILE = {
      # golang:  {cmd: 'go version  | grep 1.10 > /dev/null', link: "Installing https://golang.org/dl"},
      # node:    {cmd: 'node -v | grep 9.7 > /dev/null', link: "Installing https://nodejs.org/en/"},
@@ -53,8 +53,8 @@ module Pkg
       runhome:        RUNHOME.to_s,
       vendor:         'RioAdvancement'.freeze,
       maintainer:     'RioAdvancement <dev@rio.company>'.freeze,
-      registry_url:   'registry.megam.io:5000'.freeze,
-      url:            'https://docs.rioos.xyz'.freeze
+      registry_url:   'registry.rioos.xyz:5000'.freeze,
+      url:            'https://docs.rioos.xyz'.freeze,
     }.freeze
 
     # *OPTIONAL*
