@@ -25,7 +25,7 @@
 .metadata
 
 # Ignore build_defaults.yaml
-./build_defaults.yaml
+/build_defaults.yaml
 
 # Ignore all the config files except routes.rb and products_seed.rb
 #/config/environments
