@@ -12,7 +12,7 @@ module Slack
     def self.fire_hook(text:, channel: nil)
       # It's valid for a child class to return an empty String in order to
       # silently skip the notification, rather than aborting entirely
-      return unless webhook_url.present?
+      return unless webhook_url.length > 0
 
       body = { text: text }
       body[:channel] = channel if channel

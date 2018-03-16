@@ -1,4 +1,5 @@
 require 'pkg/tools'
+require 'pkg/config'
 
 module Pkg
   module Version
@@ -24,11 +25,11 @@ module Pkg
     }.freeze
 
     ## check if  required compile tools are installed
-    Pkg::Tools.new.check?(COMPILE)
+    #Pkg::Tools.new.check?(COMPILE)
 
     ## check if  required publish  tools are installed, if configured for debs
     ##
-    Pkg::Tools.new.check?(DEBSPUBLISH) unless Pkg::Config.enable_ship
+    #Pkg::Tools.new.check?(DEBSPUBLISH) unless Pkg::Config.enable_ship
 
     ## All of these can be loaded using a YAMLLoader (build_data.yml)
     ## Default operation system supported

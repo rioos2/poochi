@@ -2,6 +2,8 @@ require 'colorize'
 require 'pkg/common'
 require 'pkg/config'
 
+require_relative 'base_publisher'
+
 module Pkg
   class DebsPublisher < BasePublisher
     attr_accessor :template

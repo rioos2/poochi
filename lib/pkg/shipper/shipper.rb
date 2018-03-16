@@ -2,6 +2,8 @@ require 'colorize'
 require 'pkg/common'
 require 'pkg/config'
 
+require_relative 'debs'
+
 module Pkg
   class Shipper
     attr_accessor :distro
@@ -11,31 +13,38 @@ module Pkg
     end
 
     def ship_paths
-      puts "=>    Ship: #{NAME} #{NAMED_REGEX}".colorize(:green).bold
-      pather = Pkg::Util::File.install_files_into_dir(@distro, NAMED_REGEX, Pkg::Config.ship_root)
-      puts "=> ✔  Ship: #{NAME} #{NAMED_REGEX}".colorize(:green).bold
+      puts "=>    Ship: #{name} #{named_regex}".colorize(:green).bold
+      pather = Pkg::Util::File.install_files_into_dir(@distro, named_regex, Pkg::Config.ship_root)
+      puts "=> ✔  Ship: #{name} #{named_regex}".colorize(:green).bold
       pather
     end
 
     def ship
-      after_ship_paths_hook(ship_paths)
-      after_ship
+      ship_debs = ship_paths
+
+      unless ship_debs.empty?
+        after_ship_paths_hook(ship_debs)
+        after_ship
+      else
+        puts "=> ✔  Ship: No #{name} found matching #{named_regex}".colorize(:magenta).bold
+      end
     end
 
+    # Overridable
     def after_ship_paths_hook(pather)
+      raise NotImplementedError
     end
 
-    def self.NAME
-      self::NAME
+    # Overridable
+    def name
+      raise NotImplementedError
     end
 
-    def self.NAMED_REGEX
-      self::NAMED_REGEX
+    # Overridable
+    def named_regex
+      raise NotImplementedError
     end
 
-    def os
-      @distro.os
-    end
 
 
   end

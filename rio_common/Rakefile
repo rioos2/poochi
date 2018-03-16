@@ -20,8 +20,3 @@ task :aventura do
   Pkg::Common.distro("aventura")
   Rake::Task[:nix].invoke
 end
-
-task :centos7 do
-  Pkg::Common.distro("centos7")
-  Rake::Task[:nix].invoke
-end

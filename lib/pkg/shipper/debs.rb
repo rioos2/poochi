@@ -1,24 +1,31 @@
 require 'colorize'
 require 'pkg/common'
 require 'pkg/config'
-require 'pkg/publisher'
+
+require 'pkg/publisher/debs'
+require_relative 'shipper'
 
 module Pkg
-  class DebsShipper < Shipper
+  class DebsShipper < Pkg::Shipper
 
     NAME = "debs".freeze
-    NAMED_REGEX = ['./**/#{os}/**/*.deb'].freeze
-
-    def initialize(distro)
-      super(distro)
-    end
 
     def after_ship_paths_hook(ship_pather)
-      generate_and_publish(ship_pather)   
-    end    
+      unless ship_pather.empty?
+        generate_and_publish(ship_pather)
+      end
+    end
 
     def after_ship
       puts "=> ✔  Ship: configuration".colorize(:green).bold
+    end
+
+    def name
+      NAME
+    end
+
+    def named_regex
+      ["./**/" << @distro << "/**/*.deb"]
     end
 
     private

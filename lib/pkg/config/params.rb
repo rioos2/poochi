@@ -9,7 +9,10 @@ module Pkg::Params
                     gpg_key
                     ship_root
                     deb_html_root
-                    docker_registry].freeze
+                    docker_registry
+                    enable_ship
+                    slack_ship_url
+                    slack_ship_bot].freeze
 
 
 

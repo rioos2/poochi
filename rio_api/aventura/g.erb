@@ -3,6 +3,7 @@
 mkdir -p .<%= @basic[:home]+"/"+@package[:package]+"/bin" %>
 
 cd <%= @package[:package]+"/src/"+@package[:git_org]+"/aran" %>
+
 # sometimes  the dependencies aren't getting pulled. Adding a master solved the problem.
 git remote add master https://gitlab.com/rajesh_rajagopal/aran.git
 
@@ -10,7 +11,7 @@ sh support/linux/install_dev_0_ubuntu_latest.sh
 sh support/linux/install_dev_9_linux.sh
 . ~/.profile
 
-make build-release
+make FLAG=--release buildapi
 
 cp -rf ./target/debug/rioos-apiserver ../../../../../<%= @basic[:home]+"/"+@package[:package]+"/bin" %>
 

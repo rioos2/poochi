@@ -87,24 +87,23 @@ module Pkg::Util::File
 
     def install_files_into_dir(pkgcommon, file_patterns, workdir)
       install = []
+      ship_locations = {}
       Dir.chdir(Pkg::Config.project_root) do
         file_patterns.each do |pattern|
           install << if File.directory?(pattern) && !Pkg::Util::File.empty_dir?(pattern)
-                       Dir[pattern + '/**/*']
-                     else
-                       Dir[pattern]
-                     end
+          Dir[pattern + '/**/*']
+          else
+            Dir[pattern]
+          end
         end
         install.flatten!
 
         install = install.select { |x| File.file?(x) || File.symlink?(x) || Pkg::Util::File.empty_dir?(x) }
 
-        ship_locations = {}
-
         install.each do |file|
           if Pkg::Util::File.empty_dir?(file)
             FileUtils.mkpath(File.join(workdir, file), verbose: false)
-          else      
+          else
             dist = pkgcommon.distro_family_version_dir #aventura/2.0.0.rc1
 
             ship_path = File.join(dist,
@@ -120,7 +119,7 @@ module Pkg::Util::File
           puts "   ✔ shipping #{File.join(workdir, ship_path)}".colorize(:blue)
         end
       end
-      ship_pather
+      ship_locations
     end
   end
 end

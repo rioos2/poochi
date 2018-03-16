@@ -1,4 +1,5 @@
 require 'pkg/config'
+require_relative 'webhook'
 
 module Slack
   class ShipNotification < Webhook
@@ -7,9 +8,9 @@ module Slack
     end
 
     def self.release(distro)
-      text = "☉ ‿ ⚆ > _#{Pkg::Config.slack_ship_user}_ shipped [#{distro}] > `#{Pkg::Config.packaging_repo}/#{Pkg::Config.packaging_release}`"
+      text = "☉ ‿ ⚆ > _#{Pkg::Config.slack_ship_bot}_ shipped [#{distro}] > `#{Pkg::Config.packaging_repo}/#{Pkg::Config.packaging_release}`"
 
-      fire_hook(text: text)on
+      fire_hook(text: text)
     end
   end
 end

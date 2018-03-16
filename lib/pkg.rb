@@ -27,11 +27,9 @@ module Pkg
   require 'pkg/yaml_builder'
   require 'pkg/ship_location'
   require 'pkg/shipper/debs'
-  require 'pkg/shipper/docker'
   require 'pkg/shipper/shipper'
   require 'pkg/publisher/debs'
-  require 'pkg/publisher/docker'
-  require 'pkg/publisher/base_publisher'  
+  require 'pkg/publisher/base_publisher'
   require 'pkg/tools'
 
   # Load configuration defaults

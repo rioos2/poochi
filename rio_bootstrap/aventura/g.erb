@@ -2,8 +2,8 @@
 
 mkdir -p .<%= @basic[:home]+"/"+@package[:package] %>
 
-cp -r  ../../xenial/rioos-bootstrap.d/ .<%= @basic[:home]+"/"+@package[:package] %>
-cp ../../xenial/etc/init.d/rioosbootstrap.erb .<%= @basic[:home]+"/"+@package[:package] %>
+cp -r  ../../aventura/rioos-bootstrap.d/ .<%= @basic[:home]+"/"+@package[:package] %>
+cp ../../aventura/etc/init.d/rioosbootstrap.erb .<%= @basic[:home]+"/"+@package[:package] %>
 
 fpm -s dir -t deb  -f  --iteration <%= @basic[:iteration] %> -v <%= @basic[:version] %> \
 -n <%= @package[:package] %> -d "" \
