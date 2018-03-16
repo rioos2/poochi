@@ -1,8 +1,8 @@
 ---
 packaging_repo: testing
-packaging_release: 2.0.0.rc1.0
-git_release: 2.0.0.rc1.0
-packaging_iteration: 0
+packaging_release: 2.0.0.rc1
+git_release: 2.0.0.rc1
+packaging_iteration: 1
 gpg_key: 'B09FFFF34'
 ship_root: /home/ram/ship/2.0.0.rc1.0
 deb_html_root: /var/www/html/repo 

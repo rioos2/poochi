@@ -15,13 +15,13 @@ $ sudo -s
 
 $ export CA_CRT=$PWD/ca.crt
 
-$ mkdir -p /etc/docker/certs.d/registry.megam.io:5000
+$ mkdir -p /etc/docker/certs.d/registry.rioos.xyz:5000
 
-$ mv $CA_CRT /etc/docker/certs.d/registry.megam.io:5000
+$ mv $CA_CRT /etc/docker/certs.d/registry.rioos.xyz:5000
 
 $ exit
 
-$ docker login registry.megam.io:5000
+$ docker login registry.rioos.xyz:5000
 
 ```
 **userid** `rioosadmin`

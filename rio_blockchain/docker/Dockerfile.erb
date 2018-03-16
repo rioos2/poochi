@@ -10,8 +10,8 @@ RUN apt-get update -y && \
 
 # default environment variables
 ENV SOURCE_DIR <%= @basic[:home]+"/blockchain/bin/" %>
-ENV CONF_FILE api.toml
-ENV RIOCONF <%= @basic[:libhome] %>/blockchain
+ENV CONF_FILE blockchain.toml
+ENV RIOCONF <%= @basic[:libhome] %>/config
 
 # volume creation
 RUN mkdir -p "$SOURCE_DIR"

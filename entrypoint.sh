@@ -3,12 +3,12 @@
 set -e
 
 start() {
-	exec_cmd=$2
+	exec_cmd=$1
 	if [ -f "$RIOCONF/$CONF_FILE" ]
 	then
-		$SOURCE_DIR/$1 --config=$RIOCONF/$CONF_FILE
+		$2
 	else
-		$exec_cmd $3
+		$exec_cmd start
 	fi
 }
 case $1 in
@@ -23,15 +23,15 @@ case $1 in
 
 	apiserver)
 		daemon_name="rioos-apiserver"
-		RUN_CMD="$SOURCE_DIR/$daemon_name start"
-		start $daemon_name $RUN_CMD
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
+		start "$daemon_name" "$RUN_CMD"
 	break
 	;;
 
 	blockchain)
 		daemon_name="rioos-blockchain-server"
-		RUN_CMD="$SOURCE_DIR/$daemon_name start"
-		start $daemon_name $RUN_CMD
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
+		start "$daemon_name" "$RUN_CMD"
 	break
 	;;
 
@@ -44,8 +44,8 @@ case $1 in
 	;;
 	marketplace)
 		daemon_name="rioos-marketplaces"
-		RUN_CMD="$SOURCE_DIR/$daemon_name start"
-		start $daemon_name $RUN_CMD
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
+		start "$daemon_name" "$RUN_CMD"
 	break
 	;;
 
