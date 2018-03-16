@@ -21,52 +21,27 @@ module Pkg::Data
 
     {
       package: NILAVU,
-      from: 'node:8.7.0-alpine',
+      from: 'node:9.8.0-alpine',
       description: %(Description: The dashboard for #{BASIC[:product]}.),
       category: 'cloud',
+      deb_dependencies: "yarn",
 
-      deb_dependencies: "npm",
-      rpm_dependencies: "#{Pkg::Version::COMMON}, git-core, curl, epel-release, nginx, openssl-devel, sqlite-devel,  sqlite, autoconf, pcre-devel, pcre,libxml2,libxslt-devel,libtool-ltdl-devel, libtool, monit, nodejs, npm, gcc-c++, libstdc++-devel, socat, anacron, psmisc, gawk, parallel, git, wget, rsyslog, whois, glibc-common, libyaml",
-
-     git: 'https://gitlab.com/rioos/nilavu',
+      git: 'https://gitlab.com/rioos/nilavu',
       git_org: 'gitlab.com/rioos',
       branch: 'master',
 
-      tar: 'https://nodejs.org/dist/v8.6.0/node-v8.6.0-linux-x64.tar.xz',
+      tar: 'https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-x64.tar.gz',
 
       # The service name to start
       systemd_service: 'rioos-ui.service',
-      upstart_service: 'rioos-ui'
+
     }.freeze
   end
 
-  def self.MONITOR
-    puts "=> Packaging: [#{MONITOR} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
+  def self.CONTROLLER
+    puts "=> Packaging: [#{CONTROLLER} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
-      package: MONITOR,
-      description: %(Description: Analyzes resource usage and performance characteristics of
-              running containers/machine for #{BASIC[:product]}.),
-      category: CLOUD,
-
-      dependencies: "",
-
-      git: 'https://gitlab.com/rioos/beedi.git',
-      git_org: 'gitlab.com/rioos',
-      branch: 'master',
-
-      # download the tar binary
-      tar: '',
-
-      # The service name to start
-      systemd_service: 'rio-metricsserver.service',
-      upstart_service: 'rio-metricsserver'
-    }
-  end
-
-  def self.RIOOS
-    puts "=> Packaging: [#{RIOOS} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
-    {
-      package: RIOOS,
+      package: CONTROLLER,
       from: 'busybox:ubuntu-14.04',
       description: %(Description: Control-Manager for #{BASIC[:product]}.),
       category: CLOUD,
@@ -80,8 +55,8 @@ module Pkg::Data
       tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=jGhxy47oEZpNyTHggpJB',
 
       # The service name to start
-      systemd_service: "#{RIOOS}.service",
-      upstart_service: RIOOS.to_s
+      systemd_service: "#{CONTROLLER}.service",
+      upstart_service: CONTROLLER.to_s
     }
   end
 
@@ -103,25 +78,6 @@ module Pkg::Data
       cli_release_tag:    'v1.0.rc0'.freeze,
       cli_release_name:   'v1.0.rc0'.freeze,
       change_log_url: 'https://docs.rioos.xyz/changelog'.freeze
-    }
-  end
-
-  def self.NODE
-    puts "=> Packaging: [#{NODE} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
-    {
-      package: NODE,
-      description: %[Description: Core engine which provides scheduling,
-      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.
-      Works on top of a messaging layer NSQ (nsq.io) with interface to an opensource database
-      cassandra 3.7],
-      category: CLOUD,
-      dependencies: 'nodejs, npm',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compilings
-
-      # The service name to start
-      systemd_service: "#{NODE}.service",
-      upstart_service: NODE.to_s
     }
   end
 
@@ -397,12 +353,12 @@ module Pkg::Data
   end
 
   def self.VOLTDB
-      {
-        from: 'ubuntu:14.04',
-        description: 'Voltdb docker image for Rio/OS v2',
-        version: '7.8.2',
-      }
-    end
+    {
+      from: 'ubuntu:14.04',
+      description: 'Voltdb docker image for Rio/OS v2',
+      version: '7.8.2',
+    }
+  end
 
   def self.NEO4J
     {
@@ -481,19 +437,19 @@ module Pkg::Data
   end
 
   def self.MARIADB
-  {
-    from: 'debian:jessie',
-    description: 'MariaDB docker image for Rio/OS v2',
-    major: '10.3',
-    version: '10.3.2',
-  }
+    {
+      from: 'debian:jessie',
+      description: 'MariaDB docker image for Rio/OS v2',
+      major: '10.3',
+      version: '10.3.2',
+    }
   end
   def self.MEMCACHED
-  {
-    from: 'alpine:3.6',
-    description: 'Memcached docker image for Rio/OS v2',
-    version: '1.5.3',
-  }
+    {
+      from: 'alpine:3.6',
+      description: 'Memcached docker image for Rio/OS v2',
+      version: '1.5.3',
+    }
   end
 
   def self.COCKROACHDB

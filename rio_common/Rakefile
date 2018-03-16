@@ -16,17 +16,7 @@ task :nix => [:initnix] do
   Pkg::Builder.new(Pkg::Common.distro_dir, Pkg::Common.distro_build_dir, Pkg::Data.COMMON).exec
 end
 
-task :trusty   do
-  Pkg::Common.distro("trusty")
-  Rake::Task[:nix].invoke
-end
-
-task :xenial do
-  Pkg::Common.distro("xenial")
-  Rake::Task[:nix].invoke
-end
-
-task :centos7 do
-  Pkg::Common.distro("centos7")
+task :aventura do
+  Pkg::Common.distro("aventura")
   Rake::Task[:nix].invoke
 end
