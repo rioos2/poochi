@@ -16,12 +16,12 @@ namespace :ship do
     Pkg::Util::File.mkdir_p(Pkg::Config.ship_root)
   end
 
-   task :notifyslack, [:distro] do |t, args|
+  task :notifyslack, [:distro] do |t, args|
     Slack::ShipNotification.release(args[:distro])
   end
 
   task :aventura => [:initship] do
     shipper = Pkg::DebsShipper.new(Pkg::Common.distro("aventura")).ship
     Rake::Task["ship:notifyslack"].invoke("aventura")
-  end   
+  end
 end

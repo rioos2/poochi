@@ -17,7 +17,7 @@ module Pkg
     end
 
     def after_ship
-      puts "=> ✔  Ship: configuration".colorize(:green).bold
+      puts "   ✔  Ship: configuration".colorize(:green).bold  
     end
 
     def name

@@ -5,6 +5,7 @@ module Pkg::Data
   include Pkg::Version
 
   CLOUD = 'cloud'.freeze
+  CURRENT_GIT_TAG   = Pkg::Config.git_tag
 
   def self.COMMON
     puts "=> Packaging: [#{COMMON} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:cyan).bold
@@ -22,18 +23,16 @@ module Pkg::Data
     {
       package: NILAVU,
       from: 'node:9.8.0-alpine',
-      description: %(Description: The dashboard for #{BASIC[:product]}.),
+      description: %(Description: The UI for #{BASIC[:product]}.),
       category: 'cloud',
       deb_dependencies: "yarn",
-
-      git: 'https://gitlab.com/rioos/nilavu',
-      git_org: 'gitlab.com/rioos',
-      branch: 'master',
-
       tar: 'https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-x64.tar.gz',
 
-      # The service name to start
-      systemd_service: 'rioos-ui.service',
+      git: 'git@gitlab.com:rioos/nilavu',
+      git_org: 'gitlab.com/rioos',
+      tag: '#{GIT_TAG}',
+
+      systemd_service: "#{NILAVU}.service",
 
     }.freeze
   end
@@ -43,20 +42,17 @@ module Pkg::Data
     {
       package: CONTROLLER,
       from: 'busybox:ubuntu-14.04',
-      description: %(Description: Control-Manager for #{BASIC[:product]}.),
+      description: %(Description: Control Manager for #{BASIC[:product]}.),
       category: CLOUD,
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/beedi.git',
+
+      git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: '#{GIT_TAG}',
 
       tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=jGhxy47oEZpNyTHggpJB',
 
-      # The service name to start
-      systemd_service: "#{CONTROLLER}.service",
-      upstart_service: CONTROLLER.to_s
+      systemd_service: "#{CONTROLLER}.service"
     }
   end
 
@@ -66,18 +62,12 @@ module Pkg::Data
       package: ARANCLI,
       description: %[Description: CLI  for #{BASIC[:product]}.],
       category: CLOUD,
-      username: 'suganyak',
-      api_key: 'd655dfba7c5af89a5023fc36b61c96bbff290901',
-      pkg_name: 'stable',
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/aran',
+
+      git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      branch: '2.0',
-      cli_release_tag:    'v1.0.rc0'.freeze,
-      cli_release_name:   'v1.0.rc0'.freeze,
-      change_log_url: 'https://docs.rioos.xyz/changelog'.freeze
+      tag: '#{GIT_TAG}'
+
     }
   end
 
@@ -85,24 +75,18 @@ module Pkg::Data
     puts "=> Packaging: [#{NODELET} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: NODELET,
-      description: %[Description: Core engine which provides scheduling,
-      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.
-      Works on top of a messaging layer NSQ (nsq.io) with interface to an opensource database
-      PostgreSQL],
+      description: %[Description: Rio/OS node agent which provides scheduling,
+      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.],
       category: CLOUD,
-
       dependencies: "libvirt-bin, libguestfs-tools, qemu-kvm",
 
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/beedi.git',
+      git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
-      tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=jGhxy47oEZpNyTHggpJB',
+      tag: '#{GIT_TAG}',
 
-      # The service name to start
-      systemd_service: "#{NODELET}.service",
-      upstart_service: NODELET.to_s
+      tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=Y_ERcx_p7sec1dksTesJ',
+
+      systemd_service: "#{NODELET}.service"
     }
   end
 
@@ -110,23 +94,16 @@ module Pkg::Data
     puts "=> Packaging: [#{STORLET} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: STORLET,
-      description: %[Description: Core engine which provides scheduling,
-      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.
-      Works on top of a messaging layer NSQ (nsq.io) with interface to an opensource database
-      PostgreSQL],
+      description: %[Description: Rio/OS storage agent which provides storage management,
+      provisioning, storage pool based on the supported providers.],
       category: CLOUD,
-
       dependencies: "",
 
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/beedi.git',
+      git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: '#{GIT_TAG}',
 
-      # The service name to start
-      systemd_service: "#{STORLET}.service",
-      upstart_service: STORLET.to_s
+      systemd_service: "#{STORLET}.service"
     }
   end
 
@@ -138,15 +115,12 @@ module Pkg::Data
       description: %[Description: API server for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/aran',
-      git_org: 'gitlab.com/rioos',
-      branch: '2.0',
 
-      # The service name to start
-      systemd_service: "#{ARAN}.service",
-      upstart_service: ARAN.to_s
+      git: 'git@gitlab.com:rioos/aran',
+      git_org: 'gitlab.com/rioos',
+      tag: '#{GIT_TAG}',
+
+      systemd_service: "#{ARAN}.service"
     }
   end
 
@@ -158,15 +132,12 @@ module Pkg::Data
       description: %[Description: Marketplace  for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/aran',
-      git_org: 'gitlab.com/rioos',
-      branch: '2.0',
 
-      # The service name to start
-      systemd_service: "#{MARKETPLACE}.service",
-      upstart_service: MARKETPLACE.to_s
+      git: 'git@gitlab.com:rioos/aran.git',
+      git_org: 'gitlab.com/rioos',
+      tag: '#{GIT_TAG}',
+
+      systemd_service: "#{MARKETPLACE}.service"
     }
   end
 
@@ -178,15 +149,12 @@ module Pkg::Data
       description: %[Description: API server for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/aran',
-      git_org: 'gitlab.com/rioos',
-      branch: '2.0',
 
-      # The service name to start
-      systemd_service: "#{BLOCKCHAIN}.service",
-      upstart_service: BLOCKCHAIN.to_s
+      git: 'git@gitlab.com:rioos/aran.git',
+      git_org: 'gitlab.com/rioos',
+      tag: '#{GIT_TAG}',
+
+      systemd_service: "#{BLOCKCHAIN}.service"
     }
   end
 
@@ -195,20 +163,15 @@ module Pkg::Data
     {
       package: PROMETHEUS,
       from: 'busybox:ubuntu-14.04',
-      description: 'Prometheus docker image for Rio/OS v2',
+      description: 'Metrics collector for #{BASIC[:product]}',
       category: CLOUD,
-
       dependencies: "",
 
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/beedi.git',
+      git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: '#{GIT_TAG}',
 
-      # The service name to start
-      systemd_service: "#{PROMETHEUS}.service",
-      upstart_service: PROMETHEUS.to_s
+      systemd_service: "#{PROMETHEUS}.service"
     }.freeze
   end
 
@@ -216,13 +179,12 @@ module Pkg::Data
     puts "=> Packaging: [#{NETWORK} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: NETWORK,
-      description: %[Description: Used to create network bridge using OpenvSwitch, it connect to #{BASIC[:product]}.],
+      description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
+      tag: '#{GIT_TAG}',
 
-      # The service name to start
-      systemd_service: "#{NETWORK}.service",
-      upstart_service: NETWORK.to_s
+      systemd_service: "#{NETWORK}.service"
     }
   end
 
@@ -230,16 +192,13 @@ module Pkg::Data
     puts "=> Packaging: [#{BOOTSTRAP} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: BOOTSTRAP,
-      description: %[Description: Core engine which provides scheduling,
-      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.
-      Works on top of a messaging layer NSQ (nsq.io) with interface to an opensource database],
+      description: %[Description: Agent boortstap which helps to setup networking inside
+      digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
+      tag: '#{GIT_TAG}',
 
-      # The service name to start
-      systemd_service: "#{BOOTSTRAP}.service",
+      systemd_service: "#{BOOTSTRAP}.service"
     }
   end
 
@@ -247,18 +206,13 @@ module Pkg::Data
     puts "=> Packaging: [#{GULPD} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: GULPD,
-      description: %[Description: Agent which provides instrumentation,
-      provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.
-      Works on top of a messaging layer NSQ (nsq.io) with interface to an opensource database
-      PostgreSQL],
+      description: %[Description: Agent which provides instrumentation for digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: COMMON.to_s,
 
-      # The git config differs for each of the project, hence we have them in the individual confs.
-      # git_org is needed as golang uses namespace during compiling
-      git: 'https://gitlab.com/rioos/beedi.git',
+      git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: '#{GIT_TAG}',
 
       # The service name to start
       systemd_service: "#{GULPD}.service",
@@ -274,12 +228,11 @@ module Pkg::Data
       package: VNC,
       from: 'node:8.7.0-alpine',
       description: %(Nodejs based VNC server for #{BASIC[:product]}),
-
-      category: 'cloud',
+      category: CLOUD
       # download the tar binary
       git: 'https://gitlab.com/rioos/vncserver.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: '#{GIT_TAG}',
 
       tar: 'https://nodejs.org/dist/v8.6.0/node-v8.6.0-linux-x64.tar.xz',
 
