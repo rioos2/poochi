@@ -5,7 +5,7 @@ module Pkg::Data
   include Pkg::Version
 
   CLOUD = 'cloud'.freeze
-  CURRENT_GIT_TAG   = Pkg::Config.git_tag
+  CCURRENT_GIT_TAG   = Pkg::Config.git_tag
 
   def self.COMMON
     puts "=> Packaging: [#{COMMON} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:cyan).bold
@@ -30,7 +30,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/nilavu',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{NILAVU}.service",
 
@@ -48,9 +48,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
-
-      tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=jGhxy47oEZpNyTHggpJB',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{CONTROLLER}.service"
     }
@@ -66,7 +64,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}'
+      tag: '#{CURRENT_GIT_TAG}'
 
     }
   end
@@ -82,7 +80,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=Y_ERcx_p7sec1dksTesJ',
 
@@ -101,7 +99,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{STORLET}.service"
     }
@@ -118,7 +116,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{ARAN}.service"
     }
@@ -135,7 +133,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{MARKETPLACE}.service"
     }
@@ -152,7 +150,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{BLOCKCHAIN}.service"
     }
@@ -169,7 +167,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{PROMETHEUS}.service"
     }.freeze
@@ -182,7 +180,7 @@ module Pkg::Data
       description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{NETWORK}.service"
     }
@@ -196,7 +194,7 @@ module Pkg::Data
       digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       systemd_service: "#{BOOTSTRAP}.service"
     }
@@ -212,7 +210,7 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
       # The service name to start
       systemd_service: "#{GULPD}.service",
@@ -226,15 +224,15 @@ module Pkg::Data
     puts "=> Packaging: [#{VNC} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: VNC,
-      from: 'node:8.7.0-alpine',
-      description: %(Nodejs based VNC server for #{BASIC[:product]}),
-      category: CLOUD
+      from: 'node:9.8.0-alpine',
+      description: %(Console for digital cloud for #{BASIC[:product]}),
+      category: CLOUD,
       # download the tar binary
-      git: 'https://gitlab.com/rioos/vncserver.git',
+      git: 'git@gitlab.com:rioos/vncserver.git',
       git_org: 'gitlab.com/rioos',
-      tag: '#{GIT_TAG}',
+      tag: '#{CURRENT_GIT_TAG}',
 
-      tar: 'https://nodejs.org/dist/v8.6.0/node-v8.6.0-linux-x64.tar.xz',
+      tar: 'https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-x64.tar.gz',
 
       # The service name to start
       systemd_service: "#{VNC}.service",
@@ -242,23 +240,22 @@ module Pkg::Data
     }
   end
 
+
   def self.FLUENTBIT
     puts "=> Packaging: [#{FLUENTBIT} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: FLUENTBIT,
-      version: '0.12.11',
+      version: '0.12.15',
       from: 'gcr.io/google-containers/debian-base-amd64:0.1',
-      description: 'Fluent Bit docker image for Rio/OS v2',
+      description: 'Logger shipper responsbile for shipping digitalcloud, container, apps logs for #{BASIC[:product]} v2',
 
-      category: 'cloud',
-      # download the tar binary
+      category: CLOUD,
+
       git: 'https://github.com/fluent/fluent-bit.git',
       git_org: 'gitlab.com/rioos',
-      branch: 'master',
+      tag: "#{CURRENT_GIT_TAG}",
 
-      # The service name to start
       systemd_service: "#{FLUENTBIT}.service",
-      upstart_service: FLUENTBIT.to_s
     }
   end
 
@@ -266,7 +263,7 @@ module Pkg::Data
     {
       version: '1.3.7',
       from: 'buildpack-deps:stretch-curl',
-      description: 'InfluxDb docker image for Rio/OS v2',
+      description: 'InfluxDb docker image for #{BASIC[:product]} v2',
       metadir: '/var/lib/influxdb/meta',
       datadir: '/var/lib/influxdb/data',
       engine: 'tsm1',
@@ -278,21 +275,21 @@ module Pkg::Data
     {
       version: '4.0.3',
       from: 'alpine:edge',
-      description: 'PowerDNS docker image for Rio/OS v2',
+      description: 'DNS for digitalcloud, container, blockchain for #{BASIC[:product]} v2',
     }
   end
 
   def self.VULCAND
     {
       from: 'webhippie/alpine:latest',
-      description: 'Vulcand docker image for Rio/OS v2',
+      description: 'Load balancer for #{BASIC[:product]} v2',
     }
   end
 
   def self.RETHINKDB
     {
       from: 'debian:jessie',
-      description: 'RethinkDB docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Database, RethinkDB for #{BASIC[:product]} v2',
       version: '2.3.6~0jessie',
     }
   end
@@ -300,7 +297,7 @@ module Pkg::Data
   def self.APACHE
     {
       from: 'debian:jessie',
-      description: 'Apache docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Apache webserver for #{BASIC[:product]} v2',
       version: '2.2.34',
     }
   end
@@ -308,7 +305,7 @@ module Pkg::Data
   def self.VOLTDB
     {
       from: 'ubuntu:14.04',
-      description: 'Voltdb docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Database, VoltDB for #{BASIC[:product]} v2',
       version: '7.8.2',
     }
   end
@@ -316,7 +313,7 @@ module Pkg::Data
   def self.NEO4J
     {
       from: 'openjdk:8-jre-alpine',
-      description: 'Neo4J docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Neo4J docker image for #{BASIC[:product]} v2',
       version: '3.3.1',
     }
   end
@@ -324,7 +321,7 @@ module Pkg::Data
   def self.MARIADB
     {
       from: 'debian:jessie',
-      description: 'MariaDB docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: MariaDB docker image for #{BASIC[:product]} v2',
       major: '10.3',
       version: '10.3.2',
     }
@@ -333,7 +330,7 @@ module Pkg::Data
   def self.AEROSPIKE
     {
       from: 'ubuntu:xenial',
-      description: 'Aerospike docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Aerospike docker image for #{BASIC[:product]} v2',
       sha256: 'beb45dd20205624e7d8e08456c57cb0b3c18c3a643ef8246f2c6dedf1a964631',
       version: '3.15.0.2',
     }
@@ -342,7 +339,7 @@ module Pkg::Data
   def self.COUCHDB
     {
       from: 'debian:jessie',
-      description: 'CouchDB docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: CouchDB docker image for #{BASIC[:product]} v2',
       version: '2.1.1',
     }
   end
@@ -353,14 +350,14 @@ module Pkg::Data
       major: '10',
       version: '10.1',
       sha256: '3ccb4e25fe7a7ea6308dea103cac202963e6b746697366d72ec2900449a5e713',
-      description: 'PostgreSQL docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: PostgreSQL docker image for #{BASIC[:product]} v2',
     }
   end
 
   def self.CASSANDRA
     {
       from: 'debian:jessie-backports',
-      description: 'Cassandra docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Cassandra docker image for #{BASIC[:product]} v2',
       version: '3.11.1',
     }
   end
@@ -368,7 +365,7 @@ module Pkg::Data
   def self.NGINX
     {
       from: 'debian:stretch-slim',
-      description: 'Nginx docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Nginx docker image for #{BASIC[:product]} v2',
       version: '1.13.7-1~stretch',
     }
   end
@@ -376,7 +373,7 @@ module Pkg::Data
   def self.ORIENTDB
     {
       from: 'openjdk:8-jdk',
-      description: 'orientdb docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Orientdb docker image for #{BASIC[:product]} v2',
       version: '2.0.18',
     }
   end
@@ -384,7 +381,7 @@ module Pkg::Data
   def self.REDIS
     {
       from: 'debian:jessie-slim',
-      description: 'redis docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: redis docker image for #{BASIC[:product]} v2',
       version: '3.2.11',
     }
   end
@@ -392,7 +389,7 @@ module Pkg::Data
   def self.MARIADB
     {
       from: 'debian:jessie',
-      description: 'MariaDB docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: MariaDB docker image for #{BASIC[:product]} v2',
       major: '10.3',
       version: '10.3.2',
     }
@@ -400,7 +397,7 @@ module Pkg::Data
   def self.MEMCACHED
     {
       from: 'alpine:3.6',
-      description: 'Memcached docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: Memcached docker image for #{BASIC[:product]} v2',
       version: '1.5.3',
     }
   end
@@ -409,7 +406,7 @@ module Pkg::Data
     {
       from: 'busybox:ubuntu-14.04',
       version: '1.1.3',
-      description: 'CockroachDB docker image for Rio/OS v2',
+      description: 'Rio.Marketplace: CockroachDB docker image for #{BASIC[:product]} v2',
     }
   end
 end
