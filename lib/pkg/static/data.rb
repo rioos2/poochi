@@ -5,7 +5,7 @@ module Pkg::Data
   include Pkg::Version
 
   CLOUD = 'cloud'.freeze
-  CCURRENT_GIT_TAG   = Pkg::Config.git_tag
+  CURRENT_GIT_TAG   = Pkg::Config.git_tag
 
   def self.COMMON
     puts "=> Packaging: [#{COMMON} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:cyan).bold
