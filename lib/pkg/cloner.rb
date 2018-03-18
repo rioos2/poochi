@@ -32,7 +32,8 @@ module Pkg
       FileUtils.mkdir_p git_org_dir
       unless File.exist? git_org_pkg_dir
         Dir.chdir git_org_dir
-        system "git clone -b #{@package[:branch]} #{@package[:git]}"
+        system "git clone -b #{@package[:tag]} #{@package[:git]}"
+        system "git checkout tags/#{@package[:tag]}"
       end
       puts "   ✔ #{@package[:git]}".colorize(:blue)
       Dir.chdir cur_dir
