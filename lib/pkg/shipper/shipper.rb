@@ -13,20 +13,21 @@ module Pkg
     end
 
     def ship_paths
-      puts "=>    Ship: #{name} #{named_regex}".colorize(:green).bold
       pather = Pkg::Util::File.install_files_into_dir(@distro, named_regex, Pkg::Config.ship_root)
       puts "=> ✔  Ship: #{name} #{named_regex}".colorize(:green).bold
       pather
     end
 
     def ship
+      puts "=> Ship: [ship: aventura:]".colorize(:cyan).bold
+      puts "=> 4. Ship: #{name} #{named_regex}".colorize(:green).bold
       ship_debs = ship_paths
 
       unless ship_debs.empty?
         after_ship_paths_hook(ship_debs)
         after_ship
       else
-        puts "=> ✔  Ship: No #{name} found matching #{named_regex}".colorize(:magenta).bold
+        puts "   ✘ skip ship - no #{name} found matching #{named_regex}".colorize(:red)        
       end
     end
 

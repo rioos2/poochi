@@ -5,7 +5,7 @@ module Pkg::Params
                     packaging_repo
                     packaging_release
                     packaging_iteration
-                    git_release
+                    git_tag
                     gpg_key
                     ship_root
                     deb_html_root
