@@ -23,7 +23,7 @@ case $1 in
 
 	apiserver)
 		daemon_name="rioos-apiserver"
-		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
+		RUN_CMD="yes | $SOURCE_DIR/$daemon_name setup && $SOURCE_DIR/$daemon_name sync && $SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
 		start "$daemon_name" "$RUN_CMD"
 	break
 	;;
