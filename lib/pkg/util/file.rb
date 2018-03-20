@@ -105,7 +105,7 @@ module Pkg::Util::File
             FileUtils.mkpath(File.join(workdir, file), verbose: false)
           else
             dist = pkgcommon.distro_family_version_dir #aventura/2.0.0.rc1
-
+dist = "aventura/2.0.0.rc1"
             ship_path = File.join(dist,
                                   Pkg::Config.packaging_repo,
                                   Pathname.new(file).relative_path_from(Pathname.new(file).dirname.parent))

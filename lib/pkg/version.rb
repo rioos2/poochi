@@ -62,7 +62,7 @@ module Pkg
       loghome:        LOGHOME.to_s,
       runhome:        RUNHOME.to_s,
       vendor:         'Rio Advancement Inc'.freeze,
-      maintainer:     'Rio Advancement Inc <dev@rio.company>'.freeze,
+      maintainer:     "Rio Advancement Inc '<dev@rio.company>'".freeze,
       registry_url:   Pkg::Config.docker_registry,
       url:            'https://docs.rioos.xyz'.freeze
     }.freeze
