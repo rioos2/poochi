@@ -14,14 +14,10 @@ module Pkg
   require 'rake'
   require 'colorize'
 
-  require 'pkg/common'
-  require 'pkg/version'
-  require 'pkg/util'
-
+   require 'pkg/util'
   require 'pkg/cloner'
   require 'pkg/builder'
   require 'pkg/config'
-  require 'pkg/static/data'
 
   require 'pkg/scripter'
   require 'pkg/yaml_builder'
@@ -36,4 +32,6 @@ module Pkg
   Pkg::YamlBuilder.new.save
   Pkg::Config.load_defaults
   Pkg::Config.load_default_configs
+
+  require 'pkg/static/data'
 end
