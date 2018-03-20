@@ -1,7 +1,7 @@
 require 'pkg/config'
 
 module Pkg
-  module Version  
+  module Version
 
     ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds
     # BASIC: Configure the tool versions to use
@@ -66,7 +66,7 @@ module Pkg
       registry_url:   Pkg::Config.docker_registry,
       url:            'https://docs.rioos.xyz'.freeze,
       version: Pkg::Config::git_tag,
-      iteration: Pkg::Config::pp
+      iteration: Pkg::Config::packaging_iteration
     }
 
     # *OPTIONAL*

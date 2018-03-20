@@ -5,7 +5,7 @@ mkdir -p .<%= @basic[:home]+"/"+@package[:package] %>
 cp -r  ../../aventura/rioos-bootstrap.d/ .<%= @basic[:home]+"/"+@package[:package] %>
 cp ../../aventura/etc/init.d/rioosbootstrap.erb .<%= @basic[:home]+"/"+@package[:package] %>
 
-fpm -s dir -t deb  -f  --iteration <%= @package[:iteration] %> -v <%= @package[:tag] %> \
+fpm -s dir -t deb  -f  --iteration <%= @basic[:iteration] %> -v <%= @basic[:version] %> \
 -n <%= @package[:package] %> -d "" \
 --before-install ./preinst --after-install ./postinst  \
 --before-remove ./prerm  --after-remove ./postrm  \
