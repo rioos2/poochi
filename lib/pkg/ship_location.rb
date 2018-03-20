@@ -13,21 +13,32 @@ module Pkg
 
     def initialize(os, distro_family_version_dir)
       @os          = os
-      
+
       @ship_distro_family_version = distro_family_version_dir
 
-      @ship_home    = Pkg::Config.ship_root << '/' << distro_family_version_dir <<
-        '/' << Pkg::Config.packaging_repo
+      @ship_home    = Pkg::Config.ship_root << '/' << Pkg::Config.packaging_repo
 
-      ensure_distribution_dir(ship_home << '/' << CONF)
+      ensure_distribution_dir(ship_home + '/' +  CONF)
 
-      @ship_dist_file = ship_home << '/' << CONF << '/'  << "/" << DISTRIBUTION
+      @ship_dist_file = ship_home + '/'  + CONF + "/" + DISTRIBUTION
     end
 
     def dist
       return @ship_distro_family_version.split('/').first if @ship_distro_family_version.include?('/')
 
       @ship_distro_family_version
+    end
+
+    def version
+      Pkg::Config.git_tag
+    end
+
+    def release
+      Pkg::Config.packaging_repo
+    end
+
+    def gpg_key
+      Pkg::Config.gpg_key
     end
 
     private
