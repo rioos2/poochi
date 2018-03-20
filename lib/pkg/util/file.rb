@@ -10,8 +10,8 @@ module Pkg::Util::File
     end
 
     ## just a wrapper, with colored printing, equivalent to shell cp -R
-    def cp_r(source,dest)
-      FileUtils.cp_r source dest
+    def cp_r(source, dest)
+      FileUtils.cp_r(source,dest)
       puts "   ✔ cp -R #{source} #{dest}".colorize(:blue).bold
     end
 
@@ -104,17 +104,18 @@ module Pkg::Util::File
           if Pkg::Util::File.empty_dir?(file)
             FileUtils.mkpath(File.join(workdir, file), verbose: false)
           else
-            ship_path = File.join(distro_family_version_dir,
-                                  Pkg::Config.packaging_repo,
+            ship_path = File.join(Pkg::Config.packaging_repo,
                                   Pathname.new(file).relative_path_from(Pathname.new(file).dirname.parent))
 
             FileUtils.mkpath(File.dirname(File.join(workdir, ship_path)), verbose: false)
+
             FileUtils.cp(file, File.join(workdir, ship_path), verbose: false, preserve: true)
 
+            puts "   ✔ shipping #{File.join(workdir, ship_path)}".colorize(:blue)
+
             ## Keep accumulating the ShipLocation
-            ship_locations[distro_family_version_dir] =  ShipLocation::new(os, distro_family_version_dir) unless ship_locations.key?(distro_family_version_dir)
+            ship_locations[distro_family_version_dir] =  Pkg::ShipLocation::new(os, distro_family_version_dir) unless ship_locations.key?(distro_family_version_dir)
           end
-          puts "   ✔ shipping #{File.join(workdir, ship_path)}".colorize(:blue)
         end
       end
       ship_locations
