@@ -11,12 +11,12 @@ module Pkg
     CONF               = 'conf'
     DISTRIBUTION       = 'distribution'
 
-    def initialize(pkgcommon)
-      @os          = pkgcommon.os
+    def initialize(os, distro_family_version_dir)
+      @os          = os
       
-      @ship_distro_family_version = pkgcommon.distro_family_version_dir
+      @ship_distro_family_version = distro_family_version_dir
 
-      @ship_home    = Pkg::Config.ship_root << '/' << pkgcommon.distro_family_version_dir <<
+      @ship_home    = Pkg::Config.ship_root << '/' << distro_family_version_dir <<
         '/' << Pkg::Config.packaging_repo
 
       ensure_distribution_dir(ship_home << '/' << CONF)
