@@ -26,7 +26,6 @@ module Pkg::Data
   end
 
   def self.NILAVU
-    puts Pkg::Config.git_tag
     puts "=> Packaging: [#{NILAVU} #{BASIC[:version]}:#{BASIC[:iteration]}] ".colorize(:green).bold
 
     {
