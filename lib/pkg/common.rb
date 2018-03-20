@@ -8,7 +8,7 @@ module Pkg
 
     FAMILY_VERSIONS = { xenial:   { family: "ubuntu", version: "16.04" },
                         bionic:   { family: "ubuntu", version: "18.04" },
-                        aventura: { family: "ubuntu", version: "2.0" },
+                        aventura: { family: "rioos", version: "2.0" },
                         docker:   { family: "ubuntu", version: "2.016.04" },
                       }.freeze
 
@@ -27,7 +27,7 @@ module Pkg
     end
 
     def self.distro_family_version
-      FAMILY_VERSIONS[@os]
+      FAMILY_VERSIONS[@os.to_sym]
     end
 
     def self.distro_family_version_dir

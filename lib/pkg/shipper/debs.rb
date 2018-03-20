@@ -25,7 +25,7 @@ module Pkg
     end
 
     def named_regex
-      ["./**/**/" << @distro << "/*.deb"]
+      ["./**/" << @os << "/**/*.deb"]
     end
 
     private

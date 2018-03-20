@@ -6,6 +6,15 @@ module Pkg::Data
 
   CLOUD = 'cloud'.freeze
 
+  ## Unable to load version from  BASIC, hence this hack.
+  def self.init
+    BASIC[:version] = Pkg::Config.git_tag
+    BASIC[:iteration] = Pkg::Config.packaging_iteration
+  end
+
+  ## Call the init so we could get the version
+  self::init
+
   def self.COMMON
     puts "=> Packaging: [#{COMMON} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:cyan).bold
     {
@@ -29,7 +38,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/nilavu',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{NILAVU}.service",
 
@@ -47,7 +55,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{CONTROLLER}.service"
     }
@@ -62,9 +69,7 @@ module Pkg::Data
       dependencies: '',
 
       git: 'git@gitlab.com:rioos/aran.git',
-      git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}"
-
+      git_org: 'gitlab.com/rioos'
     }
   end
 
@@ -79,7 +84,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=Y_ERcx_p7sec1dksTesJ',
 
@@ -98,7 +102,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{STORLET}.service"
     }
@@ -115,7 +118,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{ARAN}.service"
     }
@@ -132,7 +134,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{MARKETPLACE}.service"
     }
@@ -149,7 +150,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{BLOCKCHAIN}.service"
     }
@@ -166,7 +166,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{PROMETHEUS}.service"
     }.freeze
@@ -179,7 +178,6 @@ module Pkg::Data
       description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{NETWORK}.service"
     }
@@ -193,8 +191,6 @@ module Pkg::Data
       digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
-      tag: "#{Pkg::Config.git_tag}",
-      iteration: "#{Pkg::Config.packaging_iteration}",
 
       systemd_service: "#{BOOTSTRAP}.service"
     }
@@ -210,7 +206,6 @@ module Pkg::Data
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       # The service name to start
       systemd_service: "#{GULPD}.service",
@@ -230,7 +225,6 @@ module Pkg::Data
       # download the tar binary
       git: 'git@gitlab.com:rioos/vncserver.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       tar: 'https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-x64.tar.gz',
 
@@ -253,7 +247,6 @@ module Pkg::Data
 
       git: 'https://github.com/fluent/fluent-bit.git',
       git_org: 'gitlab.com/rioos',
-      tag: "#{Pkg::Config.git_tag}",
 
       systemd_service: "#{FLUENTBIT}.service",
     }

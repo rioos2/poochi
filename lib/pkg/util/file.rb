@@ -85,7 +85,7 @@ module Pkg::Util::File
       outfile
     end
 
-    def install_files_into_dir(pkgcommon, file_patterns, workdir)
+    def install_files_into_dir(os, distro_family_version_dir, file_patterns, workdir)
       install = []
       ship_locations = {}
       Dir.chdir(Pkg::Config.project_root) do
@@ -104,9 +104,7 @@ module Pkg::Util::File
           if Pkg::Util::File.empty_dir?(file)
             FileUtils.mkpath(File.join(workdir, file), verbose: false)
           else
-            dist = pkgcommon.distro_family_version_dir #aventura/2.0.0.rc1
-dist = "aventura/2.0.0.rc1"
-            ship_path = File.join(dist,
+            ship_path = File.join(distro_family_version_dir,
                                   Pkg::Config.packaging_repo,
                                   Pathname.new(file).relative_path_from(Pathname.new(file).dirname.parent))
 
@@ -114,7 +112,7 @@ dist = "aventura/2.0.0.rc1"
             FileUtils.cp(file, File.join(workdir, ship_path), verbose: false, preserve: true)
 
             ## Keep accumulating the ShipLocation
-            ship_locations[dist] =  ShipLocation::new(pkgcommon) unless ship_locations.key?(dist)
+            ship_locations[distro_family_version_dir] =  ShipLocation::new(os, distro_family_version_dir) unless ship_locations.key?(distro_family_version_dir)
           end
           puts "   ✔ shipping #{File.join(workdir, ship_path)}".colorize(:blue)
         end

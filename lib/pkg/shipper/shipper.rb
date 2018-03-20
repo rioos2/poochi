@@ -6,14 +6,16 @@ require_relative 'debs'
 
 module Pkg
   class Shipper
-    attr_accessor :distro
+    attr_accessor :os
+    attr_accessor :distro_family
 
-    def initialize(distro)
-      @distro = distro
+    def initialize(os, distro_family)
+      @os = os
+      @distro_family = distro_family
     end
 
-    def ship_paths
-      pather = Pkg::Util::File.install_files_into_dir(@distro, named_regex, Pkg::Config.ship_root)
+    def ship_paths      
+      pather = Pkg::Util::File.install_files_into_dir(@os, @distro_family, named_regex, Pkg::Config.ship_root)
       puts "=> ✔  Ship: #{name} #{named_regex}".colorize(:green).bold
       pather
     end

@@ -21,7 +21,7 @@ namespace :ship do
   end
 
   task :aventura => [:initship] do
-    shipper = Pkg::DebsShipper.new(Pkg::Common.distro("aventura")).ship
+    shipper = Pkg::DebsShipper.new(Pkg::Common.distro("aventura"), Pkg::Common.distro_family_version_dir).ship
     Rake::Task["ship:notifyslack"].invoke("aventura")
   end
 end
