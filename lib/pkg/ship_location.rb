@@ -9,7 +9,7 @@ module Pkg
     attr_accessor :ship_distro_family_version
 
     CONF               = 'conf'
-    DISTRIBUTION       = 'distribution'
+    DISTRIBUTION       = 'distributions'
 
     def initialize(os, distro_family_version_dir)
       @os          = os
@@ -39,6 +39,10 @@ module Pkg
 
     def gpg_key
       Pkg::Config.gpg_key
+    end
+
+    def deb_html_rooted_version_dir
+          "" << dist << "/" << os << "/" << version << "/"  << release
     end
 
     private
