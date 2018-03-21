@@ -2,8 +2,8 @@ stages:
   - aventura_rio_bootstrap
 
 rio_bootstrap:
-  variables:
-    CI_DEBUG_TRACE: "true"
+#  variables:
+#    CI_DEBUG_TRACE: "true"
   stage: aventura_rio_bootstrap
   script:
     - cd /home/gitlab-runner/builds/aea32742/0/rioos/poochi/rio_bootstrap
