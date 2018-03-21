@@ -3,9 +3,10 @@ stages:
 
 rio_bootstrap:
   stage: aventura_rio_bootstrap
+    variables:
+    CI_DEBUG_TRACE: "true"
   script:
   - cd /home/gitlab-runner/builds/1540ffd4/0/rioos/poochi/rio_bootstrap
   - rake clean
   - rake aventura
-  CI_DEBUG_TRACE: "true"
   allow_failure: true
