@@ -2,7 +2,7 @@ stages:
 - aventura_rio_bootstrap
 
 rio_bootstrap:
-  stage: xenial_rioos_storlet
+  stage: aventura_rio_bootstrap
   script:
   - echo "$USER"
   - cd /home/gitlab-runner/builds/1540ffd4/0/rioos/poochi/rio_bootstrap
