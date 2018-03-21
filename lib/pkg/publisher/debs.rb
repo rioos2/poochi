@@ -59,8 +59,12 @@ module Pkg
       @current_ship_path.ship_home
     end
 
+    def deb_html_root_full
+      File.join(Pkg::Config.deb_html_root, @current_ship_path.deb_html_rooted_version_dir)
+    end
+
     def ship_home_suffix(suffix)
-      @current_ship_path.ship_home +  '/' +  suffix
+     @current_ship_path.ship_home +  '/' +  suffix
     end
 
     def deb_files
@@ -68,7 +72,7 @@ module Pkg
     end
 
     def reprepro(deb_file )
-      tmp = "  " <<  ' -Vb ' << Pkg::Config.packaging_repo  <<  ' includedeb ' << @current_ship_path.os << " "  << deb_file
+      tmp = "  " <<  '--ask-passphrase  -Vb ' << ship_home  <<  ' includedeb ' << @current_ship_path.os << " "  << deb_file
       REPREPRO + tmp
     end
 
@@ -82,8 +86,9 @@ module Pkg
       %w[db dists pool].each do |suffix|
         ship_home_suffixed = ship_home_suffix(suffix)
         unless !Pkg::Util::File::directory?(ship_home_suffixed)
-          Pkg::Util::File::cp_r(ship_home_suffixed, Pkg::Config.deb_html_root)
-          Pkg::Util::File::rm_rf(ship_home_suffixed)
+          Pkg::Util::File::mkdir_p(deb_html_root_full)
+          Pkg::Util::File::cp_r(ship_home_suffixed, deb_html_root_full)
+          Pkg::Util::File::rmdir(ship_home_suffixed)
         end
       end
     end
