@@ -6,8 +6,7 @@ rio_bootstrap:
     CI_DEBUG_TRACE: "true"
   stage: aventura_rio_bootstrap
   script:
-    - cd /home/gitlab-runner/builds/2549035e/0/rioos/poochi/rio_bootstrap
+    - cd /home/gitlab-runner/builds/aea32742/0/rioos/poochi/rio_bootstrap
     - rake clean
     - rake aventura
-    - cd .. && rake ship:aventura
   allow_failure: true
