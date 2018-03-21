@@ -1,12 +1,13 @@
 stages:
-- aventura_rio_bootstrap
+  - aventura_rio_bootstrap
 
 rio_bootstrap:
+  variables:
+    CI_DEBUG_TRACE: "true"
   stage: aventura_rio_bootstrap
   script:
-  - echo "$USER"
-  - cd /home/gitlab-runner/builds/1540ffd4/0/rioos/poochi/rio_bootstrap
-  - rake clean
-  - rake aventura
-  - cd .. && rake ship:aventura
+    - cd /home/gitlab-runner/builds/2549035e/0/rioos/poochi/rio_bootstrap
+    - rake clean
+    - rake aventura
+    - cd .. && rake ship:aventura
   allow_failure: true
