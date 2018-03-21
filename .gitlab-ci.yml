@@ -1,6 +1,7 @@
 stages:
   - aventura_rio_bootstrap
 
+
 rio_bootstrap:
   variables:
     CI_DEBUG_TRACE: "true"
