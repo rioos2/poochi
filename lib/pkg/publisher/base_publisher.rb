@@ -9,7 +9,7 @@ module Pkg
 
     def initialize(ship_paths)
       @ship_paths = ship_paths
-      @current_ship_path = @ship_paths.first.value
+      _, @current_ship_path = @ship_paths.first
     end
 
     def save
