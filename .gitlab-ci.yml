@@ -38,7 +38,6 @@ after_script:
   - date
 
 stages:
-  - prepare
   - build
   - buildimages
   - buildiso
@@ -47,7 +46,6 @@ stages:
   - shipriomarket
   - ship
   - post-cleanup
-
 
 rio_common:
   stage: build
@@ -70,11 +68,38 @@ rio_network:
   allow_failure: true
 
 rio_bootstrap:
-  stage: buildimages
-  dependencies:
-    - rio_common
+  stage: build
+  artifacts:
+    untracked: true
   script:
     - cd rio_bootstrap
     - rake clean
     - rake aventura
+  allow_failure: true
+
+rio_storlet:
+  stage: build
+  script:
+    - cd rio_storlet
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_nodelet:
+  stage: build
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_nodelet
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_ship:
+  stage: ship
+  dependencies:
+    - rio_nodelet
+  script:
+    - rake ship:clean
+    - rake ship:aventura
   allow_failure: true
