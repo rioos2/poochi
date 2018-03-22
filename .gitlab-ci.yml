@@ -4,10 +4,8 @@ stages:
 rioos_storlet:
   stage: xenial_rioos_storlet
   script:
-  - echo "$USER"
   - cd /home/gitlab-runner/builds/00c6e219/0/rioos/gitpackager/rioos_storlet
   - rake clean
   - rake xenial
   - sudo cp -R /home/gitlab-runner/builds/00c6e219/0/rioos/gitpackager/rioos_storlet/build/xenial/*.deb /home/rio/deb
   allow_failure: true
-
