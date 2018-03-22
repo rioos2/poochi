@@ -95,7 +95,6 @@ rio_nodelet:
     - rake aventura
   allow_failure: true
 
-
 rio_ship:
   stage: ship
   dependencies:
