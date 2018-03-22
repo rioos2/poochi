@@ -66,11 +66,12 @@ rio_bootstrap:
     - rake aventura
   when: always
   allow_failure: true
-  
- rio_ship:
+
+rio_ship:
   stage: ship
   script:
     - pwd
+    - cd $RIO_BUILD_HOME
     - rake ship:clean
     - rake ship:aventura
   allow_failure: true
