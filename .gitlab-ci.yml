@@ -49,7 +49,7 @@ stages:
   - ship
   - post-cleanup
 
-rio_common:
+build:
   stage: build
   script:
     - pwd
@@ -59,7 +59,7 @@ rio_common:
     when: always
   allow_failure: true
 
-rio_bootstrap:
+buildimages:
   stage: buildimages
   script:
     -  pwd
