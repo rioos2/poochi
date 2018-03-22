@@ -52,19 +52,19 @@ stages:
 build:
   stage: build
   script:
-    - pwd
+    pwd
     - cd rio_common
     - rake clean
     - rake aventura
-    when: always
+  when: always
   allow_failure: true
 
 buildimages:
   stage: buildimages
   script:
-    -  pwd
+    pwd
     - cd rio_bootstrap
     - rake clean
     - rake aventura
-    when: always
+  when: always
   allow_failure: true
