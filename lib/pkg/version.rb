@@ -73,7 +73,7 @@ module Pkg
     # STEP 3: Configure packages names to your choice
     COMMON      = BASIC[:product_prefix] + '_common'.freeze
     NILAVU      = BASIC[:product_prefix] + '_ui'.freeze
-    ARAN        = BASIC[:product_prefix] + '_api'.freeze
+    API         = BASIC[:product_prefix] + '_api'.freeze
     BLOCKCHAIN  = BASIC[:product_prefix] + '_blockchain'.freeze
     MARKETPLACE = BASIC[:product_prefix] + '_marketplace'.freeze
     ARANCLI     = BASIC[:product_prefix] + '_cli'.freeze
@@ -82,7 +82,7 @@ module Pkg
     STORLET     = BASIC[:product_prefix] + '_storlet'.freeze
     GULPD       = BASIC[:product_prefix] + '_gulp'.freeze
     VNC         = BASIC[:product_prefix] + '_vnc'.freeze
-    NETWORK     = BASIC[:product_prefix] + '_network'.freeze
+    VNETWORK    = BASIC[:product_prefix] + '_VNetwork'.freeze
     FLUENTBIT   = BASIC[:product_prefix] + '_fluentbit'.freeze
     PROMETHEUS  = BASIC[:product_prefix] + '_prometheus'.freeze
     BOOTSTRAP   = BASIC[:product_prefix] + '_bootstrap'.freeze

@@ -167,8 +167,45 @@ rio_powerdns:
 rio_powerdns:
   stage: buildimages
   script:
-  - cd /home/gitlab-runner/builds/00c6e219/0/rioos/gitpackager/rioos_storlet
-  - rake clean
-  - rake xenial
-  - sudo cp -R /home/gitlab-runner/builds/00c6e219/0/rioos/gitpackager/rioos_storlet/build/xenial/*.deb /home/rio/deb
+    - cd ${RIO_FLUENTBIT_PATH}
+    - rake clean
+  allow_failure: true
+
+rio_iso:
+  stage: buildiso
+  script:
+    - cd ${RIO_ISO_PATH}
+  allow_failure: true
+
+rio_riomarketplace:
+  stage: buildriomarket
+  script:
+    - cd ${RIO_MARKETPLACE_PATH}
+  allow_failure: true
+
+rio_ship:
+  stage: shipiso
+  script:
+    - cd ${RIO_BUILD_HOME}
+  allow_failure: true
+
+rio_ship:
+  stage: shipriomarket
+  script:
+    - cd ${RIO_BUILD_HOME}
+  allow_failure: true
+
+rio_ship:
+  stage: ship
+  script:
+    - cd ${RIO_BUILD_HOME}
+    - rake ship:clean
+    - rake ship:aventura
+  allow_failure: true
+
+rio_done:
+  stage: post-cleanup
+  script:
+    - cd ${RIO_BUILD_HOME}
+    - find . -type d -name "build" -exec rmdir {} \;
   allow_failure: true

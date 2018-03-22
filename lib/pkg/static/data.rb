@@ -107,10 +107,10 @@ module Pkg::Data
     }
   end
 
-  def self.ARAN
-    puts "=> Packaging: [#{ARAN} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
+  def self.API
+    puts "=> Packaging: [#{API} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
-      package: ARAN,
+      package: API,
       from: 'debian:stretch-slim',
       description: %[Description: API server for #{BASIC[:product]}.],
       category: CLOUD,
@@ -119,7 +119,7 @@ module Pkg::Data
       git: 'git@gitlab.com:rioos/aran',
       git_org: 'gitlab.com/rioos',
 
-      systemd_service: "#{ARAN}.service"
+      systemd_service: "#{API}.service"
     }
   end
 
@@ -128,7 +128,7 @@ module Pkg::Data
     {
       package: MARKETPLACE,
       from: 'debian:stretch-slim',
-      description: %[Description: Marketplace  for #{BASIC[:product]}.],
+      description: %[Description: Marketplace for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
 
@@ -144,7 +144,7 @@ module Pkg::Data
     {
       package: BLOCKCHAIN,
       from: 'debian:stretch-slim',
-      description: %[Description: API server for #{BASIC[:product]}.],
+      description: %[Description: Audits Blockchain server for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
 
@@ -171,15 +171,15 @@ module Pkg::Data
     }.freeze
   end
 
-  def self.NETWORK
-    puts "=> Packaging: [#{NETWORK} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
+  def self.VNETWORK
+    puts "=> Packaging: [#{VNETWORK} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
-      package: NETWORK,
+      package: VNETWORK,
       description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
 
-      systemd_service: "#{NETWORK}.service"
+      systemd_service: "#{VNETWORK}.service"
     }
   end
 
@@ -187,7 +187,7 @@ module Pkg::Data
     puts "=> Packaging: [#{BOOTSTRAP} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: BOOTSTRAP,
-      description: %[Description: Agent boortstap which helps to setup networking inside
+      description: %[Description: Agent bootstrap which helps to setup networking inside
       digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
