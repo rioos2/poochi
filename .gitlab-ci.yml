@@ -82,6 +82,7 @@ rio_storlet:
   artifacts:
     untracked: true
   script:
+    - export GOPATH=rio_storlet/build/aventura/rioos_storlet
     - cd rio_storlet
     - rake clean
     - rake aventura
@@ -92,6 +93,7 @@ rio_nodelet:
   artifacts:
     untracked: true
   script:
+    - export GOPATH=rio_nodelet/build/aventura/rioos_nodelet
     - cd rio_nodelet
     - rake clean
     - rake aventura
