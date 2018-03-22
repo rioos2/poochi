@@ -57,21 +57,3 @@ rio_common:
     - rake aventura
   when: always
   allow_failure: true
-
-rio_bootstrap:
-  stage: build
-  script:
-    - cd rio_bootstrap
-    - rake clean
-    - rake aventura
-  when: always
-  allow_failure: true
-
-rio_ship:
-  stage: ship
-  script:
-    - pwd
-    - cd $RIO_BUILD_HOME
-    - rake ship:clean
-    - rake ship:aventura
-  allow_failure: true
