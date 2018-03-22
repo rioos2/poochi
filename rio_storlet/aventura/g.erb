@@ -4,8 +4,6 @@ mkdir -p .<%= @basic[:home]+"/"+@package[:package]+"/bin" %>
 
 cd <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi" %>
 
-pwd
-
 # sometimes  the dependencies aren't getting pulled. Adding a master solved the problem.
 git remote add master https://gitlab.com/rajesh_rajagopal/beedi.git
 #make test

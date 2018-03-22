@@ -17,7 +17,7 @@ module Pkg
     end
 
     def after_ship
-      puts "   ✔  Ship: configuration".colorize(:green).bold  
+      puts "   ✔  Ship: configuration".colorize(:green).bold
     end
 
     def name
@@ -25,7 +25,7 @@ module Pkg
     end
 
     def named_regex
-      ["./**/**/" << @distro << "/**/*.deb"]
+      ["**/**/" << @os << "/*.deb"]
     end
 
     private

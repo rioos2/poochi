@@ -1,9 +1,9 @@
-Origin: <%= $distro %>"rioos/ubuntu"
-Label: <%= $distro %> "rioos/ubuntu"
-Suite: <%=$release %> "testing"
-Codename: <%=$distroname %> "aventura/xenial"
-Version: <%=$version %> "2.0/16.04"
+Origin: <%= @current_ship_path.dist %>
+Label: <%= @current_ship_path.dist %>
+Suite: <%= @current_ship_path.release %>
+Codename: <%= @current_ship_path.os %>
+Version: <%= @current_ship_path.version %>
 Architectures: amd64
-Components: <%= $release %> "testing"
-Description: Rio/OS cloud operating system
-SignWith: <%=  %>
+Components: <%= @current_ship_path.release %>
+Description: Rio/OS: Worlds only private cloud operating system
+SignWith: <%= @current_ship_path.gpg_key %>

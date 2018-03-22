@@ -9,25 +9,40 @@ module Pkg
     attr_accessor :ship_distro_family_version
 
     CONF               = 'conf'
-    DISTRIBUTION       = 'distribution'
+    DISTRIBUTION       = 'distributions'
 
-    def initialize(pkgcommon)
-      @os          = pkgcommon.os
-      
-      @ship_distro_family_version = pkgcommon.distro_family_version_dir
+    def initialize(os, distro_family_version_dir)
+      @os          = os
 
-      @ship_home    = Pkg::Config.ship_root << '/' << pkgcommon.distro_family_version_dir <<
-        '/' << Pkg::Config.packaging_repo
+      @ship_distro_family_version = distro_family_version_dir
 
-      ensure_distribution_dir(ship_home << '/' << CONF)
+      @ship_home    = Pkg::Config.ship_root << '/' << Pkg::Config.packaging_repo
 
-      @ship_dist_file = ship_home << '/' << CONF << '/'  << "/" << DISTRIBUTION
+      ensure_distribution_dir(ship_home + '/' +  CONF)
+
+      @ship_dist_file = ship_home + '/'  + CONF + "/" + DISTRIBUTION
     end
 
     def dist
       return @ship_distro_family_version.split('/').first if @ship_distro_family_version.include?('/')
 
       @ship_distro_family_version
+    end
+
+    def version
+      Pkg::Config.git_tag
+    end
+
+    def release
+      Pkg::Config.packaging_repo
+    end
+
+    def gpg_key
+      Pkg::Config.gpg_key
+    end
+
+    def deb_html_rooted_version_dir
+          "" << dist << "/" << os << "/" << version << "/"  << release
     end
 
     private
