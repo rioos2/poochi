@@ -104,6 +104,6 @@ rio_ship:
     - rio_storlet
     - rio_nodelet
   script:
-    - rake ship:clean
-    - rake ship:aventura
+    - sudo rake ship:clean
+    - sudo rake ship:aventura
   allow_failure: true
