@@ -2,6 +2,7 @@ variables:
   NODE_ENV: "test"
   SIMPLECOV: "true"
   GIT_DEPTH: "20"
+  HOME: /home/buildrio
   RIO_BUILD_HOME: ${CI_PROJECT_DIR}
   RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
   RIO_NETWORK_PATH: ${RIO_BUILD_HOME}/rio_network
@@ -24,7 +25,8 @@ variables:
   RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
 before_script:
-  - export PATH="$PATH:/home/buildrio/software/go/bin:/home/buildrio/software/node/bin"
+  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin"
+  - echo $RIO_BUILD_HOME
   - bundle --version
   - rake --version
   - ruby --version
