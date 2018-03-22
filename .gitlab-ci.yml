@@ -69,7 +69,7 @@ buildimages:
   dependencies: 
     - build
   script:
-    - cd $RIO_BOOTSTRAP_PATH
+    - cd rio_bootstrap
     - rake clean
     - rake aventura
   allow_failure: true
