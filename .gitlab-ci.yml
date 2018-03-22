@@ -51,7 +51,7 @@ stages:
   - post-cleanup
 
 
-build:
+rio_common:
   stage: build
   artifacts:
     untracked: true
@@ -59,17 +59,25 @@ build:
     - cd rio_common
     - rake clean
     - rake aventura
-  cache:
-    key: rio_common
-    untracked: true
   allow_failure: true
 
-buildimages:
+rio_network:
+  stage: build
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_network
+    - rake clean
+    - rake aventura
+  allow_failure: true
+  
+rio_bootstrap:
   stage: buildimages
   dependencies: 
-    - build
+    - rio_common
   script:
     - cd rio_bootstrap
     - rake clean
     - rake aventura
   allow_failure: true
+
