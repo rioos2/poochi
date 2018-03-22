@@ -53,7 +53,7 @@ rio_common:
   stage: build
   script:
     - pwd
-    - cd $RIO_COMMON_PATH
+    - cd rio_common
     - rake clean
     - rake aventura
   allow_failure: true
@@ -62,7 +62,7 @@ rio_bootstrap:
   stage: build
   script:
     -  pwd
-    - cd $RIO_BOOTSTRAP_PATH
+    - cd rio_bootstrap
     - rake clean
     - rake aventura
   allow_failure: true
