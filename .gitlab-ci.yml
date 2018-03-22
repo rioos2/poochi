@@ -79,6 +79,8 @@ rio_bootstrap:
 
 rio_storlet:
   stage: build
+  artifacts:
+    untracked: true
   script:
     - cd rio_storlet
     - rake clean
