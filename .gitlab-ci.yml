@@ -58,33 +58,11 @@ rio_common:
     - rake aventura
   allow_failure: true
 
-rio_ship:
-  stage: shipiso
+rio_bootstrap:
+  stage: build
   script:
-    - pwd
-    - cd $RIO_BUILD_HOME    
-  allow_failure: true
-
-rio_ship:
-  stage: shipriomarket
-  script:
-    - pwd
-    - cd $RIO_BUILD_HOME   
-  allow_failure: true
-
-rio_ship:
-  stage: ship
-  script:
-    - pwd
-    - cd $RIO_BUILD_HOME
-    - rake ship:clean
-    - rake ship:aventura
-  allow_failure: true
-
-rio_done:
-  stage: post-cleanup
-  script:
-    - pwd
-    - cd $RIO_BUILD_HOME
-    - find . -type d -name "build" -exec rmdir {} \;
+    -  pwd
+    - cd $RIO_BOOTSTRAP_PATH
+    - rake clean
+    - rake aventura
   allow_failure: true
