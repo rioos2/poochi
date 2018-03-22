@@ -51,7 +51,7 @@ stages:
 rio_common:
   stage: build
   script:
-    - cd ${RIO_COMMON_PATH}
+    - cd $RIO_COMMON_PATH
     - rake clean
     - rake aventura
   allow_failure: true
@@ -59,7 +59,7 @@ rio_common:
 rio_bootstrap:
   stage: build
   script:
-    - cd ${RIO_BOOTSTRAP_PATH}
+    - cd $RIO_BOOTSTRAP_PATH
     - rake clean
     - rake aventura
   allow_failure: true
@@ -67,7 +67,7 @@ rio_bootstrap:
 rio_network:
   stage: build
   script:
-    - cd ${RIO_NETWORK_PATH}
+    - cd $RIO_NETWORK_PATH
     - rake clean
     - rake aventura
   allow_failure: true
@@ -75,7 +75,7 @@ rio_network:
 rio_nodelet:
   stage: build
   script:
-    - cd ${RIO_NODELET_PATH}
+    - cd $RIO_NODELET_PATH
     - rake clean
     - rake aventura
   allow_failure: true
@@ -83,7 +83,7 @@ rio_nodelet:
 rio_storelet:
   stage: build
   script:
-    - cd ${RIO_STORELET_PATH}
+    - cd $RIO_STORELET_PATH
     - rake clean
     - rake aventura
   allow_failure: true
@@ -91,7 +91,7 @@ rio_storelet:
 rio_controller:
   stage: buildimages
   script:
-    - cd ${RIO_CONTROLLER_PATH}
+    - cd $RIO_CONTROLLER_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -99,7 +99,7 @@ rio_controller:
 rio_scheduler:
   stage: buildimages
   script:
-    - cd ${RIO_SCHEDULER_PATH}
+    - cd $RIO_SCHEDULER_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -107,7 +107,7 @@ rio_scheduler:
 rio_prometheus:
   stage: buildimages
   script:
-    - cd ${RIO_PROMETHEUS_PATH}
+    - cd $RIO_PROMETHEUS_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -115,7 +115,7 @@ rio_prometheus:
 rio_vnc:
   stage: buildimages
   script:
-    - cd ${RIO_VNC_PATH}
+    - cd $RIO_VNC_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -123,7 +123,7 @@ rio_vnc:
 rio_nilavu:
   stage: buildimages
   script:
-    - cd ${RIO_NILAVU_PATH}
+    - cd $RIO_NILAVU_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -131,7 +131,7 @@ rio_nilavu:
 rio_rust_api:
   stage: buildimages
   script:
-    - cd ${RIO_RUST_API_PATH}
+    - cd $RIO_RUST_API_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -139,7 +139,7 @@ rio_rust_api:
 rio_rust_blockchain:
   stage: buildimages
   script:
-    - cd ${RIO_RUST_BLOCKCHAIN_PATH}
+    - cd $RIO_RUST_BLOCKCHAIN_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -147,7 +147,7 @@ rio_rust_blockchain:
 rio_rust_marketplace:
   stage: buildimages
   script:
-    - cd ${RIO_RUST_MARKETPLACE_PATH}
+    - cd $RIO_RUST_MARKETPLACE_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -155,7 +155,7 @@ rio_rust_marketplace:
 rio_rust_cli:
   stage: buildimages
   script:
-    - cd ${RIO_RUST_CLI_PATH}
+    - cd $RIO_RUST_CLI_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -163,7 +163,7 @@ rio_rust_cli:
 rio_powerdns:
   stage: buildimages
   script:
-    - cd ${RIO_POWERDNS_PATH}
+    - cd $RIO_POWERDNS_PATH
     - rake clean
     - rake docker
   allow_failure: true
@@ -171,38 +171,38 @@ rio_powerdns:
 rio_powerdns:
   stage: buildimages
   script:
-    - cd ${RIO_FLUENTBIT_PATH}
+    - cd $RIO_FLUENTBIT_PATH
     - rake clean    
   allow_failure: true
 
 rio_iso:
   stage: buildiso
   script:
-    - cd ${RIO_ISO_PATH}    
+    - cd $RIO_ISO_PATH   
   allow_failure: true
 
 rio_riomarketplace:
   stage: buildriomarket
   script:
-    - cd ${RIO_MARKETPLACE_PATH}    
+    - cd $RIO_MARKETPLACE_PATH   
   allow_failure: true
 
 rio_ship:
   stage: shipiso
   script:
-    - cd ${RIO_BUILD_HOME}    
+    - cd $RIO_BUILD_HOME    
   allow_failure: true
 
 rio_ship:
   stage: shipriomarket
   script:
-    - cd ${RIO_BUILD_HOME}    
+    - cd $RIO_BUILD_HOME   
   allow_failure: true
 
 rio_ship:
   stage: ship
   script:
-    - cd ${RIO_BUILD_HOME}
+    - cd $RIO_BUILD_HOME
     - rake ship:clean
     - rake ship:aventura
   allow_failure: true
@@ -210,6 +210,6 @@ rio_ship:
 rio_done:
   stage: post-cleanup
   script:
-    - cd ${RIO_BUILD_HOME}
+    - cd $RIO_BUILD_HOME
     - find . -type d -name "build" -exec rmdir {} \;
   allow_failure: true  
