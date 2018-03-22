@@ -1,8 +1,171 @@
-stages:
-- xenial_rioos_storlet
+variables:
+  NODE_ENV: "test"
+  SIMPLECOV: "true"
+  GIT_DEPTH: "20"
+  RIO_BUILD_HOME: ${CI_PROJECT_DIR}
+  RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
+  RIO_NETWORK_PATH: ${RIO_BUILD_HOME}/rio_network
+  RIO_NODELET_PATH: ${RIO_BUILD_HOME}/rio_nodelet
+  RIO_STORELET_PATH: ${RIO_BUILD_HOME}/rio_storlet
+  RIO_COMMOM_PATH: ${RIO_BUILD_HOME}/rio_common
+  RIO_CONTROLLER_PATH: ${RIO_BUILD_HOME}/rio_cotroller
+  RIO_SCHEDULER_PATH: ${RIO_BUILD_HOME}/rio_scheduler
+  RIO_GULPD_PATH: ${RIO_BUILD_HOME}/rio_gulpd
+  RIO_PROMETHEUS_PATH: ${RIO_BUILD_HOME}/rio_prometheus
+  RIO_VNC_PATH: ${RIO_BUILD_HOME}/rio_vnc
+  RIO_NILAVU_PATH: ${RIO_BUILD_HOME}/rio_nilavu
+  RIO_RUST_API_PATH: ${RIO_BUILD_HOME}/rio_api
+  RIO_RUST_BLOCKCHAIN_PATH: ${RIO_BUILD_HOME}/rio_blockchain
+  RIO_RUST_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/rio_marketplace
+  RIO_RUST_CLI_PATH: ${RIO_BUILD_HOME}/rio_cli
+  RIO_POWERDNS_PATH: ${RIO_BUILD_HOME}/rio_powerdns
+  RIO_FLUENTBIT_PATH: ${RIO_BUILD_HOME}/rio_fluentbit
+  RIO_ISO_PATH: ${RIO_BUILD_HOME}/rio_iso
+  RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
-rioos_storlet:
-  stage: xenial_rioos_storlet
+before_script:
+  - bundle --version
+  - rake --version
+  - ruby --version
+  - go version
+  - docker -v
+  - date
+
+after_script:
+  - date
+
+stages:
+  - build
+  - buildimages
+  - buildiso
+  - buildriomarket
+  - shipiso
+  - shipriomarket
+  - ship
+  - post-cleanup
+
+rio_common:
+  stage: build
+  script:
+    - cd ${RIO_COMMON_PATH}
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_bootstrap:
+  stage: build
+  script:
+    - cd ${RIO_BOOTSTRAP_PATH}
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_network:
+  stage: build
+  script:
+    - cd ${RIO_NETWORK_PATH}
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_nodelet:
+  stage: build
+  script:
+    - cd ${RIO_NODELET_PATH}
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_storelet:
+  stage: build
+  script:
+    - cd ${RIO_STORELET_PATH}
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
+rio_controller:
+  stage: buildimages
+  script:
+    - cd ${RIO_CONTROLLER_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_scheduler:
+  stage: buildimages
+  script:
+    - cd ${RIO_SCHEDULER_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_prometheus:
+  stage: buildimages
+  script:
+    - cd ${RIO_PROMETHEUS_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_vnc:
+  stage: buildimages
+  script:
+    - cd ${RIO_VNC_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_nilavu:
+  stage: buildimages
+  script:
+    - cd ${RIO_NILAVU_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_rust_api:
+  stage: buildimages
+  script:
+    - cd ${RIO_RUST_API_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_rust_blockchain:
+  stage: buildimages
+  script:
+    - cd ${RIO_RUST_BLOCKCHAIN_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_rust_marketplace:
+  stage: buildimages
+  script:
+    - cd ${RIO_RUST_MARKETPLACE_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_rust_cli:
+  stage: buildimages
+  script:
+    - cd ${RIO_RUST_CLI_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_powerdns:
+  stage: buildimages
+  script:
+    - cd ${RIO_POWERDNS_PATH}
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_powerdns:
+  stage: buildimages
   script:
   - cd /home/gitlab-runner/builds/00c6e219/0/rioos/gitpackager/rioos_storlet
   - rake clean
