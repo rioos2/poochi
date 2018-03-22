@@ -3,7 +3,7 @@ variables:
   SIMPLECOV: "true"
   GIT_DEPTH: "20"
   HOME: /home/buildrio
-  RIO_BUILD_HOME: $CI_PROJECT_DIR
+  RIO_BUILD_HOME: /home/gitlab-runner/$CI_PROJECT_DIR
   RIO_BOOTSTRAP_PATH: $RIO_BUILD_HOME/rio_bootstrap
   RIO_NETWORK_PATH: $RIO_BUILD_HOME/rio_network
   RIO_NODELET_PATH: $RIO_BUILD_HOME/rio_nodelet
@@ -82,7 +82,7 @@ rio_storlet:
   artifacts:
     untracked: true
   script:
-    - export GOPATH=rio_storlet/build/aventura/rioos_storlet
+    - export GOPATH=$RIO_STORELET_PATH/build/rio_storlet/build/aventura/rioos_storlet
     - cd rio_storlet
     - rake clean
     - rake aventura
@@ -93,7 +93,7 @@ rio_nodelet:
   artifacts:
     untracked: true
   script:
-    - export GOPATH=rio_nodelet/build/aventura/rioos_nodelet
+    - export GOPATH=$RIO_NODELET_PATH/build/rio_nodelet/build/aventura/rioos_nodelet
     - cd rio_nodelet
     - rake clean
     - rake aventura
