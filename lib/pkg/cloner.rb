@@ -26,7 +26,7 @@ module Pkg
 
     def clone
       cur_dir = Dir.pwd
-      puts "=> 2. Clone: git - #{@package[:git]}".colorize(:green).bold
+      puts "=> 2. Clone: git - #{@package[:git]} #{@version}".colorize(:green).bold
       unless @package[:git]
         puts '   ✘ skip git'.colorize(:red)
         return
