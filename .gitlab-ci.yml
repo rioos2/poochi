@@ -24,6 +24,32 @@ variables:
   RIO_ISO_PATH: $RIO_BUILD_HOME/rio_iso
   RIO_MARKETPLACE_PATH: $RIO_BUILD_HOME/marketplaces
 
+.knapsack-state: &knapsack-state
+  services: []
+  cache:
+    key: "knapsack"
+    paths:
+    - build/
+  artifacts:
+    expire_in: 31d
+    paths:
+    - build/
+
+.knapsack: &prepare_knapsack
+  <<: *knapsack-state
+  stage: prepare
+  before_script: []
+  script:
+    - JOB_NAME=( $CI_JOB_NAME )
+    - echo $JOB_NAME
+    - echo $JOB_NAME[0]
+    - export DISTRO_NAME=${JOB_NAME[0]}
+    - cd $DISTRO_NAME
+    - rake clean
+    - rake aventura
+  retry: 1
+
+
 before_script:
   - pwd
   - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin"
@@ -40,6 +66,7 @@ after_script:
   - date
 
 stages:
+  - prepare
   - build
   - buildimages
   - buildiso
@@ -49,24 +76,7 @@ stages:
   - ship
   - post-cleanup
 
-rio_common:
-  stage: build
-  script:
-    - cd rio_common
-    - rake clean
-    - rake aventura
-  cache:
-    key: rio_common
-    untracked: true
-  allow_failure: true
 
-rio_bootstrap:
-  stage: build
-  script:
-    - cd rio_bootstrap
-    - rake clean
-    - rake aventura
-  cache:
-    key: rio_bootstrap
-    untracked: true
-  allow_failure: true
+rio_common knapsack: *prepare_knapsack
+rio_bootstrap knapsack: *prepare_knapsack
+
