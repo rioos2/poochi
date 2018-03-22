@@ -24,6 +24,7 @@ variables:
   RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
 before_script:
+  export PATH="$PATH:/home/buildrio/software/go/bin:/home/buildrio/software/node/bin"
   - bundle --version
   - rake --version
   - ruby --version
