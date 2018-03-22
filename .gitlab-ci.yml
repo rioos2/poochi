@@ -3,7 +3,7 @@ variables:
   SIMPLECOV: "true"
   GIT_DEPTH: "20"
   HOME: /home/buildrio
-  RIO_BUILD_HOME: ${CI_PROJECT_DIR}
+  RIO_BUILD_HOME: /home/gitlab-runner/${CI_PROJECT_DIR}
   RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
   RIO_NETWORK_PATH: ${RIO_BUILD_HOME}/rio_network
   RIO_NODELET_PATH: ${RIO_BUILD_HOME}/rio_nodelet  
