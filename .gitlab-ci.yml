@@ -25,8 +25,9 @@ variables:
   RIO_MARKETPLACE_PATH: $RIO_BUILD_HOME/marketplaces
 
 cache:
- paths:
- - /**/build/aventura/*.deb
+  untracked: true
+  paths:
+    - build/aventura/*.deb
  
 before_script:
   - pwd
@@ -55,8 +56,6 @@ stages:
 
 rio_common:
   stage: build
-  artifacts:
-   untracked: true
   script:
     - cd rio_common
     - rake clean
@@ -65,8 +64,6 @@ rio_common:
 
 rio_bootstrap:
   stage: build
-  artifacts:
-   untracked: true
   script:
     - cd rio_bootstrap
     - rake clean
