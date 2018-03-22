@@ -52,7 +52,6 @@ stages:
 rio_common:
   stage: build
   script:
-    pwd
     - cd rio_common
     - rake clean
     - rake aventura
@@ -62,9 +61,16 @@ rio_common:
 rio_bootstrap:
   stage: build
   script:
-    pwd
     - cd rio_bootstrap
     - rake clean
     - rake aventura
   when: always
+  allow_failure: true
+  
+ rio_ship:
+  stage: ship
+  script:
+    - pwd
+    - rake ship:clean
+    - rake ship:aventura
   allow_failure: true
