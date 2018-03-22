@@ -1,0 +1,34 @@
+#!/bin/sh
+
+OURKEY=9B46B611
+PASSPHRASE=irumbu#4Oru
+PIDOF=`pidof gpg-agent`
+RETVAL=$?
+
+# Decide wether to start gpg-agent daemon.
+if [ "$RETVAL" -eq 1 ]; then
+       echo "Starting gpg-agent daemon."
+        eval `gpg-agent --allow-preset-passphrase --allow-mark-trusted --default-cache-ttl-ssh 4294967295 --default-cache-ttl 4294967295 --max$
+else
+       echo "Daemon gpg-agent already running."
+fi
+
+
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+  . "${HOME}/.gpg-agent-info"
+  export GPG_AGENT_INFO
+  export SSH_AUTH_SOCK
+  export SSH_AGENT_PID
+  # Create necessary symbolic link
+  cp -fs `echo $GPG_AGENT_INFO | cut -d':' -f 1` "${HOME}/.gnupg/"
+fi
+
+# Default trust our own key
+rm ~/.gnupg/trustlist.txt
+for FP in $(gpg2 --fingerprint --with-colons --fingerprint $OURKEY | grep ^fpr | cut -d':' -f 10); do
+  echo "$FP S" >> ~/.gnupg/trustlist.txt
+  echo $PASSPHRASE | /usr/lib/gnupg2/gpg-preset-passphrase --preset $FP
+done
+
+# Set GPG TTY
+export GPG_TTY=$(tty)

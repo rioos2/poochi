@@ -1,10 +1,9 @@
-require 'pkg/tools'
 require 'pkg/config'
 
 module Pkg
   module Version
-    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds
 
+    ### Please configure (STEPS BASIC, 1, 2, 3) to whitelable builds
     # BASIC: Configure the tool versions to use
     # golang: go version  | grep 1.10 > /dev/null
     # node: node version | grep 9.7 > /dev/null
@@ -15,6 +14,7 @@ module Pkg
       rustc:   {cmd: 'rustc -V | grep 1.24.1 > /dev/null', link: "Installing http://bit.ly/gitprustci"},
       docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Uninstalling http://bit.ly/gitpdocku, Installing: http://bit.ly/gitpdocki" }
     }.freeze
+
 
     # Publish: Configure the tool versions to use for publishing debs
     # reprepro: reprepro version  | grep 1.10 > /dev/null
@@ -62,16 +62,18 @@ module Pkg
       loghome:        LOGHOME.to_s,
       runhome:        RUNHOME.to_s,
       vendor:         'Rio Advancement Inc'.freeze,
-      maintainer:     'Rio Advancement Inc <dev@rio.company>'.freeze,
+      maintainer:     "Rio Advancement Inc '<dev@rio.company>'".freeze,
       registry_url:   Pkg::Config.docker_registry,
-      url:            'https://docs.rioos.xyz'.freeze
-    }.freeze
+      url:            'https://docs.rioos.xyz'.freeze,
+      version: Pkg::Config::git_tag,
+      iteration: Pkg::Config::packaging_iteration
+    }
 
     # *OPTIONAL*
     # STEP 3: Configure packages names to your choice
     COMMON      = BASIC[:product_prefix] + '_common'.freeze
     NILAVU      = BASIC[:product_prefix] + '_ui'.freeze
-    ARAN        = BASIC[:product_prefix] + '_api'.freeze
+    API         = BASIC[:product_prefix] + '_api'.freeze
     BLOCKCHAIN  = BASIC[:product_prefix] + '_blockchain'.freeze
     MARKETPLACE = BASIC[:product_prefix] + '_marketplace'.freeze
     ARANCLI     = BASIC[:product_prefix] + '_cli'.freeze
@@ -80,9 +82,11 @@ module Pkg
     STORLET     = BASIC[:product_prefix] + '_storlet'.freeze
     GULPD       = BASIC[:product_prefix] + '_gulp'.freeze
     VNC         = BASIC[:product_prefix] + '_vnc'.freeze
-    NETWORK     = BASIC[:product_prefix] + '_network'.freeze
+    VNETWORK    = BASIC[:product_prefix] + '_VNetwork'.freeze
     FLUENTBIT   = BASIC[:product_prefix] + '_fluentbit'.freeze
     PROMETHEUS  = BASIC[:product_prefix] + '_prometheus'.freeze
     BOOTSTRAP   = BASIC[:product_prefix] + '_bootstrap'.freeze
+
+
   end
 end
