@@ -29,7 +29,6 @@ before_script:
   - rake --version
   - ruby --version
   - go version
-  - rust -V
   - docker -v
   - date
 
