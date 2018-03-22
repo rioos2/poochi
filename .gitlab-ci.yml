@@ -55,5 +55,18 @@ rio_common:
     - cd rio_common
     - rake clean
     - rake aventura
-  when: always
+  cache:
+    paths:
+      - build/aventura/*.deb
+  allow_failure: true
+
+rio_bootstrap:
+  stage: build
+  script:
+    - cd rio_bootstrap
+    - rake clean
+    - rake aventura
+  cache:
+    paths:
+      - build/aventura/*.deb
   allow_failure: true
