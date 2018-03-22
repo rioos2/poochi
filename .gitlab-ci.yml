@@ -67,6 +67,6 @@ rio_bootstrap:
     - rake clean
     - rake aventura
   cache:
-    key: rio_common
+    key: rio_bootstrap
     untracked: true
   allow_failure: true
