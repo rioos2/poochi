@@ -36,7 +36,16 @@ module Pkg
       unless File.exist? git_org_pkg_dir
         Dir.chdir git_org_dir
         system "git clone -b #{@version} #{@package[:git]}"
+        puts "***** check remote version *****"
+        system "git remote -v"
+        system "ls"
+        puts "***** check remote version *****"
         system "git checkout tags/#{@version}"
+        puts "***** check find tag *****"
+        system "git remote -v"
+        system "ls"
+        puts "***** check find tag *****"
+
       end
       puts "   ✔ #{@package[:git]}".colorize(:blue)
       Dir.chdir cur_dir
