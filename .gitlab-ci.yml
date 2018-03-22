@@ -23,7 +23,6 @@ variables:
   RIO_ISO_PATH: ${RIO_BUILD_HOME}/rio_iso
   RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
-
 before_script:
   - bundle --version
   - rake --version
