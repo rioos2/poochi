@@ -59,7 +59,7 @@ rio_common:
   allow_failure: true
 
 rio_bootstrap:
-  stage: build
+  stage: buildimages
   script:
     -  pwd
     - cd rio_bootstrap
