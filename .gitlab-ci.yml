@@ -24,6 +24,10 @@ variables:
   RIO_ISO_PATH: $RIO_BUILD_HOME/rio_iso
   RIO_MARKETPLACE_PATH: $RIO_BUILD_HOME/marketplaces
 
+cache:
+ paths:
+ - /**/build/aventura/*.deb
+ 
 before_script:
   - pwd
   - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin"
@@ -51,22 +55,20 @@ stages:
 
 rio_common:
   stage: build
+  artifacts:
+   untracked: true
   script:
     - cd rio_common
     - rake clean
     - rake aventura
-  cache:
-    paths:
-      - build/aventura/*.deb
   allow_failure: true
 
 rio_bootstrap:
   stage: build
+  artifacts:
+   untracked: true
   script:
     - cd rio_bootstrap
     - rake clean
     - rake aventura
-  cache:
-    paths:
-      - build/aventura/*.deb
   allow_failure: true
