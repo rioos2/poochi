@@ -63,7 +63,7 @@ module Pkg
       runhome:        RUNHOME.to_s,
       vendor:         'Rio Advancement Inc'.freeze,
       maintainer:     "Rio Advancement Inc '<dev@rio.company>'".freeze,
-      registry_url:   Pkg::Config.docker_registry,
+      registry_url:   Pkg::Config::docker_registry,
       url:            'https://docs.rioos.xyz'.freeze,
       version: Pkg::Config::git_tag,
       iteration: Pkg::Config::packaging_iteration
@@ -78,6 +78,7 @@ module Pkg
     MARKETPLACE = BASIC[:product_prefix] + '_marketplace'.freeze
     ARANCLI     = BASIC[:product_prefix] + '_cli'.freeze
     CONTROLLER  = BASIC[:product_prefix] + '_controller'.freeze
+    SCHEDULER   = BASIC[:product_prefix] + '_scheduler'.freeze
     NODELET     = BASIC[:product_prefix] + '_nodelet'.freeze
     STORLET     = BASIC[:product_prefix] + '_storlet'.freeze
     GULPD       = BASIC[:product_prefix] + '_gulp'.freeze
@@ -86,7 +87,6 @@ module Pkg
     FLUENTBIT   = BASIC[:product_prefix] + '_fluentbit'.freeze
     PROMETHEUS  = BASIC[:product_prefix] + '_prometheus'.freeze
     BOOTSTRAP   = BASIC[:product_prefix] + '_bootstrap'.freeze
-
 
   end
 end

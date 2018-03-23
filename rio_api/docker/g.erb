@@ -10,6 +10,9 @@ sh support/linux/install_dev_9_linux.sh
 
 make FLAGS=--release buildapi
 
+cp tools/config/api.toml ../../../../../
+cp -r tools/config/template ../../../../../
+
 cd ../../../../..
 
 cp ../../../entrypoint.sh .

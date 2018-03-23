@@ -2,22 +2,15 @@ FROM <%= @package[:from] %>
 MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
 
-# controller run on port 10252
-EXPOSE 10252
+# scheduler run on port 10251
+EXPOSE 10251
 
-# environment variables used for controller
 ENV API_SERVER="https://localhost:7443"
 ENV WATCH_SERVER="https://localhost:8443"
-ENV DNS_ENDPOINT="http://localhost:8081"
-ENV DNS_PROVIDER="powerdns"
-ENV DNS_APIKEY="rioos_api_key"
-
-# default environment variables
-ENV SOURCE_DIR <%= @basic[:home]+"/controller/bin" %>
+ENV SOURCE_DIR <%= @basic[:home]+"/scheduler/bin/" %>
 ENV RIOCONF <%= @basic[:libhome] %>/config
-ENV CONF_FILE controller.rioconfig
+ENV CONF_FILE scheduler.rioconfig
 
-# volume creation
 RUN mkdir -p "$SOURCE_DIR"
 RUN mkdir -p "$RIOCONF"
 VOLUME "$RIOCONF"
@@ -27,6 +20,6 @@ COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi/_outputs" %> $SOU
 
 COPY entrypoint.sh $SOURCE_DIR
 RUN chmod 755 $SOURCE_DIR/entrypoint.sh
-ENTRYPOINT ["<%= @basic[:home]+"/controller/bin/entrypoint.sh" %>"]
+ENTRYPOINT ["<%= @basic[:home]+"/scheduler/bin/entrypoint.sh" %>"]
 
-CMD ["controller"]
+CMD ["scheduler"]

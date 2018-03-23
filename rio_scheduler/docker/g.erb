@@ -17,8 +17,8 @@ cd ../../../../..
 
 cp ../../../entrypoint.sh .
 
-sudo docker build -t rio-controller -f Dockerfile .
+sudo docker build -t rio-scheduler -f Dockerfile .
 
-sudo docker tag rio-controller <%= @basic[:registry_url]+"/riooscontroller:"+@basic[:version] %>
+sudo docker tag rio-scheduler <%= @basic[:registry_url]+"/rioosscheduler:"+@basic[:version] %>
 
-sudo docker push <%= @basic[:registry_url]+"/riooscontroller:"+@basic[:version] %>
+sudo docker push <%= @basic[:registry_url]+"/rioosscheduler:"+@basic[:version] %>

@@ -7,14 +7,14 @@ cd <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi" %>
 # sometimes  the dependencies aren't getting pulled. Adding a master solved the problem.
 git remote add master https://gitlab.com/rajesh_rajagopal/beedi.git
 # make test
-make controller
+make scheduler
 
 cat > VERSION << EOF
 git_version=`git rev-parse HEAD`
 git_branch=`git branch`
 EOF
 
-cp -rf ./_outputs/rioos-controller-manager ../../../../../<%= @basic[:home]+"/"+@package[:package]+"/bin" %>
+cp -rf ./_outputs/rioos-scheduler ../../../../../<%= @basic[:home]+"/"+@package[:package]+"/bin" %>
 cp VERSION ../../../../../<%= @basic[:home]+"/"+@package[:package] %>
 
 cd ../../../../../

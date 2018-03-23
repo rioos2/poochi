@@ -14,20 +14,55 @@ rule_files:
   # - "first.rules"
   # - "second.rules"
 
+# scrape metrics from this promethues server
+# port 9090 - metrics from prometheus server
+# port 8081 - metrics from opentstb
+# port 9104
 scrape_configs:
 - job_name: 'prometheus'
 
   static_configs:
-  - targets: ['localhost:9090']
+  - targets: ['localhost:9090', 'localhost:9104', 'localhost:8081']
 
-- job_name: 'rioos-assemblys'
+# scrape metrics from all containers of Rio/OS in a datacenter
+# port: 10254 - scrap metrics from all the containers deployed in Rio/OS
+- job_name: 'rioos_sh_containers'
+
+  rioos_sd_configs:
+  - role: 'node'
+
+    api_server: 'https://localhost:7443'
+
+    watch_server: 'https://localhost:8443'
+
+    metric_port: '10254'
+
+    tls_config:
+      ca_file: /var/lib/rioos/config/server-ca.cert.pem
+      cert_file: /var/lib/rioos/config/client-prometheus.cert.pem
+      key_file: /var/lib/rioos/config/client-prometheus.key
+
+    service-account-private-key-file: /var/lib/rioos/config/service-account.key
+
+# scrape metrics from all machines of Rio/OS in a datacenter
+# port: 10252 - scrap metrics from all the machines deployed in Rio/OS
+- job_name: 'rioos_sh_machines'
 
   rioos_sd_configs:
   - role: 'assembly'
 
-    api_server: 'http://api.rioos.svc.local:9636'
+    api_server: 'https://localhost:7443'
 
-    metric_port: '10250'
+    watch_server: 'https://localhost:8443'
+
+    metric_port: '10252'
+
+    tls_config:
+      ca_file: /var/lib/rioos/config/server-ca.cert.pem
+      cert_file: /var/lib/rioos/config/client-prometheus.cert.pem
+      key_file: /var/lib/rioos/config/client-prometheus.key
+
+    service-account-private-key-file: /var/lib/rioos/config/service-account.key
 
   relabel_configs:
   - source_labels: [__meta_rioos_assembly_id]
@@ -40,14 +75,26 @@ scrape_configs:
     action: replace
     target_label: rioos_os_name
 
-- job_name: 'rioos-nodes'
+
+# scrape metrics from all nodes of Rio/OS in a datacenter
+# port: 10250 - scrap metrics from the nodelet (node_exporter)
+- job_name: 'rioos_sh_nodes'
 
   rioos_sd_configs:
   - role: 'node'
 
-    api_server: 'http://api.rioos.svc.local:9636'
+    api_server: 'https://localhost:7443'
+
+    watch_server: 'https://localhost:8443'
 
     metric_port: '10250'
+
+    tls_config:
+      ca_file: /var/lib/rioos/config/server-ca.cert.pem
+      cert_file: /var/lib/rioos/config/client-prometheus.cert.pem
+      key_file: /var/lib/rioos/config/client-prometheus.key
+
+    service-account-private-key-file: /var/lib/rioos/config/service-account.key
 
   relabel_configs:
   - source_labels: [__meta_rioos_node_name]

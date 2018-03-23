@@ -9,6 +9,7 @@ module Pkg::Data
   ## Unable to load version from  BASIC, hence this hack.
   def self.init
     BASIC[:version] = Pkg::Config.git_tag
+    BASIC[:registry_url] = Pkg::Config.docker_registry
     BASIC[:iteration] = Pkg::Config.packaging_iteration
   end
 
@@ -27,7 +28,6 @@ module Pkg::Data
 
   def self.NILAVU
     puts "=> Packaging: [#{NILAVU} #{BASIC[:version]}:#{BASIC[:iteration]}] ".colorize(:green).bold
-
     {
       package: NILAVU,
       from: 'node:9.8.0-alpine',
@@ -57,6 +57,22 @@ module Pkg::Data
       git_org: 'gitlab.com/rioos',
 
       systemd_service: "#{CONTROLLER}.service"
+    }
+  end
+
+  def self.SCHEDULER
+    puts "=> Packaging: [#{SCHEDULER} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
+    {
+      package: SCHEDULER,
+      from: 'busybox:ubuntu-14.04',
+      description: %(Description: Scheduler used to schedule a job for #{BASIC[:product]}.),
+      category: CLOUD,
+      dependencies: '',
+
+      git: 'git@gitlab.com:rioos/beedi.git',
+      git_org: 'gitlab.com/rioos',
+
+      systemd_service: "#{SCHEDULER}.service"
     }
   end
 

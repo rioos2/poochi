@@ -11,7 +11,7 @@ RUN apt-get update -y && \
 # default environment variables
 ENV SOURCE_DIR <%= @basic[:home]+"/apiserver/bin/" %>
 ENV CONF_FILE api.toml
-ENV RIOCONF <%= @basic[:libhome] %>/config
+ENV RIOCONF <%= @basic[:libhome] %>/config/
 
 # volume creation
 RUN mkdir -p "$SOURCE_DIR"
@@ -20,6 +20,12 @@ VOLUME "$RIOCONF"
 
 WORKDIR "$SOURCE_DIR"
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-apiserver" %> $SOURCE_DIR
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/config/template" %> $RIOCONF
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/license" %> <%= @basic[:libhome] %>
+COPY api.toml $RIOCONF
+
+RUN yes | $SOURCE_DIR/rioos-apiserver setuIp
+RUN $SOURCE_DIR/rioos-apiserver sync
 
 COPY entrypoint.sh $SOURCE_DIR
 RUN chmod 755 $SOURCE_DIR/entrypoint.sh

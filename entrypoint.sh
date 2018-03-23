@@ -14,8 +14,10 @@ start() {
 case $1 in
 	controller)
 		daemon_name="rioos-controller-manager"
-		RUN_CMD="$SOURCE_DIR/$daemon_name --v=4 --api-server=$API_SERVER \
-			--dns-endpoint=$DNS_ENDPOINT --dns-apikey=$DNS_APIKEY \
+		RUN_CMD="$SOURCE_DIR/$daemon_name --v=4 --api-server=$API_SERVER --watch-server=$WATCH_SERVER \
+			--rioos-api-content-type=application/json --service-account-private-key-file=$RIOCONF/service-account.key \
+			--root-ca-file=$RIOCONF/server-ca.cert.pem --use-service-account-credentials --rioconfig=$RIOCONF/controller.rioconfig \
+			--concurrent-serviceaccount-token-syncs=2 --dns-endpoint=$DNS_ENDPOINT --dns-apikey=$DNS_APIKEY \
 			--dns-provider=$DNS_PROVIDER"
 		start $daemon_name $RUN_CMD
 	break
@@ -23,7 +25,7 @@ case $1 in
 
 	apiserver)
 		daemon_name="rioos-apiserver"
-		RUN_CMD="yes | $SOURCE_DIR/$daemon_name setup && $SOURCE_DIR/$daemon_name sync && $SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
 		start "$daemon_name" "$RUN_CMD"
 	break
 	;;
@@ -37,8 +39,9 @@ case $1 in
 
 	scheduler)
 		daemon_name="rioos-scheduler"
-		RUN_CMD="$SOURCE_DIR/$daemon_name --v=4 --leader-elect=false \
-		  --api-server=$API_SERVER"
+		RUN_CMD="$SOURCE_DIR/$daemon_name --v=4 --leader-elect=false --api-server=$API_SERVER \
+		  --watch-server=$WATCH_SERVER --service-account-private-key-file=$RIOCONF/service-account.key \
+			--use-service-account-credentials --rioconfig=$RIOCONF/scheduler.rioconfig"
 		start $daemon_name $RUN_CMD
 	break
 	;;
@@ -52,9 +55,9 @@ case $1 in
 	ui)
 	if [ -f "$RIOCONF/$CONF_FILE" ]
 	then
-		$SOURCE_DIR/$1 --config=$RIOCONF/$CONF_FILE
+		cd $SOURCE_DIR && yarn install && yarn start
 	else
-		$SOURCE_DIR/ember server --port 4200 --live-reload-port 49153
+		$SOURCE_DIR/yarn start --port 8000 --live-reload-port 49153
 	fi
 	break
 	;;
