@@ -24,7 +24,7 @@ COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/config/templ
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/license" %> <%= @basic[:libhome] %>
 COPY api.toml $RIOCONF
 
-RUN yes | $SOURCE_DIR/rioos-apiserver setuIp
+RUN yes | $SOURCE_DIR/rioos-apiserver setup
 RUN $SOURCE_DIR/rioos-apiserver sync
 
 COPY entrypoint.sh $SOURCE_DIR
