@@ -7,9 +7,9 @@ variables:
   RIO_BOOTSTRAP_PATH: $RIO_BUILD_HOME/rio_bootstrap
   RIO_NETWORK_PATH: $RIO_BUILD_HOME/rio_network
   RIO_NODELET_PATH: $RIO_BUILD_HOME/rio_nodelet
-  RIO_NODELET_GOPATH: $RIO_NODELET_PATH/build/rio_nodelet/build/aventura/rioos_nodelet
+  RIO_NODELET_GOPATH: $RIO_NODELET_PATH/build/aventura/rioos_nodelet
   RIO_STORELET_PATH: $RIO_BUILD_HOME/rio_storlet
-  RIO_STORELET_GOPATH: $RIO_STORELET_PATH/build/build/rio_storlet/build/aventura/rioos_storlet
+  RIO_STORELET_GOPATH: $RIO_STORELET_PATH/build/aventura/rioos_storlet
   RIO_COMMOM_PATH: $RIO_BUILD_HOME/rio_common
   RIO_CONTROLLER_PATH: $RIO_BUILD_HOME/rio_cotroller
   RIO_SCHEDULER_PATH: $RIO_BUILD_HOME/rio_scheduler
