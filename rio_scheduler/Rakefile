@@ -13,7 +13,7 @@ task :initnix do
 end
 
 task :nix => [:initnix] do
-  Pkg::Builder.new(Pkg::Common.distro_dir, Pkg::Common.distro_build_dir, Pkg::Data.API).exec
+  Pkg::Builder.new(Pkg::Common.distro_dir, Pkg::Common.distro_build_dir, Pkg::Data.SCHEDULER).exec
 end
 
 task :aventura do

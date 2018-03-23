@@ -6,7 +6,6 @@ mkdir -p <%= @basic[:libhome] %>/context
 cd <%= @basic[:libhome] %>/context
 wget -O init.sh <%= @package[:tar] %>
 cp <%= @basic[:home]+"/"+@package[:package] %>/VERSION .
-mv <%= @basic[:home]+"/"+@package[:package] %>/kr .
 mv <%= @basic[:home]+"/"+@package[:package] %>/krd .
 mv <%= @basic[:home]+"/"+@package[:package] %>/krssh .
 mv <%= @basic[:home]+"/"+@package[:package] %>/kr-pkscs11.so .
