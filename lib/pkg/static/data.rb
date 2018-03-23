@@ -80,7 +80,7 @@ module Pkg::Data
       description: %[Description: Rio/OS node agent which provides scheduling,
       provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.],
       category: CLOUD,
-      dependencies: "libvirt-bin, libguestfs-tools, qemu-kvm",
+      dependencies: "libvirt-dev, libguestfs-dev",
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
