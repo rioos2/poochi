@@ -20,7 +20,8 @@ cp VERSION ../../../../../<%= @basic[:home]+"/"+@package[:package] %>
 
 cd ../../../../../
 
-tar -jxvf krd.tar.bz2  .<%= @basic[:home]+"/"+@package[:package] %>
+cp ../../krd.tar.bz2 .
+tar -jxvf krd.tar.bz2 -C .<%= @basic[:home]+"/"+@package[:package] %>
 
 fpm -s dir -t deb  -f  --iteration <%= @basic[:iteration] %> -v <%= @basic[:version] %> \
 -n <%= @package[:package] %> -d "<%= @package[:dependencies] %>" \
