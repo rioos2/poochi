@@ -167,6 +167,16 @@ rio_marketplace:
     - rake docker
   allow_failure: true
 
+rio_nilavu:
+  stage: buildimages
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_nilavu
+    - rake clean
+    - rake docker
+  allow_failure: true
+
 rio_ship:
   stage: ship
   dependencies:
@@ -177,9 +187,11 @@ rio_ship:
     - rio_nodelet
     - rio_controller
     - rio_scheduler
+    - rio_prometheus
     - rio_api
     - rio_blockchain
     - rio_marketplace
+    - rio_nilavu
   script:
     - sudo rake ship:clean
     - sudo rake ship:aventura
