@@ -12,11 +12,12 @@ variables:
   RIO_STORELET_GOPATH: ${RIO_STORELET_PATH}/build/aventura/rioos_storlet
   RIO_COMMOM_PATH: ${RIO_BUILD_HOME}/rio_common
   RIO_CONTROLLER_PATH: ${RIO_BUILD_HOME}/rio_cotroller
-  RIO_CONTROLLER_GOPATH: ${RIO_STORELET_PATH}/build/aventura/rioos_controller
+  RIO_CONTROLLER_GOPATH: ${RIO_STORELET_PATH}/build/docker/rioos_controller
   RIO_SCHEDULER_PATH: ${RIO_BUILD_HOME}/rio_scheduler
-  RIO_SCHEDULER_GOPATH: ${RIO_STORELET_PATH}/build/aventura/rioos_scheduler
+  RIO_SCHEDULER_GOPATH: ${RIO_STORELET_PATH}/build/docker/rioos_scheduler
   RIO_GULPD_PATH: ${RIO_BUILD_HOME}/rio_gulpd
-  RIO_PROMETHEUS_PATH: ${RIO_BUILD_HOME}/rio_prometheus
+  RIO_PROMETHEUS_PATH: ${RIO_BUILD_HOME}/marketplaces/prometheus
+  RIO_PROMETHEUS_GOPATH: ${RIO_PROMETHEUS_PATH}/build/docker/rioos_prometheus
   RIO_VNC_PATH: ${RIO_BUILD_HOME}/rio_vnc
   RIO_NILAVU_PATH: ${RIO_BUILD_HOME}/rio_nilavu
   RIO_RUST_API_PATH: ${RIO_BUILD_HOME}/rio_api
@@ -121,6 +122,17 @@ rio_scheduler:
   script:
     - export GOPATH=$RIO_SCHEDULER_GOPATH
     - cd rio_scheduler
+    - rake clean
+    - rake docker
+  allow_failure: true
+
+rio_prometheus:
+  stage: buildimages
+  artifacts:
+    untracked: true
+  script:
+    - export GOPATH=$RIO_PROMETHEUS_GOPATH
+    - cd marketplaces/prometheus
     - rake clean
     - rake docker
   allow_failure: true
