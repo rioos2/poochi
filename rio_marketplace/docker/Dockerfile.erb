@@ -11,6 +11,7 @@ RUN apt-get update -y && \
 # default environment variables
 ENV SOURCE_DIR <%= @basic[:home]+"/marketplace/bin/" %>
 ENV CONF_FILE marketplace.toml
+ENV RIOOS_HOME <%= @basic[:libhome] %>
 ENV RIOCONF <%= @basic[:libhome] %>/config
 
 # volume creation

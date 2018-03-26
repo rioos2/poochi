@@ -3,7 +3,6 @@ variables:
   SIMPLECOV: "true"
   GIT_DEPTH: "20"
   HOME: /home/gitlab-runner
-  HOME_LINK: /home/buildrio
   RIOOS_HOME: /var/lib/rioos/
   RIO_BUILD_HOME: $HOME/$CI_PROJECT_DIR
   RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
@@ -33,8 +32,7 @@ variables:
 
 before_script:
   - export CARGO_HOME=$HOME
-  - echo $HOME
-  - export PATH="$PATH:$HOME_LINK/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin"
+  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin"
   - bundle --version
   - rake --version
   - ruby --version
@@ -138,8 +136,8 @@ rio_prometheus:
   script:
     - export GOPATH=${RIO_PROMETHEUS_GOPATH}
     - echo ${RIO_BUILD_HOME}
-    - echo ${RIO_PROMETHEUS_PATH}/
-    - echo ${RIO_PROMETHEUS_GOPATH}
+    - echo $RIO_PROMETHEUS_PATH
+    - echo $RIO_PROMETHEUS_GOPATH
     - cd marketplaces/prometheus
     - rake clean
     - rake docker
