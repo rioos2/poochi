@@ -2,7 +2,8 @@ variables:
   NODE_ENV: "test"
   SIMPLECOV: "true"
   GIT_DEPTH: "20"
-  HOME: /home/buildrio
+  HOME: /home/gitlab-runner
+  HOME_LINK: /home/buildrio
   RIO_BUILD_HOME: /home/gitlab-runner/$CI_PROJECT_DIR
   RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
   RIO_NETWORK_PATH: ${RIO_BUILD_HOME}/rio_network
@@ -32,7 +33,7 @@ variables:
 before_script:
   - export CARGO_HOME=$HOME
   - echo $HOME
-  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin"
+  - export PATH="$PATH:$HOME_LINK/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin"
   - bundle --version
   - rake --version
   - ruby --version
