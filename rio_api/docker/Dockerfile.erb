@@ -21,8 +21,9 @@ VOLUME "$RIOCONF"
 
 WORKDIR "$SOURCE_DIR"
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-apiserver" %> $SOURCE_DIR
-COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/config/template" %> $RIOCONF
-COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/license" %> $RIOOS_HOME
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/config/template" %> "$RIOCONF/template"
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/license" %> "$RIOOS_HOME"
+COPY api.toml $RIOCONF
 
 RUN yes | $SOURCE_DIR/rioos-apiserver setup
 RUN $SOURCE_DIR/rioos-apiserver sync
