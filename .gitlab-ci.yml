@@ -36,6 +36,7 @@ before_script:
   - ruby --version
   - go version
   - node -v
+  - rustc -V
   - sudo docker -v
   - date
 
@@ -131,7 +132,8 @@ rio_prometheus:
   artifacts:
     untracked: true
   script:
-    - export GOPATH=$RIO_PROMETHEUS_GOPATH
+    - export GOPATH=/home/gitlab-runner/builds/934cdd0e/0/rioos/poochi/marketplaces/prometheus/build/docker/rioos_prometheus
+    - echo $RIO_PROMETHEUS_GOPATH
     - cd marketplaces/prometheus
     - rake clean
     - rake docker

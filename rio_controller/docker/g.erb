@@ -6,7 +6,6 @@ cd <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi" %>
 git remote add master https://gitlab.com/rajesh_rajagopal/beedi.git
 # make test
 make controller
-make scheduler
 
 cat > VERSION << EOF
 git_version=`git rev-parse HEAD`
