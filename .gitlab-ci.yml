@@ -16,8 +16,8 @@ variables:
   RIO_SCHEDULER_PATH: ${RIO_BUILD_HOME}/rio_scheduler
   RIO_SCHEDULER_GOPATH: ${RIO_STORELET_PATH}/build/docker/rioos_scheduler
   RIO_GULPD_PATH: ${RIO_BUILD_HOME}/rio_gulpd
-  RIO_PROMETHEUS_PATH: ${RIO_BUILD_HOME}/marketplaces/prometheus
-  RIO_PROMETHEUS_GOPATH: ${RIO_PROMETHEUS_PATH}/build/docker/rioos_prometheus
+  RIO_PROMETHEUS_PATH: $RIO_BUILD_HOME/marketplaces/prometheus
+  RIO_PROMETHEUS_GOPATH: $RIO_PROMETHEUS_PATH/build/docker/rioos_prometheus
   RIO_VNC_PATH: ${RIO_BUILD_HOME}/rio_vnc
   RIO_NILAVU_PATH: ${RIO_BUILD_HOME}/rio_nilavu
   RIO_RUST_API_PATH: ${RIO_BUILD_HOME}/rio_api
@@ -30,7 +30,7 @@ variables:
   RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
 before_script:
-  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin"
+  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$HOME/.cargo/bin"
   - bundle --version
   - rake --version
   - ruby --version
@@ -132,7 +132,7 @@ rio_prometheus:
   artifacts:
     untracked: true
   script:
-    - export GOPATH=/home/gitlab-runner/builds/934cdd0e/0/rioos/poochi/marketplaces/prometheus/build/docker/rioos_prometheus
+    - export GOPATH=$RIO_PROMETHEUS_GOPATH
     - echo $RIO_PROMETHEUS_GOPATH
     - cd marketplaces/prometheus
     - rake clean
