@@ -4,7 +4,8 @@ variables:
   GIT_DEPTH: "20"
   HOME: /home/gitlab-runner
   HOME_LINK: /home/buildrio
-  RIO_BUILD_HOME: /home/gitlab-runner/$CI_PROJECT_DIR
+  RIOOS_HOME: /var/lib/rioos/
+  RIO_BUILD_HOME: $HOME/$CI_PROJECT_DIR
   RIO_BOOTSTRAP_PATH: ${RIO_BUILD_HOME}/rio_bootstrap
   RIO_NETWORK_PATH: ${RIO_BUILD_HOME}/rio_network
   RIO_NODELET_PATH: ${RIO_BUILD_HOME}/rio_nodelet
@@ -17,8 +18,8 @@ variables:
   RIO_SCHEDULER_PATH: ${RIO_BUILD_HOME}/rio_scheduler
   RIO_SCHEDULER_GOPATH: ${RIO_STORELET_PATH}/build/docker/rioos_scheduler
   RIO_GULPD_PATH: ${RIO_BUILD_HOME}/rio_gulpd
-  RIO_PROMETHEUS_PATH: $RIO_BUILD_HOME/marketplaces/prometheus
-  RIO_PROMETHEUS_GOPATH: $RIO_PROMETHEUS_PATH/build/docker/rioos_prometheus
+  RIO_PROMETHEUS_PATH: ${RIO_BUILD_HOME}/marketplaces/prometheus
+  RIO_PROMETHEUS_GOPATH: ${RIO_PROMETHEUS_PATH}/build/docker/rioos_prometheus
   RIO_VNC_PATH: ${RIO_BUILD_HOME}/rio_vnc
   RIO_NILAVU_PATH: ${RIO_BUILD_HOME}/rio_nilavu
   RIO_RUST_API_PATH: ${RIO_BUILD_HOME}/rio_api
@@ -135,8 +136,10 @@ rio_prometheus:
   artifacts:
     untracked: true
   script:
-    - export GOPATH=$RIO_PROMETHEUS_GOPATH
-    - echo $RIO_PROMETHEUS_GOPATH
+    - export GOPATH=${RIO_PROMETHEUS_GOPATH}
+    - echo ${RIO_BUILD_HOME}
+    - echo ${RIO_PROMETHEUS_PATH}/
+    - echo ${RIO_PROMETHEUS_GOPATH}
     - cd marketplaces/prometheus
     - rake clean
     - rake docker
@@ -147,6 +150,8 @@ rio_api:
   artifacts:
     untracked: true
   script:
+    - export RIOOS_HOME=${RIOOS_HOME}
+    - mkdir -p ${RIOOS_HOME}
     - cd rio_api
     - rake clean
     - rake docker
@@ -157,6 +162,8 @@ rio_blockchain:
   artifacts:
     untracked: true
   script:
+    - export RIOOS_HOME=${RIOOS_HOME}
+    - mkdir -p ${RIOOS_HOME}
     - cd rio_blockchain
     - rake clean
     - rake docker
@@ -167,6 +174,8 @@ rio_marketplace:
   artifacts:
     untracked: true
   script:
+    - export RIOOS_HOME=${RIOOS_HOME}
+    - mkdir -p ${RIOOS_HOME}
     - cd rio_marketplace
     - rake clean
     - rake docker
