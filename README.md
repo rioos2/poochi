@@ -102,7 +102,7 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 
 - Ubuntu 18.04
 - Ruby 2.5.x via [rvm]
-- Node.js  [9.8.x](https://nodejs.org/en/)
+- Node.js  [9.10.x](https://nodejs.org/en/)
 - Golang [1.10.x](https://golang.org/dl/)
 - Rustlang [1.24.x](https://rust-lang.org)
 
@@ -121,13 +121,13 @@ mkdir ~/software
 ```
 cd ~/downloads
 
-wget https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-arm64.tar.gz
+https://nodejs.org/dist/v9.10.0/node-v9.10.0-linux-arm64.tar.gz
 
-tar -xvf node-v9.8*
+tar -xvf node-v9.10*
 
-mv node-v9.8* ~/software
+mv node-v9.10* ~/software
 
-mv ~/software/node-v9.8* ~/software/node
+mv ~/software/node-v9.10* ~/software/node
 
 ```
 
@@ -171,7 +171,7 @@ sudo -s
 
 cd /usr/local/src && apt install gcc make -y
 
-wget https://www.openssl.org/source/openssl-1.1.0g.tar.gz && tar xzvf openssl-1.1.0g.tar.gz && cd openssl-1.1.0g
+wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz && tar xzvf openssl-1.1.0h.tar.gz && cd openssl-1.1.0h
 
 ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
 
@@ -179,7 +179,7 @@ make
 
 make install
 
-##CAUTION - Reboot the server
+##Reboot the server
 shutdown -r now
 
 ```
