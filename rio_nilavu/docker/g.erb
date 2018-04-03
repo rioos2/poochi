@@ -6,4 +6,6 @@ sudo docker build -t rio-ui -f Dockerfile .
 
 sudo docker tag rio-ui <%= @basic[:registry_url]+"/rioosui:"+@basic[:version] %>
 
+sudo docker login -u <%= @basic[:registry_username] %> -p  <%= @basic[:registry_password] %>  <%= @basic[:registry_url] %>
+
 sudo docker push <%= @basic[:registry_url]+"/rioosui:"+@basic[:version] %>

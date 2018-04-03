@@ -20,4 +20,6 @@ sudo docker build -t rio-scheduler -f Dockerfile .
 
 sudo docker tag rio-scheduler <%= @basic[:registry_url]+"/rioosscheduler:"+@basic[:version] %>
 
+sudo docker login -u <%= @basic[:registry_username] %> -p  <%= @basic[:registry_password] %>  <%= @basic[:registry_url] %>
+
 sudo docker push <%= @basic[:registry_url]+"/rioosscheduler:"+@basic[:version] %>
