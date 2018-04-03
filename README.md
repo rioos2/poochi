@@ -13,7 +13,7 @@ We are glad to see our approach followed in `gitlab` or `puppet`.
 
 [Puppet release mgmt](https://github.com/puppetlabs/packaging/blob/master/README.md)
 
-# Release Management 
+# Release Management
 
 Our main goal is to make it clear which version of Rio/OS is in the package.
 
@@ -72,15 +72,15 @@ The specific steps can be seen in `.gitlab-ci.yml` file in [poochi](https://gitl
 
 During the build, poochi will pull external libraries from their source locations and Rio/OS components like nilavu, beedi, aran.
 
-Once the build completes and the .deb, containers, aventura ISO are built. 
+Once the build completes and the .deb, containers, aventura ISO are built.
 
 ### Deb
 
-The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.xyz) served by nginx. 
+The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.xyz) served by nginx.
 
 ### Containers  of Rio/OS
 
-The containers are pushed to [regstry.rioos.xyz](registry.rioos.xyz).
+The containers are pushed to [registry.rioos.xyz](registry.rioos.xyz).
 
 ### Containers for Rio/OS Marketplace
 
@@ -318,7 +318,7 @@ build dependencies will need to be satisifed by the building host, and any dynam
 generated dependencies may result in packages that are only suitable for the
 OS/version of the build host.
 
-- To build a deb, go to the component you wish to build 
+- To build a deb, go to the component you wish to build
 
 ```
 
@@ -331,7 +331,7 @@ rake aventura
 - To build a docker container, go to the component you wish to build.
 
 ```
-cd rio_nilavu 
+cd rio_nilavu
 
 rake clean
 

@@ -10,6 +10,8 @@ module Pkg::Data
   def self.init
     BASIC[:version] = Pkg::Config.git_tag
     BASIC[:registry_url] = Pkg::Config.docker_registry
+    BASIC[:registry_username] = Pkg::Config.docker_registry_username
+    BASIC[:registry_password] = Pkg::Config.docker_registry_password
     BASIC[:iteration] = Pkg::Config.packaging_iteration
   end
 
