@@ -10,6 +10,8 @@ module Pkg::Params
                     ship_root
                     deb_html_root
                     docker_registry
+                    docker_registry_username
+                    docker_registry_password
                     enable_ship
                     slack_ship_url
                     slack_ship_bot].freeze
