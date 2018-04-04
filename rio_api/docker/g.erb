@@ -21,4 +21,6 @@ sudo docker build -t rio-apiserver -f Dockerfile .
 
 sudo docker tag rio-apiserver <%= @basic[:registry_url]+"/rioosapiserver:"+@basic[:version] %>
 
+sudo docker login -u <%= @basic[:registry_username] %> -p  <%= @basic[:registry_password] %>  <%= @basic[:registry_url] %>
+
 sudo docker push <%= @basic[:registry_url]+"/rioosapiserver:"+@basic[:version] %>
