@@ -85,6 +85,8 @@ module Pkg::Data
       description: %[Description: CLI  for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
+      # Rioos dolphin, bot users private github token
+      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',  
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos'
@@ -237,14 +239,14 @@ module Pkg::Data
     puts "=> Packaging: [#{VNC} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: VNC,
-      from: 'node:9.8.0-alpine',
+      from: 'node:9.10.1-alpine',
       description: %(Console for digital cloud for #{BASIC[:product]}),
       category: CLOUD,
       # download the tar binary
       git: 'git@gitlab.com:rioos/vncserver.git',
       git_org: 'gitlab.com/rioos',
 
-      tar: 'https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-x64.tar.gz',
+       tar: 'https://nodejs.org/dist/v9.10.1/node-v9.10.1-linux-arm64.tar.gz',
 
       # The service name to start
       systemd_service: "#{VNC}.service",
