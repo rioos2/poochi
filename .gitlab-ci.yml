@@ -40,6 +40,7 @@ before_script:
   - node -v
   - rustc -V
   - sudo docker -v
+  - sudo github-release -V
   - date
 
 after_script:
@@ -179,6 +180,29 @@ rio_marketplace:
     - rake docker
   allow_failure: true
 
+rio_cli:
+  stage: buildimages
+  artifacts:
+    untracked: true
+  script:
+    - export RIOOS_HOME=${RIOOS_HOME}
+    - mkdir -p ${RIOOS_HOME}
+    - cd rio_cli
+    - rake clean
+    - rake xenial
+  allow_failure: true
+
+
+rio_console:
+  stage: buildimages
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_vnc
+    - rake clean
+    - rake docker
+  allow_failure: true
+
 rio_nilavu:
   stage: buildimages
   artifacts:
@@ -203,6 +227,8 @@ rio_ship:
     - rio_api
     - rio_blockchain
     - rio_marketplace
+    - rio_cli
+    - rio_console
     - rio_nilavu
   script:
     - sudo rake ship:clean
