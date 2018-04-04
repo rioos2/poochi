@@ -39,8 +39,8 @@ before_script:
   - go version
   - node -v
   - rustc -V
-  - sudo docker -v
-  - sudo github-release -V
+  - docker -v
+  - github-release -V
   - date
 
 after_script:
