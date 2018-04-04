@@ -23,9 +23,6 @@ VOLUME "$RIOCONF"
 
 WORKDIR "$SOURCE_DIR"
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-marketplaces" %> $SOURCE_DIR
-RUN ls -la
-COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-market" %> $SOURCE_DIR
-
 
 COPY entrypoint.sh $SOURCE_DIR
 RUN chmod 755 $SOURCE_DIR/entrypoint.sh
