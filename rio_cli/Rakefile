@@ -17,7 +17,7 @@ task :nix => [:initnix] do
 end
 
 task :xenial   do
-  Pkg::Common.distro("trusty")
+  Pkg::Common.distro("xenial")
   Rake::Task[:nix].invoke
 end
 
