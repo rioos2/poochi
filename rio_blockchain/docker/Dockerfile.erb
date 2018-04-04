@@ -6,7 +6,7 @@ LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>
 EXPOSE 7000
 
 RUN apt-get update -y && \
-    apt-get install -y openssl libsodium-dev
+    apt install -y openssl libsodium-dev build-essential librocksdb-dev libsnappy-dev libssl-dev pkg-config
 
 # default environment variables
 ENV SOURCE_DIR <%= @basic[:home]+"/blockchain/bin/" %>
