@@ -16,20 +16,18 @@ ENV RIOCONF <%= @basic[:libhome] %>/config/
 
 # volume creation
 RUN mkdir -p "$SOURCE_DIR"
-
 VOLUME "$RIOCONF"
 
 WORKDIR "$SOURCE_DIR"
+
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/target/release/rioos-apiserver" %> $SOURCE_DIR
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/config/template" %> "$RIOCONF/template"
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/license" %> "$RIOOS_HOME"
+COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/aran/tools/start-rioosapi" %> "$SOURCE_DIR"
 COPY api.toml $RIOCONF
 
-RUN yes | $SOURCE_DIR/rioos-apiserver setup
-RUN $SOURCE_DIR/rioos-apiserver sync
 
 COPY entrypoint.sh $SOURCE_DIR
 RUN chmod 755 $SOURCE_DIR/entrypoint.sh
 ENTRYPOINT ["<%= @basic[:home]+"/apiserver/bin/entrypoint.sh" %>"]
-
-CMD  ["apiserver"]
+CMD "<%= @basic[:home]+"/apiserver/bin/start-rioosapi" %>" && /bin/bash

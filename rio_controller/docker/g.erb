@@ -20,4 +20,6 @@ sudo docker build -t rio-controller -f Dockerfile .
 
 sudo docker tag rio-controller <%= @basic[:registry_url]+"/riooscontroller:"+@basic[:version] %>
 
+sudo docker login -u <%= @basic[:registry_username] %> -p  <%= @basic[:registry_password] %>  <%= @basic[:registry_url] %>
+
 sudo docker push <%= @basic[:registry_url]+"/riooscontroller:"+@basic[:version] %>

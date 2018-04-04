@@ -10,7 +10,7 @@ module Pkg
             cmds.each do |k, v|    
                 unless is_there?(v[:cmd])
                     puts "   ✘ #{v[:cmd]} failed"
-                    puts "   » Refer instruction for \n #{v[:link]}"
+                    puts "   » #{v[:link]}"
                     exit
                 end
             end

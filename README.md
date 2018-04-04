@@ -13,7 +13,7 @@ We are glad to see our approach followed in `gitlab` or `puppet`.
 
 [Puppet release mgmt](https://github.com/puppetlabs/packaging/blob/master/README.md)
 
-# Release Management 
+# Release Management
 
 Our main goal is to make it clear which version of Rio/OS is in the package.
 
@@ -72,15 +72,15 @@ The specific steps can be seen in `.gitlab-ci.yml` file in [poochi](https://gitl
 
 During the build, poochi will pull external libraries from their source locations and Rio/OS components like nilavu, beedi, aran.
 
-Once the build completes and the .deb, containers, aventura ISO are built. 
+Once the build completes and the .deb, containers, aventura ISO are built.
 
 ### Deb
 
-The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.xyz) served by nginx. 
+The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.xyz) served by nginx.
 
 ### Containers  of Rio/OS
 
-The containers are pushed to [regstry.rioos.xyz](registry.rioos.xyz).
+The containers are pushed to [registry.rioos.xyz](registry.rioos.xyz).
 
 ### Containers for Rio/OS Marketplace
 
@@ -102,7 +102,7 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 
 - Ubuntu 18.04
 - Ruby 2.5.x via [rvm]
-- Node.js  [9.8.x](https://nodejs.org/en/)
+- Node.js  [9.10.x](https://nodejs.org/en/)
 - Golang [1.10.x](https://golang.org/dl/)
 - Rustlang [1.24.x](https://rust-lang.org)
 
@@ -121,13 +121,13 @@ mkdir ~/software
 ```
 cd ~/downloads
 
-wget https://nodejs.org/dist/v9.8.0/node-v9.8.0-linux-arm64.tar.gz
+https://nodejs.org/dist/v9.10.0/node-v9.10.0-linux-arm64.tar.gz
 
-tar -xvf node-v9.8*
+tar -xvf node-v9.10*
 
-mv node-v9.8* ~/software
+mv node-v9.10* ~/software
 
-mv ~/software/node-v9.8* ~/software/node
+mv ~/software/node-v9.10* ~/software/node
 
 ```
 
@@ -171,7 +171,7 @@ sudo -s
 
 cd /usr/local/src && apt install gcc make -y
 
-wget https://www.openssl.org/source/openssl-1.1.0g.tar.gz && tar xzvf openssl-1.1.0g.tar.gz && cd openssl-1.1.0g
+wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz && tar xzvf openssl-1.1.0h.tar.gz && cd openssl-1.1.0h
 
 ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
 
@@ -179,7 +179,7 @@ make
 
 make install
 
-##CAUTION - Reboot the server
+##Reboot the server
 shutdown -r now
 
 ```
@@ -318,7 +318,7 @@ build dependencies will need to be satisifed by the building host, and any dynam
 generated dependencies may result in packages that are only suitable for the
 OS/version of the build host.
 
-- To build a deb, go to the component you wish to build 
+- To build a deb, go to the component you wish to build
 
 ```
 
@@ -331,7 +331,7 @@ rake aventura
 - To build a docker container, go to the component you wish to build.
 
 ```
-cd rio_nilavu 
+cd rio_nilavu
 
 rake clean
 
