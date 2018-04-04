@@ -13,7 +13,7 @@ module Pkg
       yarn:    {cmd: 'yarn -v | grep 1.5 > /dev/null', link: "Refer http://bit.ly/gitpyarni to install"},
       rustc:   {cmd: 'rustc -V | grep 1.25 > /dev/null', link: "Refer http://bit.ly/gitprustci to install"},
       docker:  {cmd: 'docker -v | grep 18 > /dev/null', link: "Refer http://bit.ly/gitpdocki to install, uninstall http://bit.ly/gitpdocku, " },
-      github-release:  {cmd: 'github-release -V | grep 0.3.0 > /dev/null', link: "yarn global add github-release-cli --prefix /usr/local" }
+      githubrelease:  {cmd: 'github-release -V | grep 0.3.0 > /dev/null', link: "yarn global add github-release-cli --prefix /usr/local" }
     }.freeze
 
 

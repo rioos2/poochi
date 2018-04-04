@@ -32,15 +32,15 @@ variables:
 
 before_script:
   - export CARGO_HOME=$HOME
-  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin"
+  - export PATH="$PATH:$HOME/software/go/bin:$HOME/software/node/bin:$HOME/.go/bin:$CARGO_HOME/.cargo/bin:$HOME/.yarn/bin"
   - bundle --version
   - rake --version
   - ruby --version
   - go version
   - node -v
   - rustc -V
-  - sudo docker -v
-  - sudo github-release -V
+  - docker -v
+  - github-release -V
   - date
 
 after_script:
