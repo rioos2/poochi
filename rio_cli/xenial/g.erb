@@ -12,8 +12,7 @@ sh support/linux/install_dev_9_linux.sh
 . ~/.profile
 
 make FLAGS=--release buildbin
-
-CLI=linux_rioos_<%=Time.new.strftime("%Y%m%d%H%M%S")%>.tar.gz
+CLI=rioos_<%=Time.new.strftime("%Y%m%d%H%M%S")%>_Linux_amd64.tar.gz
 
 tar -czvf $CLI target/release/rioos
 

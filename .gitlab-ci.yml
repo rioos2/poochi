@@ -136,10 +136,7 @@ rio_prometheus:
     untracked: true
   script:
     - export GOPATH=${RIO_PROMETHEUS_GOPATH}
-    - echo ${RIO_BUILD_HOME}
-    - echo $RIO_PROMETHEUS_PATH
-    - echo $RIO_PROMETHEUS_GOPATH
-    - cd marketplaces/prometheus
+    - cd prometheus
     - rake clean
     - rake docker
   allow_failure: true

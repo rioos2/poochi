@@ -2,11 +2,6 @@ FROM <%= @package[:from] %>
 MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>"
 
-# alpine includes "postgres" user/group in base install
-#   /etc/passwd:22:postgres:x:70:70::/var/lib/postgresql:/bin/sh
-#   /etc/group:34:postgres:x:70:
-# the home directory for the postgres user, however, is not created by default
-# see https://github.com/docker-library/postgres/issues/274
 RUN set -ex; \
 	postgresHome="$(getent passwd postgres)"; \
 	postgresHome="$(echo "$postgresHome" | cut -d: -f6)"; \
@@ -144,7 +139,6 @@ RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PG
 VOLUME /var/lib/postgresql/data
 
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
 

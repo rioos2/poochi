@@ -2,6 +2,6 @@
 
 sudo docker build -t rio-rethinkdb -f Dockerfile .
 
-sudo docker tag rio-rethinkdb <%= @basic[:registry_url]+"/rioosrethinkdb:"+@package[:version] %>
+sudo docker tag rio-rethinkdb <%= @basic[:registry_url]+"/rioosrethinkdb:2.3.6" %>
 
-sudo docker push <%= @basic[:registry_url]+"/rioosrethinkdb:"+@package[:version] %>
+sudo docker push <%= @basic[:registry_url]+"/rioosrethinkdb:2.3.6" %>

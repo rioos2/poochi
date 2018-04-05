@@ -3,8 +3,7 @@ Description=preseed late_command script
 After=network.target
 
 [Service]
-StandardOutput=tty
-#ExecStartPre=/usr/bin/wget -q --no-check-certificate https://raw.githubusercontent.com/rajesh-rajagopal/myconfig/master/script/rioos.sh -O /var/lib/rioos.sh
+StandardOutput=syslog
 ExecStart=/bin/bash /usr/share/rioos/sh/tools/rioos.sh
 KillMode=process
 ExecStartPost=/bin/systemctl disable rioos.service

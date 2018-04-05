@@ -4,11 +4,10 @@
 
 Compute="rioos-fluentbit rioos-nodelet"
 Storage="rioos-storlet"
-repo_url="192.168.2.47"
-version="2.0"
-distro="ubuntu"
-distroversion="16.04"
-distroname="xenial"
+repo_url="registry.rioos.xyz"
+distro="rioos"
+distroversion="2.0.0-rc2"
+distroname="aventura"
 release="testing"
 
 # Get docker images from Private Registry
@@ -55,7 +54,7 @@ function rioos::util::test_docker_installed {
 }
 
 rioos::update::repo() {
-  sudo apt-add-repository "deb [arch=amd64] http://$repo_url/repo/$version/$distro/$distroversion/$release $distroname $release"
+  sudo apt-add-repository "deb [arch=amd64] https://$repo_url/repo/$distro/$distroname/$distroversion/$release $distroname $release"
   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9B46B611
   sudo apt-get -y update
   rioos::create::bootstrap_config
