@@ -19,10 +19,10 @@ tar -czvf $CLI target/release/rioos
 
 # upload linux_rioos file to the github
 github-release upload \
-  --owner rioosdolphins \
+  --owner rioadvancement \
   --repo rioos \
   --tag <%= @basic[:version] %> \
   --name <%= @basic[:version] %> \
   --token <%= @package[:github_private_token] %> \
-  --body "This release contains fixes and  improvements for Rio OS CLI v2, Refer https://bit.ly/rioos_sh_userguide %>" \
+  --body "This release contains fixes and  improvements for Rio OS CLI v2, Refer https://bit.ly/rioos_sh_userguide" \
   $CLI

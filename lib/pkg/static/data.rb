@@ -67,7 +67,7 @@ module Pkg::Data
     {
       package: SCHEDULER,
       from: 'busybox:ubuntu-14.04',
-      description: %(Description: Scheduler used to schedule a job for #{BASIC[:product]}.),
+      description: %(Scheduler used to schedule a job for #{BASIC[:product]}.),
       category: CLOUD,
       dependencies: '',
 
@@ -97,7 +97,7 @@ module Pkg::Data
     puts "=> Packaging: [#{NODELET} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: NODELET,
-      description: %[Description: Rio/OS node agent which provides scheduling,
+      description: %[Rio/OS node agent which provides scheduling,
       provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: "libvirt-dev, libguestfs-dev, librbd-dev",
@@ -195,7 +195,7 @@ module Pkg::Data
     puts "=> Packaging: [#{VNETWORK} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: VNETWORK,
-      description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
+      description: %[Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
 
@@ -207,7 +207,7 @@ module Pkg::Data
     puts "=> Packaging: [#{BOOTSTRAP} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: BOOTSTRAP,
-      description: %[Description: Agent bootstrap which helps to setup networking inside
+      description: %[Agent bootstrap which helps to setup networking inside
       digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
