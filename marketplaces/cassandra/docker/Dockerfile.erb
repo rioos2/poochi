@@ -1,11 +1,27 @@
-# vim:set ft=dockerfile:
 FROM <%= @package[:from] %>
 MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
-FROM debian:jessie-backports
 
 # explicitly set user/group IDs
 RUN groupadd -r cassandra --gid=999 && useradd -r -g cassandra --uid=999 cassandra
+
+RUN set -ex; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+# solves warning: "jemalloc shared library could not be preloaded to speed up memory allocations"
+		libjemalloc1 \
+# free is used by cassandra-env.sh
+		procps \
+# "ip" is not required by Cassandra itself, but is commonly used in scripting Cassandra's configuration (since it is so fixated on explicit IP addresses)
+		iproute2 \
+	; \
+	if ! command -v gpg > /dev/null; then \
+		apt-get install -y --no-install-recommends \
+			dirmngr \
+			gnupg \
+		; \
+	fi; \
+	rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
@@ -21,16 +37,6 @@ RUN set -x \
 	&& gosu nobody true \
 	&& apt-get purge -y --auto-remove ca-certificates wget
 
-# solves warning: "jemalloc shared library could not be preloaded to speed up memory allocations"
-RUN apt-get update && apt-get install -y --no-install-recommends libjemalloc1 && rm -rf /var/lib/apt/lists/*
-
-# https://github.com/docker-library/cassandra/pull/98#issuecomment-280761137
-RUN { \
-		echo 'Package: openjdk-* ca-certificates-java'; \
-		echo 'Pin: release n=*-backports'; \
-		echo 'Pin-Priority: 990'; \
-	} > /etc/apt/preferences.d/java-backports
-
 # https://wiki.apache.org/cassandra/DebianPackaging#Adding_Repository_Keys
 ENV GPG_KEYS \
 # gpg: key 0353B12C: public key "T Jake Luciani <jake@apache.org>" imported
@@ -43,12 +49,16 @@ RUN set -ex; \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	done; \
 	gpg --export $GPG_KEYS > /etc/apt/trusted.gpg.d/cassandra.gpg; \
-	rm -r "$GNUPGHOME"; \
+	rm -rf "$GNUPGHOME"; \
 	apt-key list
 
 ENV CASSANDRA_VERSION <%= @package[:version] %>
 
 RUN set -ex; \
+	\
+# https://bugs.debian.org/877677
+# update-alternatives: error: error creating symbolic link '/usr/share/man/man1/rmid.1.gz.dpkg-tmp': No such file or directory
+	mkdir -p /usr/share/man/man1/; \
 	\
 	dpkgArch="$(dpkg --print-architecture)"; \
 	case "$dpkgArch" in \
@@ -81,7 +91,7 @@ RUN set -ex; \
 			tempDir="$(mktemp -d)"; \
 			for pkg in cassandra cassandra-tools; do \
 				deb="${pkg}_${CASSANDRA_VERSION}_all.deb"; \
-				wget -O "$tempDir/$deb" "http://www.apache.org/dist/cassandra/debian/pool/main/c/cassandra/$deb"; \
+				wget -O "$tempDir/$deb" "https://www.apache.org/dist/cassandra/debian/pool/main/c/cassandra/$deb"; \
 			done; \
 			\
 # create a temporary local APT repo to install from (so that dependency resolution can be handled by APT, as it should be)
@@ -135,9 +145,9 @@ RUN set -ex; \
 # https://issues.apache.org/jira/browse/CASSANDRA-11661
 	sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' "$CASSANDRA_CONFIG/cassandra-env.sh"
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod 755 /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 RUN mkdir -p /var/lib/cassandra "$CASSANDRA_CONFIG" \
 	&& chown -R cassandra:cassandra /var/lib/cassandra "$CASSANDRA_CONFIG" \

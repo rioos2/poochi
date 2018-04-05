@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo docker build -t rio-aerospike:<%= @package[:version] %> -f Dockerfile .
+sudo docker build -t rio-aerospike -f Dockerfile .
 
 sudo docker tag rio-aerospike <%= @basic[:registry_url]+"/rioosaerospike:"+@package[:version] %>
 

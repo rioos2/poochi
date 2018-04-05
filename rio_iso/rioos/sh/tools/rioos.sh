@@ -72,10 +72,10 @@ function run_container {
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:8000:8005" "" ""
       ;;
       riooscontroller:2.0.0-rc2)
-        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:10252:10252" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
+        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "-e API_SERVER=https://apiserver.rioos.svc.local:7443 -e WATCH_SERVER=https://watchserver.rioos.svc.local:8443" "-p $HOST_IP:10252:10252" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
       rioosscheduler:2.0.0-rc2)
-        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:10251:10251" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
+        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "-e API_SERVER=https://apiserver.rioos.svc.local:7443 -e WATCH_SERVER=https://watchserver.rioos.svc.local:8443" "-p $HOST_IP:10251:10251" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
       rioosapiserver:2.0.0-rc2)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--net=host" "" "-p $HOST_IP:7443:7443" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
