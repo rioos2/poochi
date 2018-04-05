@@ -80,7 +80,7 @@ The deb packages are pushed to  a debian repository  [get.rioos.xyz](get.rioos.x
 
 ### Containers  of Rio/OS
 
-The containers are pushed to [registry.rioos.xyz](registry.rioos.xyz).
+The containers are pushed to [registry.rioos.xyz](https://registry.rioos.xyz).
 
 ### Containers for Rio/OS Marketplace
 
