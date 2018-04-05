@@ -15,7 +15,7 @@ USB_IMAGEDIR = $(BUILDDIR)/usb_image
 MOUNT_ISODIR = ./mnt
 MEGAM = $(BUILDDIR)/megam.iso
 RIOOS = $(BUILDDIR)/rioos.iso
-XENIAL_URL = "http://releases.ubuntu.com/16.04/ubuntu-16.04.3-server-amd64.iso"
+XENIAL_URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
 
 # By default, we just advertise what we can do.
 .PHONY: all
@@ -74,10 +74,12 @@ tree_iso:
 burn_usb:
 #Rio/OS logo configuration updates
 	sudo cp ./usb/preseed.seed $(USB_IMAGEDIR)/preseed
+	sudo cp ./usb/preseed1.seed $(USB_IMAGEDIR)/preseed
+	sudo cp ./usb/preseed2.seed $(USB_IMAGEDIR)/preseed
 
 	sudo cp ./usb/txt.cfg $(USB_IMAGEDIR)/isolinux
 	sudo cp ./usb/grub.cfg $(USB_IMAGEDIR)/boot/grub
-	sudo cp ./xenial/image/splash.png $(USB_IMAGEDIR)/isolinux/splash.png
+	sudo cp ./aventura/image/splash.png $(USB_IMAGEDIR)/isolinux/splash.png
 	sudo sed -i '/gfxboot bootlogo/d' $(USB_IMAGEDIR)/isolinux/isolinux.cfg
 
 # Copy Rio/OS service and shellscript into iso

@@ -86,7 +86,7 @@ module Pkg::Data
       category: CLOUD,
       dependencies: '',
       # Rioos dolphin, bot users private github token
-      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',  
+      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos'
