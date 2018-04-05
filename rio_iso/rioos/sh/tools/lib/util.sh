@@ -40,7 +40,7 @@ rioos::run:container() {
 function  rioos::common {
   sed -i "s/'Rio\/OS v2 GNU\/Linux'/Rio\/OS v2/g" /boot/grub/grub.cfg
   sed -i "s/'Advanced options for Rio\/OS v2 GNU\/Linux'/Advanced options for Rio\/OS v2/g" /boot/grub/grub.cfg
-  mkdir -p $RIOOS_HOME $RIOOS_HOME/controller $RIOOS_HOME/scheduler $RIOOS_HOME/pgdata $RIOOS_HOME/influxdb
+  mkdir -p $RIOOS_HOME/config/pullcache $RIOOS_HOME/pgdata $RIOOS_HOME/influxdb
   sudo apt-get update -y
   sudo apt-get install -y software-properties-common python-software-properties
 }

@@ -7,7 +7,7 @@ RIOOS_ROOT=$(dirname "${BASH_SOURCE}")/..
 LOG=/var/log/rioos_install.log
 VOLUME=${RIOOS_HOME:-"/var/lib/rioos"}
 REGISTRY_URL=registry.rioos.xyz:5000
-RIOOS_IMAGES=('rioospostgres:10.1' 'rioospowerdns:4.0.3' 'rioosprometheus:2.0' 'rioosui:2.0' 'rioosvnc:2.0' 'riooscontroller:2.0' 'rioosscheduler:2.0' 'rioosinfluxdb:1.3.7')
+RIOOS_IMAGES=('rioospostgres:10.1' 'rioospowerdns:4.0.3' 'rioosprometheus:2.0.0-rc2' 'rioosui:2.0.0-rc2' 'rioosvnc:2.0.0-rc2' 'riooscontroller:2.0.0-rc2' 'rioosscheduler:2.0.0-rc2' 'rioosapiserver:2.0.0-rc2' 'rioosblockchain:2.0.0-rc1' 'rioosinfluxdb:1.3.7')
 
 # Stop right away if the build fails
 set -e
@@ -121,16 +121,9 @@ done < $RIO_FILE
 
 rioos::log::info "Start Rio/OS Install" >> $LOG
 if [ "$rioos" == "master" ]; then
-  rioos::util::test_openssl_installed
-  rioos::util::ensure-cfssl
-
   modify_grub_conf
   rioos_common
   docker_install
-
-  rioos::log::info "Starting PKI now!" >> $LOG
-  set_service_accounts
-  start_pkica
 
   connect_registry
   pull_images

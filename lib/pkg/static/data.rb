@@ -86,7 +86,7 @@ module Pkg::Data
       category: CLOUD,
       dependencies: '',
       # Rioos dolphin, bot users private github token
-      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',  
+      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos'
@@ -100,7 +100,7 @@ module Pkg::Data
       description: %[Description: Rio/OS node agent which provides scheduling,
       provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.],
       category: CLOUD,
-      dependencies: "libvirt-dev, libguestfs-dev",
+      dependencies: "libvirt-dev, libguestfs-dev", "librbd-dev",
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',

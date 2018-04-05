@@ -21,8 +21,8 @@ tar -czvf $CLI target/release/rioos
 github-release upload \
   --owner rioosdolphins \
   --repo rioos \
-  --tag <%= @package[:cli_release_tag] %> \
-  --name <%= @package[:cli_release_name] %> \
-  --token <%= @package[:github_private_token] %>
-  --body "This release contains fixes and  improvements for Rio OS CLI v2, Refer https://bit.ly/rioos_sh_userguide %>"  
+  --tag <%= @basic[:version] %> \
+  --name <%= @basic[:version] %> \
+  --token <%= @package[:github_private_token] %> \
+  --body "This release contains fixes and  improvements for Rio OS CLI v2, Refer https://bit.ly/rioos_sh_userguide %>" \
   $CLI
