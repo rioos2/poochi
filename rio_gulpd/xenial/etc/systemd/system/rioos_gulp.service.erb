@@ -3,7 +3,7 @@ Description=<%= @package[:package] %> Agent
 After=network.target
 
 [Service]
-ExecStart=<%= @basic[:home] %>/<%= @package[:package] %>/bin/rioos-gulpd --api-server=http://localhost:9636 --leader-elect=false --rioos-api-content-type=application/json --rioconfig /var/lib/rioos/gulp/gulpd.conf
+ExecStart=<%= @basic[:home] %>/<%= @package[:package] %>/bin/rioos-gulpd --api-server=https://localhost:7443 --watch-server=https://localhost:8443 --leader-elect=false --rioos-api-content-type=application/json --rioconfig <%= @basic[:libhome] %>/gulp/gulpd.conf
 KillMode=process
 
 [Install]

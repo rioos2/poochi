@@ -3,7 +3,7 @@ Description=<%= @package[:package] %>
 After=network.target
 
 [Service]
-ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-controller-manager  --v=4 --api-server=http://localhost:9636
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-controller-manager  --v=4 --api-server=https://localhost:7443 --watch-server=https://localhost:8443  --rioos-api-content-type=application/json --service-account-private-key-file=<%= @basic[:libhome] %>/config/service-account.key --root-ca-file=<%= @basic[:libhome] %>/config/server-ca.cert.pem --use-service-account-credentials --rioconfig=<%= @basic[:libhome] %>/config/controller.rioconfig  --concurrent-serviceaccount-token-syncs=2 --dns-endpoint=http://localhost:8081 --dns-apikey=rioos_api_key  --dns-provider=powerdns
 KillMode=process
 
 [Install]

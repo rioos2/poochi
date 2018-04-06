@@ -138,7 +138,7 @@ rio_prometheus:
     untracked: true
   script:
     - export GOPATH=${RIO_PROMETHEUS_GOPATH}
-    - cd prometheus
+    - cd rio_prometheus
     - rake clean
     - rake docker
   allow_failure: true
@@ -211,6 +211,7 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
+<<<<<<< HEAD
 rio_iso:
   stage: buildiso
   artifacts:
@@ -221,6 +222,8 @@ rio_iso:
     - make aventura
     - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
   allow_failure: true
+=======
+>>>>>>> origin/2-0-stable
 
 rio_ship:
   stage: ship
