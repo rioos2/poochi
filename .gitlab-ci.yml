@@ -28,6 +28,7 @@ variables:
   RIO_POWERDNS_PATH: ${RIO_BUILD_HOME}/rio_powerdns
   RIO_FLUENTBIT_PATH: ${RIO_BUILD_HOME}/rio_fluentbit
   RIO_ISO_PATH: ${RIO_BUILD_HOME}/rio_iso
+  RIO_ISO_PARENT_DIR_ID: "13bmiH9Gi7fqbzDLaKT4B5lxleyd2HgMP"
   RIO_MARKETPLACE_PATH: ${RIO_BUILD_HOME}/marketplaces
 
 before_script:
@@ -41,6 +42,7 @@ before_script:
   - rustc -V
   - docker -v
   - github-release -V
+  - gdrive version
   - date
 
 after_script:
@@ -209,6 +211,17 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
+rio_iso:
+  stage: buildiso
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_iso
+    - make clean
+    - make aventura
+    - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
+  allow_failure: true
+
 rio_ship:
   stage: ship
   dependencies:
@@ -226,6 +239,7 @@ rio_ship:
     - rio_cli
     - rio_console
     - rio_nilavu
+    - rio_iso
   script:
     - sudo rake ship:clean
     - sudo rake ship:aventura

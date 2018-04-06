@@ -15,7 +15,7 @@ USB_IMAGEDIR = $(BUILDDIR)/usb_image
 MOUNT_ISODIR = ./mnt
 MEGAM = $(BUILDDIR)/megam.iso
 RIOOS = $(BUILDDIR)/rioos.iso
-XENIAL_URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
+SOURCE_URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
 
 # By default, we just advertise what we can do.
 .PHONY: all
@@ -29,7 +29,7 @@ list:
 	@echo
 	@echo "list"
 	@echo "clean"
-	@echo "xenial"
+	@echo "aventura"
 	@echo
 
 # Clean all targets.
@@ -40,29 +40,31 @@ clean:
 
 # all_build is provided automagically, but for manual invocation
 # we provide a generic build rule.
-.PHONY: xenial
-xenial: wget_xenial tree_iso burn_usb qemu_test
+.PHONY: aventura
+aventura: wget_aventura tree_iso burn_usb
+# qemu_test
 	if [ -e $(RIOOS) ]; then \
-		echo "--> Successfully created xenial_rioos 64bit distro"; \
+		echo "--> Successfully created rioos_aventura 64bit distro"; \
 	else \
-		echo "Failure : Can't create xenial_rioos distro." ;  exit 2; \
+		echo "Failure : Can't create rioos_aventura distro." ;  exit 2; \
 	fi
 
 # all_build is provided automagically, but for manual invocation
 # we provide a generic build rule.
-.PHONY: wget_xenial
-wget_xenial:
+.PHONY: wget_aventura
+wget_aventura:
 	if [  -e $(MEGAM) ]; then \
 		echo "Found xenial 64 bit distro"; \
 	else \
 		mkdir -p $(BUILDDIR); \
 		echo "Downloading xenial 64 bit"; \
-		wget $(XENIAL_URL) -O $(MEGAM); \
+		wget $(SOURCE_URL) -O $(MEGAM); \
 	fi
 
 .PHONY:  tree_iso
 tree_iso:
 	if [ -e $(MEGAM) ]; then \
+		mkdir $(MOUNT_ISODIR); \
 		sudo mount -o loop $(MEGAM) $(MOUNT_ISODIR); \
 	else \
 	  echo "Xenial ISO not found.";  exit 1; \
@@ -100,13 +102,13 @@ burn_usb:
 		-eltorito-alt-boot \
 		--efi-boot boot/grub/efi.img -no-emul-boot \
 		-o $(RIOOS) $(USB_IMAGEDIR); \
-	./geniso_hybrid_plus_firmware_partition $(RIOOS); \
-	while [ -z "$$CONTINUE" ]; do \
-    read -r -p "--> Burn the iso in usb[/dev/sda]. Have you plugged it in ?   [y/N] " CONTINUE; \
-	done ; \
-	if [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ]; then \
-	  sudo dd if=$(RIOOS) of=/dev/sda; \
-	fi;
+	./geniso_hybrid_plus_firmware_partition $(RIOOS); 
+	# while [ -z "$$CONTINUE" ]; do \
+  #   read -r -p "--> Burn the iso in usb[/dev/sda]. Have you plugged it in ?   [y/N] " CONTINUE; \
+	# done ; \
+	# if [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ]; then \
+	#   sudo dd if=$(RIOOS) of=/dev/sda; \
+	# fi;
 
 .PHONY:  qemu_test
 qemu_test:
