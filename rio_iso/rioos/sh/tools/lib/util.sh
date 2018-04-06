@@ -40,6 +40,7 @@ function  rioos::common {
   sed -i "s/'Rio\/OS v2 GNU\/Linux'/Rio\/OS v2/g" /boot/grub/grub.cfg
   sed -i "s/'Advanced options for Rio\/OS v2 GNU\/Linux'/Advanced options for Rio\/OS v2/g" /boot/grub/grub.cfg
   mkdir -p $RIOOS_HOME/config/pullcache $RIOOS_HOME/pgdata $RIOOS_HOME/influxdb
+  wget -O $RIOOS_HOME/config/api.toml https://gitlab.com/rioos/aran/raw/2-0-stable/tools/config/api.toml?private_token=JgH4PaKVpuJM3yRidaS9
   sudo apt-get update -y
   sudo apt-get install -y software-properties-common python-software-properties
 }
@@ -55,7 +56,7 @@ function rioos::util::test_docker_installed {
 
 rioos::update::repo() {
   sudo apt-add-repository "deb [arch=amd64] https://$repo_url/repo/$distro/$distroname/$distroversion/$release $distroname $release"
-  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9B46B611
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 02789828
   sudo apt-get -y update
   rioos::create::bootstrap_config
 }

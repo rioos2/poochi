@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 #
 # Rio/OS Installer system makefile.
-# Copyright 2017-2018 by the Rio Avancement Inx
+# Copyright 2017-2018 by the Rio Advancement Inc
 #
 
 SHELL = /bin/sh
@@ -40,7 +40,8 @@ clean:
 # all_build is provided automagically, but for manual invocation
 # we provide a generic build rule.
 .PHONY: aventura
-aventura: wget_base_aventura tree_iso burn_usb qemu_test
+aventura: wget_base_aventura tree_iso burn_usb
+#qemu_test
 	if [ -e $(RIOOS) ]; then \
 		echo "--> Successfully created aventura_rioos 64bit distro"; \
 	else \
@@ -62,6 +63,7 @@ wget_base_aventura:
 .PHONY:  tree_iso
 tree_iso:
 	if [ -e $(MEGAM) ]; then \
+		mkdir $(MOUNT_ISODIR); \
 		sudo mount -o loop $(MEGAM) $(MOUNT_ISODIR); \
 	else \
 	  echo "Base Aventura ISO not found.";  exit 1; \
@@ -99,13 +101,13 @@ burn_usb:
 		-eltorito-alt-boot \
 		--efi-boot boot/grub/efi.img -no-emul-boot \
 		-o $(RIOOS) $(USB_IMAGEDIR); \
-	./geniso_hybrid_plus_firmware_partition $(RIOOS); \
-	while [ -z "$$CONTINUE" ]; do \
-    read -r -p "--> Burn the iso in usb[/dev/sda]. Have you plugged it in ?   [y/N] " CONTINUE; \
-	done ; \
-	if [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ]; then \
-	  sudo dd if=$(RIOOS) of=/dev/sda; \
-	fi;
+	./geniso_hybrid_plus_firmware_partition $(RIOOS);
+	# while [ -z "$$CONTINUE" ]; do \
+  #   read -r -p "--> Burn the iso in usb[/dev/sda]. Have you plugged it in ?   [y/N] " CONTINUE; \
+	# done ; \
+	# if [ $$CONTINUE = "y" ] || [ $$CONTINUE = "Y" ]; then \
+	#   sudo dd if=$(RIOOS) of=/dev/sda; \
+	# fi;
 
 .PHONY:  qemu_test
 qemu_test:

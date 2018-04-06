@@ -102,6 +102,8 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 - Node.js  [9.10.x](https://nodejs.org/en/)
 - Golang [1.10.x](https://golang.org/dl/)
 - Rustlang [1.24.x](https://rust-lang.org)
+- Github-release [0.3.x](https://github.com/cheton/github-release-cli)
+- Gdrive [2.1.x](https://github.com/prasmussen/gdrive)
 
 ### Prereqs: Installation
 
@@ -212,6 +214,27 @@ $sudo apt-get update
 
 $ sudo apt-get install docker-ce
 
+```
+
+### Github-release
+
+```
+sudo npm i github-release
+
+sudo npm install -g github-release-cli
+
+sudo yarn global add github-release --prefix /usr/local
+
+```
+
+### Gdrive
+
+```
+mkdir -p ~/software/gdrive/bin
+
+wget -O ~/software/gdrive/bin/gdrive https://docs.google.com/uc?id=0B3X9GlR6EmbnQ0FtZmJJUXEyRTA&export=download
+
+chmod +x ~/software/gdrive/bin/gdrive
 
 ```
 
@@ -225,7 +248,7 @@ $ nano .bashrc
 
 export SOFTWARE_HOME=$HOME/software
 
-PATH="$PATH:$SOFTWARE_HOME/node/bin:$SOFTWARE_HOME/go/bin:$HOME/.cargo/bin"  
+PATH="$PATH:$SOFTWARE_HOME/node/bin:$SOFTWARE_HOME/go/bin:$HOME/.cargo/bin:$SOFTWARE_HOME/gdrive/bin"  
 
 ```
 
