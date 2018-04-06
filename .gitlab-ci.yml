@@ -218,8 +218,8 @@ rio_iso:
   script:
     - cd rio_iso
     - echo $RIO_ISO_PATH
-    - make clean
-    - make aventura
+    - sudo make clean
+    - sudo make aventura
     - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
   allow_failure: true
 

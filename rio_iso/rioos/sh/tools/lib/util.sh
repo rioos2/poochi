@@ -6,7 +6,7 @@ Compute="rioos-fluentbit rioos-nodelet"
 Storage="rioos-storlet"
 repo_url="registry.rioos.xyz"
 distro="rioos"
-distroversion="2.0.0-rc2"
+distroversion=$VERSION
 distroname="aventura"
 release="testing"
 

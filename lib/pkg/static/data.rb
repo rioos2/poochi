@@ -105,7 +105,7 @@ module Pkg::Data
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
 
-      tar: 'https://gitlab.com/rioos/gitpackager/raw/master/support/init2.0.sh?private_token=Y_ERcx_p7sec1dksTesJ',
+      tar: 'https://gitlab.com/rioos/poochi/raw/2-0-stable/support/init2.0.sh?private_token=JgH4PaKVpuJM3yRidaS9',
 
       systemd_service: "#{NODELET}.service"
     }
