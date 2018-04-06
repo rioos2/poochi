@@ -211,7 +211,6 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
-
 rio_iso:
   stage: buildiso
   artifacts:
