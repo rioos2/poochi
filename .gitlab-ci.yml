@@ -181,8 +181,6 @@ rio_marketplace:
 
 rio_cli:
   stage: buildimages
-  artifacts:
-    untracked: true
   script:
     - export RIOOS_HOME=${RIOOS_HOME}
     - mkdir -p ${RIOOS_HOME}
@@ -213,8 +211,6 @@ rio_nilavu:
 
 rio_iso:
   stage: buildiso
-  artifacts:
-    untracked: true
   script:
     - cd rio_iso
     - echo $RIO_ISO_PATH
@@ -237,10 +233,8 @@ rio_ship:
     - rio_api
     - rio_blockchain
     - rio_marketplace
-    - rio_cli
     - rio_console
     - rio_nilavu
-    - rio_iso
   script:
     - sudo rake ship:clean
     - sudo rake ship:aventura
