@@ -3,7 +3,7 @@ Description=<%= @package[:package] %>
 After=network.target
 
 [Service]
-ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-nodelet --v=4  --api-servers=https://localhost:7443  --watch-server=https://localhost:8443 --rio-api-content-type=application/json --service-account-private-key-file=<%= @basic[:libhome] %>/config/service-account.key --use-service-account-credentials --rioconfig=<%= @basic[:libhome] %>/config/nodelet.rioconfig 
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-nodelet --v=4  --api-server=https://localhost:7443  --watch-server=https://localhost:8443 --rio-api-content-type=application/json --service-account-private-key-file=<%= @basic[:libhome] %>/config/service-account.key --use-service-account-credentials --rioconfig=<%= @basic[:libhome] %>/config/nodelet.rioconfig 
 KillMode=process
 
 [Install]

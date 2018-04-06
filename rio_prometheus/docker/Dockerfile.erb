@@ -21,4 +21,4 @@ COPY prometheus.yml $RIOCONF
 RUN chmod 755 $SOURCE_DIR/prometheus && \
     chmod 755 $SOURCE_DIR/promtool
 
-CMD $SOURCE_DIR/prometheus --config.file="/var/lib/rioos/prometheus/config/prometheus.yml"
+CMD $SOURCE_DIR/prometheus --config.file="<%= @basic[:libhome] %>/config/prometheus.yml"
