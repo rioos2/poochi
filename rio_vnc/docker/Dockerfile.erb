@@ -3,7 +3,7 @@ MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
 
 # vncserver on port 8000
-EXPOSE 8000
+EXPOSE 8005
 
 RUN apk update
 RUN mkdir -p <%= @basic[:home]+"/"+@package[:package] %>
@@ -15,4 +15,4 @@ COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/vncserver" %> <%= @basi
 RUN npm install
 
 # run ember server on container start
-CMD ["/usr/local/bin/node", "vnc_monitor.js", "--port", "8000"]
+CMD ["/usr/local/bin/node", "vnc_monitor.js", "--port", "8005"]

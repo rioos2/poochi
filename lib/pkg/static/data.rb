@@ -67,7 +67,7 @@ module Pkg::Data
     {
       package: SCHEDULER,
       from: 'busybox:ubuntu-14.04',
-      description: %(Description: Scheduler used to schedule a job for #{BASIC[:product]}.),
+      description: %(Scheduler used to schedule a job for #{BASIC[:product]}.),
       category: CLOUD,
       dependencies: '',
 
@@ -86,7 +86,7 @@ module Pkg::Data
       category: CLOUD,
       dependencies: '',
       # Rioos dolphin, bot users private github token
-      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',  
+      github_private_token: 'be648bc18a5c5418deaca03ff9934aa6cf14084b',
 
       git: 'git@gitlab.com:rioos/aran.git',
       git_org: 'gitlab.com/rioos'
@@ -97,10 +97,10 @@ module Pkg::Data
     puts "=> Packaging: [#{NODELET} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: NODELET,
-      description: %[Description: Rio/OS node agent which provides scheduling,
+      description: %[Rio/OS node agent which provides scheduling,
       provisioning, realtime log streaming, events handling functions for #{BASIC[:product]}.],
       category: CLOUD,
-      dependencies: "libvirt-dev, libguestfs-dev",
+      dependencies: "libvirt-dev, libguestfs-dev, librbd-dev",
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
@@ -118,7 +118,7 @@ module Pkg::Data
       description: %[Description: Rio/OS storage agent which provides storage management,
       provisioning, storage pool based on the supported providers.],
       category: CLOUD,
-      dependencies: "",
+      dependencies: "librbd-dev",
 
       git: 'git@gitlab.com:rioos/beedi.git',
       git_org: 'gitlab.com/rioos',
@@ -195,7 +195,7 @@ module Pkg::Data
     puts "=> Packaging: [#{VNETWORK} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: VNETWORK,
-      description: %[Description: Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
+      description: %[Used to create network bridge using OpenvSwitch, it connects #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: 'openvswitch-switch',
 
@@ -207,7 +207,7 @@ module Pkg::Data
     puts "=> Packaging: [#{BOOTSTRAP} #{BASIC[:version]}:#{BASIC[:iteration]}]".colorize(:green).bold
     {
       package: BOOTSTRAP,
-      description: %[Description: Agent bootstrap which helps to setup networking inside
+      description: %[Agent bootstrap which helps to setup networking inside
       digital cloud for #{BASIC[:product]}.],
       category: CLOUD,
       dependencies: '',
@@ -309,9 +309,10 @@ module Pkg::Data
 
   def self.APACHE
     {
-      from: 'debian:jessie',
+      from: 'alpine:3.6',
       description: 'Rio.Marketplace: Apache webserver for #{BASIC[:product]} v2',
-      version: '2.2.34',
+      version: '2.4.33',
+      sha256: 'de02511859b00d17845b9abdd1f975d5ccb5d0b280c567da5bf2ad4b70846f05',
     }
   end
 
@@ -336,7 +337,7 @@ module Pkg::Data
       from: 'debian:jessie',
       description: 'Rio.Marketplace: MariaDB docker image for #{BASIC[:product]} v2',
       major: '10.3',
-      version: '10.3.2',
+      version: '10.3.5+maria~jessie',
     }
   end
 
@@ -359,27 +360,27 @@ module Pkg::Data
 
   def self.POSTGRES
     {
-      from: 'alpine:3.6',
+      from: 'alpine:3.7',
       major: '10',
-      version: '10.1',
-      sha256: '3ccb4e25fe7a7ea6308dea103cac202963e6b746697366d72ec2900449a5e713',
+      version: '10.3',
+      sha256: '6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a',
       description: 'Rio.Marketplace: PostgreSQL docker image for #{BASIC[:product]} v2',
     }
   end
 
   def self.CASSANDRA
     {
-      from: 'debian:jessie-backports',
+      from: 'debian:stretch-slim',
       description: 'Rio.Marketplace: Cassandra docker image for #{BASIC[:product]} v2',
-      version: '3.11.1',
+      version: '3.11.2',
     }
   end
 
   def self.NGINX
     {
-      from: 'debian:stretch-slim',
+      from: 'alpine:3.7',
       description: 'Rio.Marketplace: Nginx docker image for #{BASIC[:product]} v2',
-      version: '1.13.7-1~stretch',
+      version: '1.13.11',
     }
   end
 

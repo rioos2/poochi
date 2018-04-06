@@ -2,8 +2,15 @@ FROM <%= @package[:from] %>
 MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
 
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-#RUN groupadd -r www-data && useradd -r --create-home -g www-data www-data
+
+# ensure www-data user exists
+RUN set -x \
+	&& addgroup -g 82 -S www-data \
+	&& adduser -u 82 -D -S -G www-data www-data
+# 82 is the standard uid/gid for "www-data" in Alpine
+# http://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.3.2
+# http://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.3.2
+# http://git.alpinelinux.org/cgit/aports/tree/main/nginx-initscripts/nginx-initscripts.pre-install?h=v3.3.2
 
 ENV HTTPD_PREFIX /usr/local/apache2
 ENV PATH $HTTPD_PREFIX/bin:$PATH
@@ -11,24 +18,11 @@ RUN mkdir -p "$HTTPD_PREFIX" \
 	&& chown www-data:www-data "$HTTPD_PREFIX"
 WORKDIR $HTTPD_PREFIX
 
-# install httpd runtime dependencies
-# https://httpd.apache.org/docs/2.2/install.html#requirements
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		libapr1 \
-		libaprutil1 \
-		libaprutil1-ldap \
-		libapr1-dev \
-		libaprutil1-dev \
-		libpcre++0 \
-		libssl1.0.0 \
-	&& rm -r /var/lib/apt/lists/*
+ENV HTTPD_VERSION <%= @package[:version] %>
+ENV HTTPD_SHA256 <%= @package[:sha256] %>
 
-ENV HTTPD_VERSION  <%= @package[:version] %>
-ENV HTTPD_SHA256 e53183d5dfac5740d768b4c9bea193b1099f4b06b57e5f28d7caaf9ea7498160
-
-# https://httpd.apache.org/security/vulnerabilities_22.html
-ENV HTTPD_PATCHES="CVE-2017-9798-patch-2.2.patch 42c610f8a8f8d4d08664db6d9857120c2c252c9b388d56f238718854e6013e46"
+# https://httpd.apache.org/security/vulnerabilities_24.html
+ENV HTTPD_PATCHES=""
 
 ENV APACHE_DIST_URLS \
 # https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
@@ -38,22 +32,38 @@ ENV APACHE_DIST_URLS \
 	https://www.apache.org/dist/ \
 	https://archive.apache.org/dist/
 
-# see https://httpd.apache.org/docs/2.2/install.html#requirements
+# see https://httpd.apache.org/docs/2.4/install.html#requirements
 RUN set -eux; \
 	\
-	buildDeps=' \
-		bzip2 \
-		ca-certificates \
-		dpkg-dev \
-		gcc \
-		libpcre++-dev \
-		libssl-dev \
-		make \
-		wget \
+	runDeps=' \
+		apr-dev \
+		apr-util-dev \
+		apr-util-ldap \
+		perl \
 	'; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends -V $buildDeps; \
-	rm -r /var/lib/apt/lists/*; \
+	apk add --no-cache --virtual .build-deps \
+		$runDeps \
+		ca-certificates \
+		coreutils \
+		dpkg-dev dpkg \
+		gcc \
+		gnupg \
+		libc-dev \
+		# mod_session_crypto
+		libressl \
+		libressl-dev \
+		# mod_proxy_html mod_xml2enc
+		libxml2-dev \
+		# mod_lua
+		lua-dev \
+		make \
+		# mod_http2
+		nghttp2-dev \
+		pcre-dev \
+		tar \
+		# mod_deflate
+		zlib-dev \
+	; \
 	\
 	ddist() { \
 		local f="$1"; shift; \
@@ -61,7 +71,7 @@ RUN set -eux; \
 		local success=; \
 		local distUrl=; \
 		for distUrl in $APACHE_DIST_URLS; do \
-			if wget -O "$f" "$distUrl$distFile"; then \
+			if wget -O "$f" "$distUrl$distFile" && [ -s "$f" ]; then \
 				success=1; \
 				break; \
 			fi; \
@@ -75,7 +85,14 @@ RUN set -eux; \
 # see https://httpd.apache.org/download.cgi#verify
 	ddist 'httpd.tar.bz2.asc' "httpd/httpd-$HTTPD_VERSION.tar.bz2.asc"; \
 	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B1B96F45DFBDCCF974019235193F180AB55D9977; \
+	for key in \
+# gpg: key 791485A8: public key "Jim Jagielski (Release Signing Key) <jim@apache.org>" imported
+		A93D62ECC3C8EA12DB220EC934EA76E6791485A8 \
+# gpg: key 995E35221AD84DFF: public key "Daniel Ruggeri (http://home.apache.org/~druggeri/) <druggeri@apache.org>" imported
+		B9E8213AEFB861AF35A41F2C995E35221AD84DFF \
+	; do \
+		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+	done; \
 	gpg --batch --verify httpd.tar.bz2.asc httpd.tar.bz2; \
 	rm -rf "$GNUPGHOME" httpd.tar.bz2.asc; \
 	\
@@ -100,9 +117,8 @@ RUN set -eux; \
 	./configure \
 		--build="$gnuArch" \
 		--prefix="$HTTPD_PREFIX" \
-# https://httpd.apache.org/docs/2.2/programs/configure.html
-# Caveat: --enable-mods-shared=all does not actually build all modules. To build all modules then, one might use:
-		--enable-mods-shared='all ssl ldap cache proxy authn_alias mem_cache file_cache authnz_ldap charset_lite dav_lock disk_cache' \
+		--enable-mods-shared=reallyall \
+		--enable-mpms-shared=all \
 	; \
 	make -j "$(nproc)"; \
 	make install; \
@@ -115,10 +131,16 @@ RUN set -eux; \
 		-e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
 		"$HTTPD_PREFIX/conf/httpd.conf"; \
 	\
-	apt-get purge -y --auto-remove $buildDeps
+	runDeps="$runDeps $( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --virtual .httpd-rundeps $runDeps; \
+	apk del .build-deps
 
 COPY httpd-foreground /usr/local/bin/
-RUN chmod 755 /usr/local/bin/httpd-foreground
 
 EXPOSE 80
 CMD ["httpd-foreground"]
