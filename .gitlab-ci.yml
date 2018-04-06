@@ -209,6 +209,7 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
+
 rio_ship:
   stage: ship
   dependencies:
