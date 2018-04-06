@@ -2,9 +2,10 @@ FROM <%= @package[:from] %>
 MAINTAINER <%= @basic[:maintainer] %>
 LABEL Description="<%= @package[:description] %>" Vendor="<%= @basic[:origin] %>" Version="<%= @basic[:version] %>"
 
-# apiserver run on port 7443
-# watchserver run on port 8443
-EXPOSE  7443 8443
+# apiserver listen on port 7443
+# watchserver listen on port 8443
+# websocket listen on port 9443
+EXPOSE  7443 8443 9443
 
 RUN apt-get update -y && \
     apt-get install -y openssl libsodium-dev

@@ -246,7 +246,7 @@ module Pkg::Data
       git: 'git@gitlab.com:rioos/vncserver.git',
       git_org: 'gitlab.com/rioos',
 
-       tar: 'https://nodejs.org/dist/v9.10.1/node-v9.10.1-linux-arm64.tar.gz',
+       tar: 'https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-arm64.tar.gz',
 
       # The service name to start
       systemd_service: "#{VNC}.service",

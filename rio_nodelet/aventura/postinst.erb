@@ -1,6 +1,5 @@
 #!/bin/bash
 
-mkdir -p <%= @basic[:libhome] %>/nodelet
 mkdir -p <%= @basic[:libhome] %>/context
 
 cd <%= @basic[:libhome] %>/context
@@ -8,7 +7,7 @@ wget -O init.sh <%= @package[:tar] %>
 cp <%= @basic[:home]+"/"+@package[:package] %>/VERSION .
 mv <%= @basic[:home]+"/"+@package[:package] %>/krd .
 mv <%= @basic[:home]+"/"+@package[:package] %>/krssh .
-mv <%= @basic[:home]+"/"+@package[:package] %>/kr-pkscs11.so .
+mv <%= @basic[:home]+"/"+@package[:package] %>/kr-pkcs11.so .
 mv <%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-gulpd gulpd
 
 systemctl enable <%= @package[:systemd_service] %>

@@ -31,6 +31,20 @@ case $1 in
 	break
 	;;
 
+	watchserver)
+		daemon_name="rioos-apiserver"
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE --streamer=true"
+		start "$daemon_name" "$RUN_CMD"
+	break
+	;;
+
+	websocket)
+		daemon_name="rioos-apiserver"
+		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE --websocket=true"
+		start "$daemon_name" "$RUN_CMD"
+	break
+	;;
+
 	blockchain)
 		daemon_name="rioos-blockchain-server"
 		RUN_CMD="$SOURCE_DIR/$daemon_name start --config $RIOCONF/$CONF_FILE"
