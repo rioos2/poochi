@@ -15,6 +15,7 @@ MOUNT_ISODIR = ./mnt
 MEGAM = $(BUILDDIR)/megam.iso
 RIOOS = $(BUILDDIR)/rioos.iso
 BASE_AVENTURA_URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
+version := $(shell cat ../VERSION)
 
 # By default, we just advertise what we can do.
 .PHONY: all
@@ -36,7 +37,6 @@ list:
 clean:
 	rm -rf $(BUILDDIR)
 
-
 # all_build is provided automagically, but for manual invocation
 # we provide a generic build rule.
 .PHONY: aventura
@@ -56,6 +56,7 @@ wget_base_aventura:
 		echo "Found base aventura 64 bit distro"; \
 	else \
 		mkdir -p $(BUILDDIR); \
+		echo $(version) >> rioos/VERSION; \
 		echo "Downloading base aventura 64 bit"; \
 		wget $(BASE_AVENTURA_URL) -O $(MEGAM); \
 	fi
