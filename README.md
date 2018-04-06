@@ -19,7 +19,6 @@ Our main goal is to make it clear which version of Rio/OS is in the package.
 
 ![Packages tree](https://gitlab.com/rioos/poochi/raw/master/images/autopackages.png)
 
-
 ## How is the official Rio/OS package built
 
 The official package build is fully automated by Rio Advancement Inc.
