@@ -10,7 +10,7 @@ sudo cat >> /var/lib/rioos/config/bootstrap.rioconfig <<EOF
    "token": "bootstrap_token_0503",
    "api_server": {
     "server_address":"api.rioos.svc.local",
-    "port": 9636,
+    "port": 7443,
     "protocol":"http",
    }
 }
