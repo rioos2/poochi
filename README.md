@@ -96,7 +96,6 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 
 [get.rioos.xyz repositories](https://get.rioos.xyz)
 
-
 ### Build infrastructure prereqs
 
 - Ubuntu 18.04
@@ -120,13 +119,13 @@ mkdir ~/software
 ```
 cd ~/downloads
 
-https://nodejs.org/dist/v9.10.0/node-v9.10.0-linux-arm64.tar.gz
+https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-arm64.tar.gz
 
-tar -xvf node-v9.10*
+tar -xvf node-v9.11*
 
-mv node-v9.10* ~/software
+mv node-v9.11* ~/software
 
-mv ~/software/node-v9.10* ~/software/node
+mv ~/software/node-v9.11* ~/software/node
 
 ```
 
