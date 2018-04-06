@@ -31,7 +31,7 @@ d-i netcfg/dhcp_failed note
 d-i netcfg/dhcp_options select Configure network manually
 
 #Static network configuration.
-d-i netcfg/get_nameservers string 8.8.8.8
+d-i netcfg/get_nameservers string 1.1.1.1
 d-i netcfg/get_ipaddress string 192.168.2.76
 d-i netcfg/get_netmask string 255.255.255.0
 d-i netcfg/get_gateway string 192.168.2.1
