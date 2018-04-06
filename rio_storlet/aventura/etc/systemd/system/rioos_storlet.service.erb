@@ -3,7 +3,7 @@ Description=<%= @package[:package] %>
 After=network.target
 
 [Service]
-ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-storlet --v=4  --api-server=http://localhost:9636
+ExecStart=<%= @basic[:home]+"/"+@package[:package]+"/bin" %>/rioos-storlet --v=4  --api-server=https://localhost:7443 --watch-server=https://localhost:8443 --service-account-private-key-file=<%= @basic[:libhome] %>/config/service-account.key --use-service-account-credentials --rioconfig=<%= @basic[:libhome] %>/config/storlet.rioconfig
 KillMode=process
 
 [Install]

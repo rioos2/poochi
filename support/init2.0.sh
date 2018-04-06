@@ -39,7 +39,7 @@ Description=rioos-gulp Agent
 After=network.target
 
 [Service]
-ExecStart=/usr/share/rioos/gulp/bin/gulpd -v=4 --api-server=http://localhost:9636 --rioconfig=/var/lib/rioos/gulp/gulpd.conf
+ExecStart=/usr/share/rioos/gulp/bin/gulpd -v=4 --api-server=https://localhost:7443 --rioconfig=/var/lib/rioos/gulp/gulpd.conf
 KillMode=process
 
 [Install]
