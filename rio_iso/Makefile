@@ -16,6 +16,7 @@ MEGAM = $(BUILDDIR)/megam.iso
 RIOOS = $(BUILDDIR)/rioos.iso
 BASE_AVENTURA_URL = "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso"
 version := $(shell cat ../VERSION)
+VERSION_FILE="./rioos/sh/tools/VERSION"
 
 # By default, we just advertise what we can do.
 .PHONY: all
@@ -56,7 +57,11 @@ wget_base_aventura:
 		echo "Found base aventura 64 bit distro"; \
 	else \
 		mkdir -p $(BUILDDIR); \
-		echo $(version) >> rioos/VERSION; \
+		if [ -e $(VERSION_FILE) ]; then \
+			echo "Version already updated.."; \
+		else \
+			echo $(version) >> $(VERSION_FILE); \
+		fi; \
 		echo "Downloading base aventura 64 bit"; \
 		wget $(BASE_AVENTURA_URL) -O $(MEGAM); \
 	fi
