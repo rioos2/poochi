@@ -12,6 +12,7 @@ ENV DATA <%= @basic[:libhome] %>/prometheus
 RUN mkdir -p "$SOURCE_DIR"
 RUN mkdir -p "$RIOCONF"
 VOLUME "$DATA"
+VOLUME "$RIOCONF"
 
 COPY <%= @package[:package]+"/src/"+@package[:git_org]+"/beedi/_outputs" %> $SOURCE_DIR
 
