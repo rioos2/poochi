@@ -211,19 +211,17 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
-<<<<<<< HEAD
 rio_iso:
   stage: buildiso
   artifacts:
     untracked: true
   script:
     - cd rio_iso
+    - echo $RIO_ISO_PATH
     - make clean
     - make aventura
     - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
   allow_failure: true
-=======
->>>>>>> origin/2-0-stable
 
 rio_ship:
   stage: ship
