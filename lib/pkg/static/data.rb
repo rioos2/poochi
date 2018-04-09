@@ -32,11 +32,11 @@ module Pkg::Data
     puts "=> Packaging: [#{NILAVU} #{BASIC[:version]}:#{BASIC[:iteration]}] ".colorize(:green).bold
     {
       package: NILAVU,
-      from: 'node:9.10.1-alpine',
+      from: 'node:9.11-alpine',
       description: %(Description: The UI for #{BASIC[:product]}.),
       category: 'cloud',
       deb_dependencies: "yarn",
-      tar: 'https://nodejs.org/dist/v9.10.1/node-v9.10.1-linux-arm64.tar.gz',
+      tar: 'https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-arm64.tar.gz',
 
       git: 'git@gitlab.com:rioos/nilavu',
       git_org: 'gitlab.com/rioos',
