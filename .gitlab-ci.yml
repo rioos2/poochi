@@ -199,6 +199,7 @@ rio_cli:
     - rake xenial
   allow_failure: true
 
+
 rio_nilavu:
   stage: buildimages
   artifacts:
