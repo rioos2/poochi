@@ -110,6 +110,16 @@ rio_nodelet:
     - rake aventura
   allow_failure: true
 
+rio_console:
+  stage: build
+  artifacts:
+    untracked: true
+  script:
+    - cd rio_vnc
+    - rake clean
+    - rake aventura
+  allow_failure: true
+
 rio_controller:
   stage: buildimages
   artifacts:
@@ -189,16 +199,6 @@ rio_cli:
     - rake xenial
   allow_failure: true
 
-rio_console:
-  stage: buildimages
-  artifacts:
-    untracked: true
-  script:
-    - cd rio_vnc
-    - rake clean
-    - rake docker
-  allow_failure: true
-
 rio_nilavu:
   stage: buildimages
   artifacts:
@@ -228,13 +228,13 @@ rio_ship:
     - rio_bootstrap
     - rio_storlet
     - rio_nodelet
+    - rio_console
     - rio_controller
     - rio_scheduler
     - rio_prometheus
     - rio_api
     - rio_blockchain
     - rio_marketplace
-    - rio_console
     - rio_nilavu
   script:
     - sudo rake ship:clean
