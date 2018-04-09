@@ -27,7 +27,7 @@ We can differentiate between two types of build:
 * Packages for release/stable to get.rioos.xyz
 * Packages for testing        to get.rioos.io/testing
 
-and
+and 
 
 * Container for release to registry.rioos.xyz
 
