@@ -83,7 +83,6 @@ The containers are pushed to [registry.rioos.xyz](https://registry.rioos.xyz).
 
 The containers tar balls are rsynced to [marketplace.rioos.xyz](marketplace.rioos.xyz). They are then copied over to the correct location in the [marketplace.rioos.xyz](marketplace.rioos.xyz).
 
-
 ### Publishing
 
 You can track the progress of package building on [poochi](https://gitlab.com/rioos/poochi).
