@@ -25,7 +25,7 @@ The official package build is fully automated by Rio Advancement Inc.
 We can differentiate between two types of build:
 
 * Packages for release/stable to get.rioos.xyz
-* Packages for testing        to get.rioos.io/testing
+* Packages for testing to get.rioos.io/testing
 
 and 
 
