@@ -210,15 +210,15 @@ rio_nilavu:
     - rake docker
   allow_failure: true
 
-rio_iso:
-  stage: buildiso
-  script:
-    - cd rio_iso
-    - echo $RIO_ISO_PATH
-    - sudo make clean
-    - sudo make aventura
-    - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
-  allow_failure: true
+# rio_iso:
+#   stage: buildiso
+#   script:
+#     - cd rio_iso
+#     - echo $RIO_ISO_PATH
+#     - sudo make clean
+#     - sudo make aventura
+#     - gdrive upload --parent $RIO_ISO_PARENT_DIR_ID build/rioos.iso
+#   allow_failure: true
 
 
 rio_ship:
