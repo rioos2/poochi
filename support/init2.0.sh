@@ -39,15 +39,17 @@ notifiers:
    sender: "dev@rio.company"
    domain: "smtp.mailgun.org"
 assemblyId: "916515026334924800"
+user_email: "info@rio.company"
+user_token: "test-token"
+secret_name: "test-agent"
 EOF
 
-ex -sc '10i|    email: "info@rio.company"' -cx $CONF
-ex -sc '11i|    password: "7145424030804834316"' -cx $CONF
 
 sed -i "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
-sed -i "s/^[ \t]*email.*/   email: \"$RIOOS_SH_EMAIL\"/" $CONF
-sed -i "s/^[ \t]*7145424030804834316:.*/   7145424030804834316: \"$RIOOS_SH_PASSWORD\"/" $CONF
-sed -i "s/^[ \t]*secret_name:.*/   secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+#sed -i "s/^[ \t]*secret_name:.*/   secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+sed -i "s/^[ \t]*secret_name:.*/secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+sed -i "s/^[ \t]*user_email:.*/user_email: \"$RIOOS_SH_EMAIL\"/" $CONF
+sed -i "s/^[ \t]*user_token:.*/user_token: \"$RIOOS_SH_PASSWORD\"/" $CONF
 
 if [ "$OS2" = "FreeBSD" ]
 then
