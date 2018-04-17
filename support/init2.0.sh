@@ -16,7 +16,7 @@ cp /mnt/*.html $MAIL_DIR
 
 case "$OS" in
   "Fedora")
-     ip route add default via 107.152.143.241
+     ip route add default via $ETH0_GATEWAY
 esac
 
 if [ "$OS" = "Red Hat" ]  || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "CentOS" ] || [ "$OS1" = "CentOS" ] || [ "$OS" = "Fedora" ] || [ "$OS2" = "FreeBSD" ]
@@ -44,19 +44,17 @@ user_token: "test-token"
 secret_name: "test-agent"
 EOF
 
-
 sed -i "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
-#sed -i "s/^[ \t]*secret_name:.*/   secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
 sed -i "s/^[ \t]*secret_name:.*/secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
 sed -i "s/^[ \t]*user_email:.*/user_email: \"$RIOOS_SH_EMAIL\"/" $CONF
 sed -i "s/^[ \t]*user_token:.*/user_token: \"$RIOOS_SH_PASSWORD\"/" $CONF
 
 if [ "$OS2" = "FreeBSD" ]
 then
-	sed -i '' "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
-	sed -i '' "s/^[ \t]*username.*/   username: \"$RIOOS_SH_EMAIL\"/" $CONF
-	sed -i '' "s/^[ \t]*7145424030804834316:.*/   7145424030804834316: \"$RIOOS_SH_PASSWORD\"/" $CONF
-	sed -i '' "s/^[ \t]*secret_name:.*/   secret_name: \"$AGENT_SECRET\"/" $CONF
+  sed -i '' "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
+  sed -i '' "s/^[ \t]*secret_name:.*/secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+  sed -i '' "s/^[ \t]*user_email:.*/user_email: \"$RIOOS_SH_EMAIL\"/" $CONF
+  sed -i '' "s/^[ \t]*user_token:.*/user_token: \"$RIOOS_SH_PASSWORD\"/" $CONF
 fi
 
 cat >/etc/systemd/system/rioos-gulp.service <<'EOF'
@@ -95,7 +93,7 @@ v=$(echo $dist | awk -F '"' '{print $1;}')
          start rioosgulp
           ;;
          "16.04")
-	  systemctl enable rioos-gulp
+	        systemctl enable rioos-gulp
           systemctl start rioos-gulp.service
          ;;
   esac
@@ -153,6 +151,6 @@ EOF
 	sudo systemctl restart systemd-networkd
 	systemctl stop rioos-gulp.service
 	systemctl start rioos-gulp.service
-	ip route add default via 107.152.143.241		# Replace with Subnet Gateway IPs
+	ip route add default via $ETH0_GATEWAY		# Replace with Subnet Gateway IPs
 ;;
 esac
