@@ -1,0 +1,23 @@
+#!/bin/bash
+
+ENV_FILE="/tmp/rioos_env"
+
+echo "export VMID=\"$VMID\"" >> $ENV_FILE
+
+function export_rc_vars
+{
+  if [ -f $1 ] ; then
+    RIOOS_VARS=$(cat $1 | egrep -e '^[a-zA-Z\-\_0-9]*=' | sed 's/=.*$//')
+
+    . $1
+
+    for v in $RIOOS_VARS; do
+        echo "export $v=\"${!v}\"" >> $ENV_FILE
+    done
+  fi
+}
+
+export_rc_vars /tmp/context.sh
+
+chown root:root $ENV_FILE
+chmod a+r $ENV_FILE

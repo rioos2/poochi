@@ -4,7 +4,7 @@ module Pkg
 
     ## All of these can be loaded using a YAMLLoader (build_data.yml)
     ## Default operation system supported
-    SUPPORTED_OS = { os: %w[trusty xenial bionic aventura docker] }.freeze
+    SUPPORTED_OS = { os: %w[trusty xenial bionic aventura docker centos7] }.freeze
 
     FAMILY_VERSIONS = { xenial:   { family: "ubuntu", version: "16.04" },
                         bionic:   { family: "ubuntu", version: "18.04" },
