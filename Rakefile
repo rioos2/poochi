@@ -1,11 +1,10 @@
-require File.expand_path(File.join(File.dirname(__FILE__),'.', 'lib', 'pkg.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), ".", "lib", "pkg.rb"))
 
-require 'pkg/shipper/debs'
-require 'pkg/slack/ship_notification'
-
+require "pkg/shipper/debs"
+require "pkg/shipper/rpms"
+require "pkg/slack/ship_notification"
 
 namespace :ship do
-
   task :default => :now
 
   task :clean do
@@ -20,8 +19,13 @@ namespace :ship do
     Slack::ShipNotification.release(args[:distro])
   end
 
-  task :aventura => [:initship] do
+  task :debs => [:initship] do
     shipper = Pkg::DebsShipper.new(Pkg::Common.distro("aventura"), Pkg::Common.distro_family_version_dir).ship
     Rake::Task["ship:notifyslack"].invoke("aventura")
+  end
+
+  task :rpms => [:initship] do
+    shipper = Pkg::RpmsShipper.new(Pkg::Common.distro("centos"), Pkg::Common.distro_family_version_dir).ship
+    Rake::Task["ship:notifyslack"].invoke("centos")
   end
 end

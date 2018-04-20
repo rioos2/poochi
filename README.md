@@ -100,9 +100,9 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 
 - Ubuntu 18.04
 - Ruby 2.5.x via [rvm]
-- Node.js  [9.10.x](https://nodejs.org/en/)
-- Golang [1.10.x](https://golang.org/dl/)
-- Rustlang [1.24.x](https://rust-lang.org)
+- Node.js  [9.11.x (or) latest](https://nodejs.org/en/)
+- Golang [1.10.x (or) latest](https://golang.org/dl/)
+- Rustlang [1.25.x (or) latest](https://rust-lang.org)
 
 ### Prereqs: Installation
 
@@ -145,7 +145,7 @@ sudo apt-get update && sudo apt-get install yarn
 ```
 cd ~/downloads
 
-wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.10.1.linux-amd64.tar.gz
 
 tar -xvf go1.10*
 
@@ -334,6 +334,24 @@ cd rio_nilavu
 rake clean
 
 rake docker
+
+```
+
+- To ships debs after all debs are complete
+
+```
+cd poochi
+
+rake ship:debs
+
+```
+
+- To ships debs after all debs are complete
+
+```
+cd poochi
+
+rake ship:rpms
 
 ```
 

@@ -4,18 +4,18 @@ module Pkg
 
     ## All of these can be loaded using a YAMLLoader (build_data.yml)
     ## Default operation system supported
-    SUPPORTED_OS = { os: %w[trusty xenial bionic aventura docker] }.freeze
+    SUPPORTED_OS = {os: %w[trusty xenial bionic aventura docker]}.freeze
 
-    FAMILY_VERSIONS = { xenial:   { family: "ubuntu", version: "16.04" },
-                        bionic:   { family: "ubuntu", version: "18.04" },
-                        aventura: { family: "rioos", version: "2.0" },
-                        docker:   { family: "ubuntu", version: "2.016.04" },
-                      }.freeze
+    FAMILY_VERSIONS = {xenial: {family: "ubuntu", version: "16.04"},
+                       bionic: {family: "ubuntu", version: "18.04"},
+                       aventura: {family: "rioos", version: "2.0"},
+                       centos: {family: "redhat", version: "7.4"},
+                       docker: {family: "ubuntu", version: "2.016.04"}}.freeze
 
     ### The build directory
-    BUILD = 'build'.freeze
+    BUILD = "build".freeze
 
-  #  PACKAGE_NAME = 'rioos_bootstrap'.freeze
+    #  PACKAGE_NAME = 'rioos_bootstrap'.freeze
 
     # set the ditro and the distro build directory if its the supported os.
     def self.distro(os)
@@ -31,7 +31,7 @@ module Pkg
     end
 
     def self.distro_family_version_dir
-      distro_family_version[:family] + '/' + distro_family_version[:version]
+      distro_family_version[:family] + "/" + distro_family_version[:version]
     end
 
     def self.build_dir
@@ -39,7 +39,7 @@ module Pkg
     end
 
     def self.distro_build_dir
-      (BUILD + '/' + distro_dir) if supported_os?
+      (BUILD + "/" + distro_dir) if supported_os?
     end
 
     private
