@@ -1,30 +1,29 @@
-require 'pkg/config'
+require "pkg/config"
 
 module Pkg
   class ShipLocation
-
     attr_accessor :os
     attr_accessor :ship_home
     attr_accessor :ship_dist_file
     attr_accessor :ship_distro_family_version
 
-    CONF               = 'conf'
-    DISTRIBUTION       = 'distributions'
+    CONF = "conf"
+    DISTRIBUTION = "distributions"
 
     def initialize(os, distro_family_version_dir)
-      @os          = os
+      @os = os
 
       @ship_distro_family_version = distro_family_version_dir
 
-      @ship_home    = Pkg::Config.ship_root << '/' << Pkg::Config.packaging_repo
+      @ship_home = Pkg::Config.ship_root << "/" << Pkg::Config.packaging_repo
 
-      ensure_distribution_dir(ship_home + '/' +  CONF)
+      ensure_distribution_dir(ship_home + "/" + CONF)
 
-      @ship_dist_file = ship_home + '/'  + CONF + "/" + DISTRIBUTION
+      @ship_dist_file = ship_home + "/" + CONF + "/" + DISTRIBUTION
     end
 
     def dist
-      return @ship_distro_family_version.split('/').first if @ship_distro_family_version.include?('/')
+      return @ship_distro_family_version.split("/").first if @ship_distro_family_version.include?("/")
 
       @ship_distro_family_version
     end
@@ -42,7 +41,11 @@ module Pkg
     end
 
     def deb_html_rooted_version_dir
-          "" << dist << "/" << os << "/" << version << "/"  << release
+      "" << dist << "/" << os << "/" << version << "/" << release
+    end
+
+    def rpm_html_rooted_version_dir
+      "" << dist << "/" << os << "/" << version
     end
 
     private
@@ -50,6 +53,5 @@ module Pkg
     def ensure_distribution_dir(config)
       Pkg::Util::File.mkdir_p(config) unless Pkg::Util::File.exists?(config)
     end
-
   end
 end

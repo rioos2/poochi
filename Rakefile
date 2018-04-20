@@ -25,7 +25,7 @@ namespace :ship do
   end
 
   task :rpms => [:initship] do
-    shipper = Pkg::RpmsShipper.new(Pkg::Common.distro("centos"), Pkg::Common.distro_family_version_dir).ship
-    Rake::Task["ship:notifyslack"].invoke("centos")
+    shipper = Pkg::RpmsShipper.new(Pkg::Common.distro("centos7"), Pkg::Common.distro_family_version_dir).ship
+    Rake::Task["ship:notifyslack"].invoke("centos7")
   end
 end

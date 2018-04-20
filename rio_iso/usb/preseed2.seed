@@ -156,7 +156,7 @@ d-i preseed/late_command string \
   cp /cdrom/os-release /target/usr/lib; \
   cp /cdrom/ca.crt /target/var/lib/; \
   mv /cdrom/rioos /target/usr/share/; \
-  echo "deb [arch=amd64] http://192.168.2.47/repo/2.0/ubuntu/16.04/testing xenial testing" >> /target/etc/apt/sources.list.d/megam.list; \
-  in-target apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 9B46B611; \
+  echo "deb [arch=amd64] https://registry.rioos.xyz/repo/rioos/aventura/2.0.0-rc2/testing  aventura testing" >> /target/etc/apt/sources.list.d/rioos.list; \
+    in-target apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 02789828 -y; \
   in-target apt-get update; \
   in-target apt-get -y --force-yes  install rioos-storlet

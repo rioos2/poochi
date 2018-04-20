@@ -3,43 +3,67 @@
 dist=`grep PRETTY_NAME /etc/*-release | awk -F '="' '{print $2}'`
 OS=$(echo $dist | awk '{print $1;}')
 OS1=`cut -d' ' -f1 /etc/redhat-release`
+OS2=$(echo "$(uname -mrs)" | cut -d' ' -f1)
 SERVICE=/etc/systemd/system/rioos-gulp.service
-CONTEXT_DIR=/var/lib/rioos/context
-KR_BIN=$CONTEXT_DIR/krd
+MOUNT_DIR=/mnt
+MAIL_DIR=/var/lib/rioos/gulp/mailer
+CONF_DIR=/var/lib/rioos/config
+KR_BIN=$MOUNT_DIR/krd
+
+mkdir -p $MAIL_DIR $CONF_DIR
+cp /mnt/gulp.rioconfig $CONF_DIR
+cp /mnt/*.html $MAIL_DIR
 
 case "$OS" in
   "Fedora")
-     ip route add default via 192.168.1.1
+     ip route add default via $ETH0_GATEWAY
 esac
 
-if [ "$OS" = "Red Hat" ]  || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "CentOS" ] || [ "$OS1" = "CentOS" ] || [ "$OS" = "Fedora" ]
+if [ "$OS" = "Red Hat" ]  || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "CentOS" ] || [ "$OS1" = "CentOS" ] || [ "$OS" = "Fedora" ] || [ "$OS2" = "FreeBSD" ]
 then
-CONF='//var/lib/rioos/gulp/gulpd.conf'
+CONF='//var/lib/rioos/config/gulp.rioconfig'
 else
-  CONF='//var/lib/rioos/rioosgulp/conf/gulpd.conf'
+  CONF='//var/lib/rioos/gulp/config/gulp.config'
 fi
-cat >$CONF  <<'EOF'
-apiVersion: v1
-kind: Config
-preferences: {}
-assemblyId: "811934182660907008"
-users:
-  slack-notifier:
-    token: "xoxp-15643264595-292147004003-835083f841ed3a0207a6ad46d19b7959"
-    username: "ahoy"
-    enabled: true
+
+cat <<'EOF' >>$CONF
+notifiers:
+ slack:
+   token: "xoxp-215534234516-302596694497-303133137460-0c441857c06675d4b7fd1bf404ad8a0"
+   username: "sandbox"
+   enabled: true
+ smtp:
+   enabled: true
+   username: "postmaster@ojamail.megambox.com"
+   password: "b311ed99d8d544b10ca001bd5fdbcbe1"
+   sender: "dev@rio.company"
+   domain: "smtp.mailgun.org"
+assemblyId: "916515026334924800"
+user_email: "info@rio.company"
+user_token: "test-token"
+secret_name: "test-agent"
 EOF
 
-sed -i "s/^[ \t]*assemblyId.*/assemblyId: \"$ASSEMBLY_ID\"/" $CONF
+sed -i "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
+sed -i "s/^[ \t]*secret_name:.*/secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+sed -i "s/^[ \t]*user_email:.*/user_email: \"$RIOOS_SH_EMAIL\"/" $CONF
+sed -i "s/^[ \t]*user_token:.*/user_token: \"$RIOOS_SH_PASSWORD\"/" $CONF
 
-# cat >$SERVICE  <<'EOF'
+if [ "$OS2" = "FreeBSD" ]
+then
+  sed -i '' "s/^[ \t]*assemblyId.*/assemblyId: \"$RIOOS_SH_ASSEMBLY_ID\"/" $CONF
+  sed -i '' "s/^[ \t]*secret_name:.*/secret_name: \"$RIOOS_SH_AGENT_SECRET\"/" $CONF
+  sed -i '' "s/^[ \t]*user_email:.*/user_email: \"$RIOOS_SH_EMAIL\"/" $CONF
+  sed -i '' "s/^[ \t]*user_token:.*/user_token: \"$RIOOS_SH_PASSWORD\"/" $CONF
+fi
+
 cat >/etc/systemd/system/rioos-gulp.service <<'EOF'
 [Unit]
 Description=rioos-gulp Agent
 After=network.target
 
 [Service]
-ExecStart=/usr/share/rioos/gulp/bin/gulpd -v=4 --api-server=https://localhost:7443 --rioconfig=/var/lib/rioos/gulp/gulpd.conf
+ExecStart=/usr/share/rioos/gulp/bin/gulpd --api-server=https://console.rioos.xyz:7443 --watch-server=https://console.rioos.xyz:8443 --rioos-api-content-type=application/json --rioconfig=/var/lib/rioos/config/gulp.rioconfig -v=4
 KillMode=process
 
 [Install]
@@ -49,8 +73,8 @@ EOF
 if
 [[ -f "$KR_BIN" ]]
 then
-  sudo cp $CONTEXT_DIR/kr $CONTEXT_DIR/krd $CONTEXT_DIR/krssh /usr/bin/
-  sudo cp $CONTEXT_DIR/kr-pkcs11.so /usr/lib/
+  sudo cp $MOUNT_DIR/krd $MOUNT_DIR/krssh /usr/bin/
+  sudo cp $MOUNT_DIR/kr-pkcs11.so /usr/lib/
 fi
 
 case "$OS1" in
@@ -58,7 +82,6 @@ case "$OS1" in
         sudo service rioos-gulp start
           ;;
 esac
-
 
 case "$OS" in
    "Ubuntu")
@@ -70,8 +93,8 @@ v=$(echo $dist | awk -F '"' '{print $1;}')
          start rioosgulp
           ;;
          "16.04")
-          service rioos-gulp stop
-          service rioos-gulp start
+	        systemctl enable rioos-gulp
+          systemctl start rioos-gulp.service
          ;;
   esac
 HOSTNAME=`hostname`
@@ -123,13 +146,11 @@ Address=$ETH0_IP/27
 Gateway=$ETH0_GATEWAY
 DNS=8.8.8.8
 DNS=8.8.4.4
-
 EOF
 
 	sudo systemctl restart systemd-networkd
-
 	systemctl stop rioos-gulp.service
 	systemctl start rioos-gulp.service
-	ip route add default via 192.168.1.1		# Replace with Subnet Gateway IPs
+	ip route add default via $ETH0_GATEWAY		# Replace with Subnet Gateway IPs
 ;;
 esac

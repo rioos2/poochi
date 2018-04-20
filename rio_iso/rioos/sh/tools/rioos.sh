@@ -5,9 +5,10 @@ RIOOS_HOME=/var/lib/rioos
 RIO_FILE=/var/lib/rioos.txt
 RIOOS_ROOT=$(dirname "${BASH_SOURCE}")/..
 LOG=/var/log/rioos_install.log
+VERSION=$(cat VERSION)
 VOLUME=${RIOOS_HOME:-"/var/lib/rioos"}
 REGISTRY_URL=registry.rioos.xyz:5000
-RIOOS_IMAGES=('rioospostgres:10.1' 'rioospowerdns:4.0.3' 'rioosprometheus:2.0.0-rc2' 'rioosui:2.0.0-rc2' 'rioosvnc:2.0.0-rc2' 'riooscontroller:2.0.0-rc2' 'rioosscheduler:2.0.0-rc2' 'rioosapiserver:2.0.0-rc2' 'rioosblockchain:2.0.0-rc1' 'rioosinfluxdb:1.3.7')
+RIOOS_IMAGES=('rioospostgres:10.3' 'rioospowerdns:4.0.3' 'rioosprometheus:$VERSION' 'rioosui:$VERSION' 'rioosvnc:$VERSION' 'riooscontroller:$VERSION' 'rioosscheduler:$VERSION' 'rioosapiserver:$VERSION' 'rioosblockchain:$VERSION' 'rioosinfluxdb:1.3.7')
 
 # Stop right away if the build fails
 set -e
@@ -62,28 +63,25 @@ function run_container {
       rioospowerdns:4.0.3)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--link rioospostgres:postgres" "-e AUTOCONF=postgres -e PGSQL_USER=postgres -e PGSQL_PASS=supersecret" "-p $HOST_IP:8081 -p $HOST_IP:53:53 -p $HOST_IP:53:53/udp" "" "--cache-ttl=120 --allow-axfr-ips=127.0.0.1"
       ;;
-      rioosprometheus:2.0.0-rc2)
+      rioosprometheus:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:9090:9090" "" ""
       ;;
-      rioosui:2.0.0-rc2)
+      rioosui:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:443:8000" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
-      rioosvnc:2.0.0-rc2)
+      rioosvnc:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "" "-p $HOST_IP:8000:8005" "" ""
       ;;
-      riooscontroller:2.0.0-rc2)
+      riooscontroller:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "-e API_SERVER=https://apiserver.rioos.svc.local:7443 -e WATCH_SERVER=https://watchserver.rioos.svc.local:8443" "-p $HOST_IP:10252:10252" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
-      rioosscheduler:2.0.0-rc2)
+      rioosscheduler:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "" "-e API_SERVER=https://apiserver.rioos.svc.local:7443 -e WATCH_SERVER=https://watchserver.rioos.svc.local:8443" "-p $HOST_IP:10251:10251" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
-      rioosapiserver:2.0.0-rc2)
-        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--net=host" "" "-p $HOST_IP:7443:7443" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
+      rioosapiserver:$VERSION)
+        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--net=host" "" "-p $HOST_IP:7443:7443 -p $HOST_IP:8443:8443 -p $HOST_IP:9443:9443" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
-      riooswatchserver:2.0.0-rc2)
-        rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--net=host" "" "-p $HOST_IP:8443:8443" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
-      ;;
-      rioosblockchain:2.0.0-rc2)
+      rioosblockchain:$VERSION)
         rioos::run:container $REGISTRY_URL $RIOOS_IMAGE "--net=host" "" "-p $HOST_IP:7000:7000" "-v $RIOOS_HOME/config:$RIOOS_HOME/config" ""
       ;;
       rioosinfluxdb:1.3.7)

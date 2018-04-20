@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mkdir -p .<%= @basic[:home]+"/"+@package[:package] %>
+
+cp -r  ../../centos7/rioos-bootstrap.d .<%= @basic[:home]+"/"+@package[:package] %>
+cp ../../centos7/usr/sbin/rioosbootstrapd.erb .<%= @basic[:home]+"/"+@package[:package] %>
+
+fpm -s dir -t rpm  -f  --iteration <%= @basic[:iteration] %> -v <%= @basic[:version] %> \
+-n <%= @package[:package] %> \
+--after-install ./postinst  --after-remove ./postrm \
+--rpm-init ./etc/systemd/system/rioosbootstrap \
+--vendor "<%= @basic[:vendor] %>" --category "<%= @package[:category] %>" \
+--maintainer "<%= @basic[:maintainer] %>" --url "<%= @basic[:url] %>" --description "<%= @package[:description] %>"  .<%= @basic[:home]+"/"+@package[:package] %>
+
+# In future we add license and update `--license` flag into fpm build statement.
+# If license value is empty, then rpm package is not build properly.
+# Install rpm to build rpm package `sudo apt install rpm`
+# --license "<%= @basic[:license] %>"

@@ -16,9 +16,7 @@ We are glad to see our approach followed in `gitlab` or `puppet`.
 
 Our main goal is to make it clear which version of Rio/OS is in the package.
 
-
 ![Packages tree](https://gitlab.com/rioos/poochi/raw/master/images/autopackages.png)
-
 
 ## How is the official Rio/OS package built
 
@@ -27,9 +25,9 @@ The official package build is fully automated by Rio Advancement Inc.
 We can differentiate between two types of build:
 
 * Packages for release/stable to get.rioos.xyz
-* Packages for testing        to get.rioos.io/testing
+* Packages for testing to get.rioos.io/testing
 
-and
+and 
 
 * Container for release to registry.rioos.xyz
 
@@ -85,7 +83,6 @@ The containers are pushed to [registry.rioos.xyz](https://registry.rioos.xyz).
 
 The containers tar balls are rsynced to [marketplace.rioos.xyz](marketplace.rioos.xyz). They are then copied over to the correct location in the [marketplace.rioos.xyz](marketplace.rioos.xyz).
 
-
 ### Publishing
 
 You can track the progress of package building on [poochi](https://gitlab.com/rioos/poochi).
@@ -103,6 +100,8 @@ They are pushed to [get.rioos.xyz repositories](https://get.rioos.xyz) automatic
 - Node.js  [9.11.x (or) latest](https://nodejs.org/en/)
 - Golang [1.10.x (or) latest](https://golang.org/dl/)
 - Rustlang [1.25.x (or) latest](https://rust-lang.org)
+- Github-release [0.3.x](https://github.com/cheton/github-release-cli)
+- Gdrive [2.1.x](https://github.com/prasmussen/gdrive)
 
 ### Prereqs: Installation
 
@@ -213,6 +212,27 @@ $sudo apt-get update
 
 $ sudo apt-get install docker-ce
 
+```
+
+### Github-release
+
+```
+sudo npm i github-release
+
+sudo npm install -g github-release-cli
+
+sudo yarn global add github-release --prefix /usr/local
+
+```
+
+### Gdrive
+
+```
+mkdir -p ~/software/gdrive/bin
+
+wget -O ~/software/gdrive/bin/gdrive https://docs.google.com/uc?id=0B3X9GlR6EmbnQ0FtZmJJUXEyRTA&export=download
+
+chmod +x ~/software/gdrive/bin/gdrive
 
 ```
 
@@ -226,7 +246,7 @@ $ nano .bashrc
 
 export SOFTWARE_HOME=$HOME/software
 
-PATH="$PATH:$SOFTWARE_HOME/node/bin:$SOFTWARE_HOME/go/bin:$HOME/.cargo/bin"  
+PATH="$PATH:$SOFTWARE_HOME/node/bin:$SOFTWARE_HOME/go/bin:$HOME/.cargo/bin:$SOFTWARE_HOME/gdrive/bin"  
 
 ```
 
@@ -366,3 +386,4 @@ Rio Advancement Inc
 # Authors
 
 Humans @ Rio Advancement (<dev@rio.company>)
+
